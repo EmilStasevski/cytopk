@@ -1,0 +1,387 @@
+{
+  "meta": {
+    "date_utc": "2026-11-06T14:28:48Z",
+    "git_sha": "701692105c252df1311aea7c758d11a34c80b95a",
+    "git_dirty": false,
+    "cpu": "Intel(R) Core(TM) i5-14400F",
+    "logical_cpus": 16,
+    "gpu": "NVIDIA GeForce RTX 5060 Ti, 580.178.04, 16311 MiB",
+    "os": "Linux-6.17.0-1023-oem-x86_64-with-glibc2.39",
+    "python": "3.13.13",
+    "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+    "versions": {
+      "bayesflow": "2.1.0",
+      "keras": "3.15.1",
+      "jax": "0.12.0.1",
+      "jaxlib": "0.12.0.1",
+      "jax-cuda13-plugin": "0.12.0.1",
+      "numba": "0.68.1",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "joblib": "1.6.0",
+      "cytopk": "0.1.0.dev0"
+    },
+    "loadavg_at_start": [
+      2.5830078125,
+      3.263671875,
+      3.06103515625
+    ],
+    "experiment": "E3 DDM",
+    "dt": 0.001,
+    "max_t": 10.0,
+    "prior": "v~U(-2,2), a~U(0.8,2), z~U(0.3,0.7), t0~U(0.1,0.5)",
+    "rng": {
+      "python_pure": "MT19937 (random.Random), random.gauss",
+      "numpy_vectorized": "PCG64 (np.random.default_rng), ziggurat standard_normal",
+      "numba_serial": "xoshiro256++ per trial from (seed, i) via SplitMix64; Marsaglia polar",
+      "numba_parallel": "same as numba_serial",
+      "cytopk_1thread": "xoshiro256++ per trial from (seed, i) via SplitMix64; Marsaglia polar (Rust)",
+      "cytopk_default": "same as cytopk_1thread"
+    }
+  },
+  "correctness": {
+    "theta": [
+      1.0,
+      1.5,
+      0.4,
+      0.3
+    ],
+    "P_continuous": 0.7354202040667792,
+    "P_corrected": 0.7441172595856487,
+    "rule": "|p_hat - P_corr| <= 4 SE + 0.1|P - P_corr|; vs cytopk: |z| < 4 and KS p > 1e-3",
+    "impls": {
+      "python_pure": {
+        "n": 200000,
+        "p_hat": 0.743905,
+        "se": 0.0009757222032228052,
+        "tolerance": 0.004772594364778167,
+        "abs_dev_from_P_corr": 0.00021225958564863312,
+        "abs_dev_from_P": 0.008484795933220823,
+        "timeouts": 0,
+        "pass_analytic": true,
+        "z_vs_cytopk": 0.12438130954825694,
+        "ks_stat_vs_cytopk": 0.0018160000000001508,
+        "ks_p_vs_cytopk": 0.64100520436925,
+        "pass_vs_cytopk": true
+      },
+      "numpy_vectorized": {
+        "n": 1000000,
+        "p_hat": 0.744615,
+        "se": 0.00043635623471241134,
+        "tolerance": 0.002615130490736591,
+        "abs_dev_from_P_corr": 0.0004977404143513553,
+        "abs_dev_from_P": 0.009194795933220812,
+        "timeouts": 0,
+        "pass_analytic": true,
+        "z_vs_cytopk": 1.3661986528254435,
+        "ks_stat_vs_cytopk": 0.0010910000000000086,
+        "ks_p_vs_cytopk": 0.5908114583684798,
+        "pass_vs_cytopk": true
+      },
+      "numba_serial": {
+        "n": 1000000,
+        "p_hat": 0.743772,
+        "se": 0.00043635623471241134,
+        "tolerance": 0.002615130490736591,
+        "abs_dev_from_P_corr": 0.00034525958564868287,
+        "abs_dev_from_P": 0.008351795933220774,
+        "timeouts": 0,
+        "pass_analytic": true,
+        "z_vs_cytopk": 0.0,
+        "ks_stat_vs_cytopk": 0.0,
+        "ks_p_vs_cytopk": 1.0,
+        "pass_vs_cytopk": true,
+        "bit_identical_to_cytopk": true
+      },
+      "cytopk_default": {
+        "n": 1000000,
+        "p_hat": 0.743772,
+        "se": 0.00043635623471241134,
+        "tolerance": 0.002615130490736591,
+        "abs_dev_from_P_corr": 0.00034525958564868287,
+        "abs_dev_from_P": 0.008351795933220774,
+        "timeouts": 0,
+        "pass_analytic": true
+      }
+    },
+    "all_pass": true
+  },
+  "results": [
+    {
+      "impl": "python_pure",
+      "cold_first_call_s": 0.012986982001166325,
+      "rows": [
+        {
+          "impl": "python_pure",
+          "N": 1000,
+          "N_measured": 1000,
+          "repeats": 40,
+          "time_s_median": 0.075031886499346,
+          "sims_per_s": 13327.6670313856,
+          "extrapolated": false,
+          "pinned": true
+        },
+        {
+          "impl": "python_pure",
+          "N": 10000,
+          "N_measured": 10000,
+          "repeats": 4,
+          "time_s_median": 0.7934616139991704,
+          "sims_per_s": 12603.00413223324,
+          "extrapolated": false,
+          "pinned": true
+        },
+        {
+          "impl": "python_pure",
+          "N": 100000,
+          "N_measured": 10000,
+          "repeats": 4,
+          "time_s_median": 7.957976994985074,
+          "sims_per_s": 12566.007675445355,
+          "extrapolated": true,
+          "pinned": true
+        },
+        {
+          "impl": "python_pure",
+          "N": 1000000,
+          "N_measured": 10000,
+          "repeats": 4,
+          "time_s_median": 79.2707934999271,
+          "sims_per_s": 12614.986628094239,
+          "extrapolated": true,
+          "pinned": true
+        }
+      ]
+    },
+    {
+      "impl": "numpy_vectorized",
+      "cold_first_call_s": 0.025497286002064357,
+      "rows": [
+        {
+          "impl": "numpy_vectorized",
+          "N": 1000,
+          "N_measured": 1000,
+          "repeats": 50,
+          "time_s_median": 0.016759548501795507,
+          "sims_per_s": 59667.4785059315,
+          "extrapolated": false,
+          "pinned": true
+        },
+        {
+          "impl": "numpy_vectorized",
+          "N": 10000,
+          "N_measured": 10000,
+          "repeats": 43,
+          "time_s_median": 0.06959153400021023,
+          "sims_per_s": 143695.6397594252,
+          "extrapolated": false,
+          "pinned": true
+        },
+        {
+          "impl": "numpy_vectorized",
+          "N": 100000,
+          "N_measured": 100000,
+          "repeats": 6,
+          "time_s_median": 0.5806217214994831,
+          "sims_per_s": 172229.17486060504,
+          "extrapolated": false,
+          "pinned": true
+        },
+        {
+          "impl": "numpy_vectorized",
+          "N": 1000000,
+          "N_measured": 1000000,
+          "repeats": 3,
+          "time_s_median": 6.3047378529990965,
+          "sims_per_s": 158610.8769810803,
+          "extrapolated": false,
+          "pinned": true
+        }
+      ]
+    },
+    {
+      "impl": "numba_serial",
+      "cold_first_call_s": 0.544259898000746,
+      "rows": [
+        {
+          "impl": "numba_serial",
+          "N": 1000,
+          "N_measured": 1000,
+          "repeats": 50,
+          "time_s_median": 0.0026453345017216634,
+          "sims_per_s": 378024.0265830918,
+          "extrapolated": false,
+          "pinned": true
+        },
+        {
+          "impl": "numba_serial",
+          "N": 10000,
+          "N_measured": 10000,
+          "repeats": 50,
+          "time_s_median": 0.02759334350048448,
+          "sims_per_s": 362406.244818589,
+          "extrapolated": false,
+          "pinned": true
+        },
+        {
+          "impl": "numba_serial",
+          "N": 100000,
+          "N_measured": 100000,
+          "repeats": 11,
+          "time_s_median": 0.2750312220014166,
+          "sims_per_s": 363595.0830320091,
+          "extrapolated": false,
+          "pinned": true
+        },
+        {
+          "impl": "numba_serial",
+          "N": 1000000,
+          "N_measured": 1000000,
+          "repeats": 3,
+          "time_s_median": 2.758564501997171,
+          "sims_per_s": 362507.3835598228,
+          "extrapolated": false,
+          "pinned": true
+        }
+      ]
+    },
+    {
+      "impl": "numba_parallel",
+      "cold_first_call_s": 1.0116040560023976,
+      "rows": [
+        {
+          "impl": "numba_parallel",
+          "N": 1000,
+          "N_measured": 1000,
+          "repeats": 50,
+          "time_s_median": 0.00041623149991210084,
+          "sims_per_s": 2402509.1810955647,
+          "extrapolated": false,
+          "pinned": false
+        },
+        {
+          "impl": "numba_parallel",
+          "N": 10000,
+          "N_measured": 10000,
+          "repeats": 50,
+          "time_s_median": 0.0037774120009999024,
+          "sims_per_s": 2647315.145224546,
+          "extrapolated": false,
+          "pinned": false
+        },
+        {
+          "impl": "numba_parallel",
+          "N": 100000,
+          "N_measured": 100000,
+          "repeats": 50,
+          "time_s_median": 0.03528246099995158,
+          "sims_per_s": 2834269.4122197777,
+          "extrapolated": false,
+          "pinned": false
+        },
+        {
+          "impl": "numba_parallel",
+          "N": 1000000,
+          "N_measured": 1000000,
+          "repeats": 9,
+          "time_s_median": 0.33804571500149905,
+          "sims_per_s": 2958179.7834519674,
+          "extrapolated": false,
+          "pinned": false
+        }
+      ]
+    },
+    {
+      "impl": "cytopk_1thread",
+      "cold_first_call_s": 0.00778086599893868,
+      "rows": [
+        {
+          "impl": "cytopk_1thread",
+          "N": 1000,
+          "N_measured": 1000,
+          "repeats": 50,
+          "time_s_median": 0.0026867084998229984,
+          "sims_per_s": 372202.64128612407,
+          "extrapolated": false,
+          "pinned": true
+        },
+        {
+          "impl": "cytopk_1thread",
+          "N": 10000,
+          "N_measured": 10000,
+          "repeats": 50,
+          "time_s_median": 0.02761402249780076,
+          "sims_per_s": 362134.85379742924,
+          "extrapolated": false,
+          "pinned": true
+        },
+        {
+          "impl": "cytopk_1thread",
+          "N": 100000,
+          "N_measured": 100000,
+          "repeats": 11,
+          "time_s_median": 0.2747700049985724,
+          "sims_per_s": 363940.7438250749,
+          "extrapolated": false,
+          "pinned": true
+        },
+        {
+          "impl": "cytopk_1thread",
+          "N": 1000000,
+          "N_measured": 1000000,
+          "repeats": 3,
+          "time_s_median": 2.779498043997591,
+          "sims_per_s": 359777.19148230006,
+          "extrapolated": false,
+          "pinned": true
+        }
+      ]
+    },
+    {
+      "impl": "cytopk_default",
+      "cold_first_call_s": 0.005735515998821938,
+      "rows": [
+        {
+          "impl": "cytopk_default",
+          "N": 1000,
+          "N_measured": 1000,
+          "repeats": 50,
+          "time_s_median": 0.0003512125003908295,
+          "sims_per_s": 2847279.06577129,
+          "extrapolated": false,
+          "pinned": false
+        },
+        {
+          "impl": "cytopk_default",
+          "N": 10000,
+          "N_measured": 10000,
+          "repeats": 50,
+          "time_s_median": 0.003264167999077472,
+          "sims_per_s": 3063567.8074248102,
+          "extrapolated": false,
+          "pinned": false
+        },
+        {
+          "impl": "cytopk_default",
+          "N": 100000,
+          "N_measured": 100000,
+          "repeats": 50,
+          "time_s_median": 0.031819629000892746,
+          "sims_per_s": 3142714.203147823,
+          "extrapolated": false,
+          "pinned": false
+        },
+        {
+          "impl": "cytopk_default",
+          "N": 1000000,
+          "N_measured": 1000000,
+          "repeats": 10,
+          "time_s_median": 0.3191043679998984,
+          "sims_per_s": 3133770.9548379434,
+          "extrapolated": false,
+          "pinned": false
+        }
+      ]
+    }
+  ]
+}
