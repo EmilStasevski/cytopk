@@ -90,3 +90,22 @@ and its plan is summarised in `docs/ROADMAP.md`.
   `benchmarks/results/quick_bench.json` records `git_sha` 772d522, which is now **3589faa** (same tree).
 - The planning brief (`docs/BRIEF.md`) was replaced by a short `docs/ROADMAP.md`. The agent instruction file `CLAUDE.md` is no
   longer tracked.
+
+## 2026-11-06: M2 nonlinear models and benchmark
+- `twocmt_mm_iv` has parameters (Vmax mg/day, Km mg/L, V1, Q, V2). `twocmt_iv_idr` reuses the `twocmt_iv` RHS for its PK part and adds
+  `R` with `R(0) = 1` via `Model::init`. The output `p = R/(R + 9)` uses `IDR_R_REF = 9` (toy choice, 10 % baseline).
+- **No clamping of negative amounts.** Near-zero amounts can dip below 0 by less than `atol` (observed −1.2e-14 mg), so the tests
+  assert `≥ −atol`. Clamping would change the integrator. The limitation is documented in `docs/models.md`.
+- **Property-test noise floor.** The MM comparison property `C(kD) ≥ k·C(D)` is only checked where `k·C(D) > 1e-8 × peak`.
+  A proptest counterexample showed values of 4e-13 vs 2e-12 mg/L, which is solver noise at the absolute tolerance, not a model error.
+  The regression file is committed.
+- **Nonlinear references** come from SciPy DOP853 at rtol 1e-12, stopping at every event and output time (no interpolation).
+  pytest runs them, so the reference stays independent of the Rust code.
+- **Benchmark (`benchmarks/bench_nonlinear.py` → `results/bench_nonlinear.json`, git 263bd78):** each tool is tuned to the loosest
+  rtol on a 4-per-decade grid (atol = 1e-3·rtol) whose *achieved* max relative error on 2000 subjects is ≤ 1e-6, measured against cytopk at
+  rtol 1e-12 / atol 1e-15. The reference agrees with SciPy DOP853 to ≤ 1.8e-12. At N = 1e5 the measured error is 1.2–1.4e-6 for all
+  tools, slightly above the target, because a larger N means more chances for a worst case. Reported as measured.
+- **Result:** Rust and the same-algorithm Numba kernel are within about ±10 % on the MM model; Numba is 1.07–1.12× faster single-threaded on
+  IDR; Rust is 1.07–1.22× faster with 16 threads. I did not profile the single-threaded IDR gap: it is small and the conclusion doesn't
+  depend on it. JAX + diffrax on CPU (untuned, `vmap` in lockstep) was 2.3–9.9× slower than single-threaded Rust and slower with
+  16 threads than with 1. The load average at start was 3.3, from the preceding smoke run, and is recorded in the JSON.
