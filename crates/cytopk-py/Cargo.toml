@@ -16,6 +16,7 @@ crate-type = ["cdylib"]
 [dependencies]
 cytopk-sim = { path = "../cytopk-sim" }
 cytopk-fcs = { path = "../cytopk-fcs", features = ["arrow"] }
+cytopk-gate = { path = "../cytopk-gate" }
 ndarray.workspace = true
 rayon.workspace = true
 numpy = "0.30.0"

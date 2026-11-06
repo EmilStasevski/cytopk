@@ -3,6 +3,7 @@
 //! FCS reading and writing: see `fcs.rs`.
 
 mod fcs;
+mod gate;
 
 use cytopk_sim::ddm::{DdmOpts, simulate_ddm as ddm_batch};
 use cytopk_sim::{
@@ -205,5 +206,6 @@ fn _cytopk(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(models, m)?)?;
     m.add_function(wrap_pyfunction!(simulate_ddm, m)?)?;
     fcs::register(m)?;
+    gate::register(m)?;
     Ok(())
 }

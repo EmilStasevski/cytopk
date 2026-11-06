@@ -32,6 +32,11 @@ pub struct PyFcsFile {
 }
 
 impl PyFcsFile {
+    /// The event matrix as a bound NumPy array (float32 or float64).
+    pub(crate) fn data_bound<'py>(&self, py: Python<'py>) -> Bound<'py, PyAny> {
+        self.data.bind(py).clone()
+    }
+
     fn new(py: Python<'_>, mut f: FcsFile) -> Self {
         let n_events = f.n_events();
         let data = std::mem::replace(&mut f.data, Data::F32(ndarray::Array2::zeros((0, 0))));
@@ -67,7 +72,7 @@ impl PyFcsFile {
 
     /// `$PnN` names.
     #[getter]
-    fn names(&self) -> Vec<String> {
+    pub(crate) fn names(&self) -> Vec<String> {
         self.meta.channels.iter().map(|c| c.name.clone()).collect()
     }
 
