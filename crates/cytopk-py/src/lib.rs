@@ -1,5 +1,5 @@
 //! Minimal PyO3 bindings: only `simulate_twocmt_iv`, used by the go/no-go benchmark.
-//! The full Python API (brief section 6) comes in M3.
+//! The full Python API comes in M3 (see docs/ROADMAP.md).
 
 use cytopk_sim::{Dose, Schedule, SimError, SolverOpts, TwoCmtIv, simulate_batch};
 use numpy::{IntoPyArray, PyArray3, PyReadonlyArray1, PyReadonlyArray2};

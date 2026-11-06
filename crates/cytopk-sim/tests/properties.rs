@@ -1,4 +1,5 @@
-//! Brief section 5.3, tests 2–7 (the parts that apply to the linear IV models of M1).
+//! Mass balance, AUC, non-negativity, dosing conventions, input validation and property tests
+//! for the linear IV models.
 #![allow(clippy::unwrap_used)]
 
 mod common;

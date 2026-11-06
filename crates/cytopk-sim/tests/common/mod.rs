@@ -12,7 +12,7 @@ pub fn log_uniform(r: &mut ChaCha8Rng, lo: f64, hi: f64) -> f64 {
     (r.random_range(lo.ln()..hi.ln())).exp()
 }
 
-/// Random 1-cmt parameters `[CL, V]`, log-uniform around the brief's illustrative values (wide).
+/// Random 1-cmt parameters `[CL, V]`, log-uniform around illustrative mAb-like values (wide ranges).
 pub fn onecmt_theta(r: &mut ChaCha8Rng) -> [f64; 2] {
     [log_uniform(r, 0.05, 2.0), log_uniform(r, 1.0, 20.0)]
 }
@@ -44,7 +44,7 @@ pub fn random_schedule(r: &mut ChaCha8Rng) -> Schedule {
     Schedule::new(doses).unwrap()
 }
 
-/// Sampling grid from the brief, extended to 35 days, plus every dose start and end time
+/// A typical sampling grid, extended to 35 days, plus every dose start and end time
 /// (outputs exactly at discontinuities).
 pub fn times_for(s: &Schedule) -> Vec<f64> {
     let mut t = vec![

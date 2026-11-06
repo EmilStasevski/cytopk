@@ -44,7 +44,7 @@ SCIPY_MAX_SUBJECTS = 2000  # the SciPy loop is timed on a subset and reported pe
 
 
 def draw_theta(n: int, seed: int = 0) -> np.ndarray:
-    """CL, V1, Q, V2 log-normal around the brief's illustrative values (sd 0.5 on log scale)."""
+    """CL, V1, Q, V2 log-normal around illustrative mAb-like values (sd 0.5 on log scale)."""
     rng = np.random.default_rng(seed)
     centre = np.log([0.2, 3.0, 0.5, 3.0])
     return np.exp(centre + 0.5 * rng.standard_normal((n, 4)))

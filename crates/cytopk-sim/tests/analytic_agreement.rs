@@ -1,4 +1,4 @@
-//! Brief section 5.3, test 1: numerical solution vs closed form, on 1000 random parameter sets and schedules
+//! Numerical solution vs closed form, on 1000 random parameter sets and schedules
 //! per model. Run with `--nocapture` to see the observed maximum errors.
 #![allow(clippy::unwrap_used)]
 

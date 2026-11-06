@@ -1,5 +1,4 @@
-//! Brief section 5.3, test 6 (the solver part; the seeded noise stage arrives with M2/M3):
-//! batch results are bit-identical for any thread count, across repeated runs, and match `simulate_one`.
+//! Batch results are bit-identical for any thread count, across repeated runs, and match `simulate_one`.
 #![allow(clippy::unwrap_used)]
 
 mod common;
