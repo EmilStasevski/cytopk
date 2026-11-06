@@ -14,6 +14,7 @@ FCS flow-cytometry I/O is planned.
 | M1 PK core: `onecmt_iv`, `twocmt_iv`, IV bolus/infusion dosing, Dormand–Prince 5(4) and RK4, parallel batches | done |
 | Minimal Python binding (`cytopk.simulate`, `cytopk.models`) and a linear-model go/no-go benchmark | done |
 | M2 nonlinear PK (`twocmt_mm_iv`) and indirect-response PD (`twocmt_iv_idr`), exposed in Python, nonlinear benchmark | done |
+| Drift-diffusion simulator (`cytopk.simulate_ddm`) and an SBI-flow study with BayesFlow ([`benchmarks/sbi_flow/`](benchmarks/sbi_flow/README.md)) | done |
 | M3+ full Python API, FCS reader/writer, end-to-end amortized inference example | planned |
 
 See [`docs/ROADMAP.md`](docs/ROADMAP.md).
@@ -138,6 +139,20 @@ none of this matters much. A vectorised **NumPy closed form is faster than singl
 (2.5–2.6× in the go/no-go benchmark,
 [`benchmarks/results/quick_bench.json`](benchmarks/results/quick_bench.json)). A closed form does not apply to the nonlinear
 models above.
+
+## Does the simulator speed matter in a BayesFlow workflow?
+
+[`benchmarks/sbi_flow/`](benchmarks/sbi_flow/README.md) measures this for `twocmt_iv_idr` with BayesFlow 2.1. The decision rules
+were committed before measuring. Measured on this machine:
+- **The big step is Python-level → compiled.** A SciPy-loop or per-sample simulator takes 51–82 % of training time with CPU
+  training, and 94–99.5 % with GPU training. A compiled batched simulator, Numba or cytopk, takes 3.0–6.5 % with CPU training.
+- **Rust vs Numba is not a speed argument.** cytopk's simulation time is 1.05–1.17× lower than Numba's, well short of the 1.5× threshold. On a stochastic
+  drift-diffusion model, single-thread throughput is 0.98–1.00× of Numba's, with bit-identical output.
+- **With GPU training the simulator matters, but not through the ODE solve.** It takes 36–62 % of training time (16 threads), and the ODE stage is
+  only 16–40 % of cytopk's simulation time. The rest is the NumPy noise stage, BayesFlow's adapter and the prior.
+
+On these measurements, cytopk's case is no JIT warm-up (first call 0.002 s vs 1.69 s for Numba), tested
+determinism, and no compiler at runtime. It is not raw speed.
 
 ## Licence
 
