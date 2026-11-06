@@ -224,17 +224,24 @@ ODE = {"scipy_loop": ode_scipy, "numba_parallel": lambda th: ode_numba(th, True)
        "cytopk": lambda th: ode_cytopk(th, None)}
 
 
-def batched_simulator(kind, seed=0):
-    """(b) SciPy loop, (c) Numba, (d) cytopk: one Python call per batch (LambdaSimulator, is_batched=True)."""
+def batched_simulator(kind, seed=0, ode=None, stage_times=None):
+    """(b) SciPy loop, (c) Numba, (d) cytopk: one Python call per batch (LambdaSimulator, is_batched=True).
+    If `stage_times` is a list, (t_prior, t_ode, t_noise) is appended to it for each call."""
     import bayesflow as bf
     rng = np.random.default_rng(seed)
-    ode = ODE[kind]
+    ode = ode or ODE[kind]
 
     def sample(batch_shape):
         n = int(np.prod(batch_shape))
+        t0 = time.perf_counter()
         log_theta = prior_batch(rng, n)
+        t1 = time.perf_counter()
         conc, p = ode(np.exp(log_theta))
-        return {"log_theta": log_theta, "obs": add_noise(rng, conc, p)}
+        t2 = time.perf_counter()
+        obs = add_noise(rng, conc, p)
+        if stage_times is not None:
+            stage_times.append((t1 - t0, t2 - t1, time.perf_counter() - t2))
+        return {"log_theta": log_theta, "obs": obs}
 
     return bf.simulators.LambdaSimulator(sample, is_batched=True)
 

@@ -9,6 +9,8 @@
 Simulators (twocmt_iv_idr, see common.py): (a) per-sample functions via bf.make_simulator (SciPy solve_ivp per
 sample), (b) batched SciPy solve_ivp loop, (c) batched Numba (parallel, nogil), (d) batched cytopk, and
 (e) (a) with SequentialSimulator.sample_parallel (joblib, n_jobs=-1).
+(c) and (d) run in one process with BayesFlow loaded, interleaved round-robin, with 16 and 8 threads, and
+per-stage times (prior, ODE, noise, adapter). (a), (b) and (e) run in separate processes.
 Networks: BayesFlow defaults, bf.networks.CouplingFlow() and bf.networks.TimeSeriesNetwork(), via BasicWorkflow.
 
     python e1_share.py sim             # t_sim and offline-dataset build times (CPU)  -> results/e1_sim.json
@@ -32,9 +34,17 @@ sys.path.insert(0, str(HERE))
 import common  # noqa: E402
 
 BATCHES = [32, 128, 512, 2048]
-IMPLS = ["per_sample_make_simulator", "scipy_loop_batched", "numba_parallel_batched", "cytopk_batched",
-         "per_sample_sample_parallel"]
-SLOW = {"per_sample_make_simulator", "scipy_loop_batched", "per_sample_sample_parallel"}
+SLOW_IMPLS = ["per_sample_make_simulator", "scipy_loop_batched", "per_sample_sample_parallel"]
+SLOW = set(SLOW_IMPLS)
+FAST_ROUNDS = 80
+# Fast simulators are measured in ONE process with BayesFlow/JAX loaded, interleaved round-robin, because their
+# per-call times are small enough that process-to-process variance would decide the comparison (docs/decisions.md).
+FAST = {  # name: (kind, threads)
+    "numba_parallel_batched": ("numba", 16),
+    "cytopk_batched": ("cytopk", 16),
+    "numba_parallel_8threads": ("numba", 8),
+    "cytopk_8threads": ("cytopk", 8),
+}
 STEP_COUNT, STEP_WARMUP = 60, 10
 
 
@@ -93,6 +103,60 @@ def sim_worker(impl):
     return {"impl": impl, "cold_first_call_s": cold, "rows": rows, "offline_build": build}
 
 
+def fast_worker():
+    import numba
+    adapt = adapter()
+    sims, stages = {}, {}
+    for name, (kind, thr) in FAST.items():
+        stages[name] = []
+        if kind == "cytopk":
+            ode = (lambda thr: lambda th: common.ode_cytopk(th, n_threads=thr))(thr)
+        else:
+            def ode(th, thr=thr):
+                numba.set_num_threads(thr)
+                return common.ode_numba(th, parallel=True)
+        sims[name] = common.batched_simulator(kind, ode=ode, stage_times=stages[name]).sample
+    cold = {}
+    for name, sample in sims.items():
+        t0 = time.perf_counter()
+        adapt(sample((32,)))
+        cold[name] = time.perf_counter() - t0
+    names = list(sims)
+    rows = []
+    for b in BATCHES:
+        for name in names:
+            adapt(sims[name]((b,)))
+            stages[name].clear()
+        tot = {n: [] for n in names}
+        ada = {n: [] for n in names}
+        for r in range(FAST_ROUNDS):
+            for name in names[r % len(names):] + names[: r % len(names)]:  # rotate the order every round
+                t0 = time.perf_counter()
+                d = sims[name]((b,))
+                t1 = time.perf_counter()
+                adapt(d)
+                t2 = time.perf_counter()
+                tot[name].append(t2 - t0)
+                ada[name].append(t2 - t1)
+        for name in names:
+            st = np.array(stages[name])
+            t = np.array(tot[name])
+            rows.append({"impl": name, "batch": b, "calls": len(t), "t_sim_s_median": float(np.median(t)),
+                         "t_sim_s_p10": float(np.quantile(t, 0.1)), "t_sim_s_p90": float(np.quantile(t, 0.9)),
+                         "t_prior_s_median": float(np.median(st[:, 0])), "t_ode_s_median": float(np.median(st[:, 1])),
+                         "t_noise_s_median": float(np.median(st[:, 2])),
+                         "t_adapter_s_median": float(np.median(ada[name]))})
+    build = {}
+    for name in ("numba_parallel_batched", "cytopk_batched"):
+        build[name] = {}
+        for n in (100_000, 1_000_000):
+            t0 = time.perf_counter()
+            sims[name]((n,))
+            build[name][str(n)] = {"seconds": time.perf_counter() - t0, "n_measured": n, "extrapolated": False}
+    return {"rows": rows, "cold_first_call_s": cold, "offline_build": build,
+            "threads_in_process": len(os.listdir("/proc/self/task"))}
+
+
 class StepTimer:
     def __init__(self):
         import keras
@@ -140,6 +204,9 @@ def main():
     ap.add_argument("--device", default="cpu", choices=["cpu", "gpu"])
     ap.add_argument("--worker")
     args = ap.parse_args()
+    if args.worker == "fast":
+        print(json.dumps(fast_worker()))
+        return
     if args.worker:
         print(json.dumps(sim_worker(args.worker)))
         return
@@ -150,8 +217,16 @@ def main():
         (out_dir / f"e1_step_{args.device}.json").write_text(json.dumps(res, indent=2) + "\n")
         return
     env = {**os.environ, "KERAS_BACKEND": "jax", "JAX_PLATFORMS": "cpu"}
+    p = subprocess.run([sys.executable, __file__, "sim", "--worker", "fast"], capture_output=True, text=True, env=env)
+    if p.returncode:
+        raise RuntimeError(p.stderr[-3000:])
+    fast = json.loads(p.stdout.strip().splitlines()[-1])
+    for r in fast["rows"]:
+        print(f"{r['impl']:28s} B{r['batch']:5d}: t_sim {r['t_sim_s_median'] * 1e3:7.2f} ms "
+              f"(p10 {r['t_sim_s_p10'] * 1e3:.2f}, p90 {r['t_sim_s_p90'] * 1e3:.2f}; ode {r['t_ode_s_median'] * 1e3:.2f}, "
+              f"noise {r['t_noise_s_median'] * 1e3:.2f}, adapter {r['t_adapter_s_median'] * 1e3:.2f})", flush=True)
     res = []
-    for impl in IMPLS:
+    for impl in SLOW_IMPLS:
         p = subprocess.run([sys.executable, __file__, "sim", "--worker", impl], capture_output=True, text=True,
                            env=env)
         if p.returncode:
@@ -163,7 +238,7 @@ def main():
             f"{r['offline_build']['1000000']['seconds']:.1f}s", flush=True)
     (out_dir / "e1_sim.json").write_text(json.dumps(
         {"meta": common.meta({"experiment": "E1 t_sim", "agreement_max_rel_err_vs_tight": common.agreement()}),
-         "results": res}, indent=2) + "\n")
+         "fast_interleaved": fast, "results": res}, indent=2) + "\n")
 
 
 if __name__ == "__main__":
