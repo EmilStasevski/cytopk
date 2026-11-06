@@ -70,3 +70,50 @@ fn non_contiguous_theta_views_work() {
     let b = simulate_batch(&TwoCmtIv, f.view(), &sched, &[1.0, 2.0], &opts).unwrap();
     assert_eq!(a, b);
 }
+
+#[test]
+fn serial_path_matches_parallel_path_and_errors_identically() {
+    use cytopk_sim::{MIN_PARALLEL_BATCH, Parallelism, simulate_batch_with};
+    let sched = Schedule::repeated(Dose::infusion(0.0, 200.0, 1.0 / 24.0, 0), 7.0, 4).unwrap();
+    let times = [0.5, 1.0, 7.0, 14.0, 28.0];
+    let opts = SolverOpts::dopri5(1e-6, 1e-9);
+    for n in [1, MIN_PARALLEL_BATCH - 1, MIN_PARALLEL_BATCH, 500] {
+        let th = thetas(n);
+        let s = simulate_batch_with(
+            &TwoCmtIv,
+            th.view(),
+            &sched,
+            &times,
+            &opts,
+            Parallelism::Serial,
+        )
+        .unwrap();
+        let p = simulate_batch_with(
+            &TwoCmtIv,
+            th.view(),
+            &sched,
+            &times,
+            &opts,
+            Parallelism::Auto,
+        )
+        .unwrap();
+        let bits = |a: &ndarray::Array3<f64>| a.iter().map(|x| x.to_bits()).collect::<Vec<_>>();
+        assert_eq!(bits(&s), bits(&p), "n = {n}");
+    }
+    // A solver failure in several rows reports the lowest index in both modes.
+    let mut th = thetas(50);
+    th.row_mut(7)
+        .assign(&ndarray::arr1(&[1e6, 1e-3, 1e6, 1e-3]));
+    th.row_mut(30)
+        .assign(&ndarray::arr1(&[1e6, 1e-3, 1e6, 1e-3]));
+    let tiny = SolverOpts {
+        max_steps: 5000,
+        ..opts
+    };
+    for par in [Parallelism::Serial, Parallelism::Auto] {
+        match simulate_batch_with(&TwoCmtIv, th.view(), &sched, &times, &tiny, par) {
+            Err(cytopk_sim::SimError::InBatch { index, .. }) => assert_eq!(index, 7, "{par:?}"),
+            other => panic!("{par:?}: {other:?}"),
+        }
+    }
+}

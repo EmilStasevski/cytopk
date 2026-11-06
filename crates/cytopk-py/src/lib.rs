@@ -2,8 +2,8 @@
 //! The fuller Python API (schedules, noise models, type stubs) follows in M3 (see docs/ROADMAP.md).
 
 use cytopk_sim::{
-    Dose, Model, OneCmtIv, Schedule, SimError, SolverOpts, TwoCmtIv, TwoCmtIvIdr, TwoCmtMmIv,
-    simulate_batch,
+    Dose, MIN_PARALLEL_BATCH, Model, OneCmtIv, Parallelism, Schedule, SimError, SolverOpts,
+    TwoCmtIv, TwoCmtIvIdr, TwoCmtMmIv, simulate_batch_with,
 };
 use ndarray::{Array3, ArrayView2};
 use numpy::{IntoPyArray, PyArray3, PyReadonlyArray1, PyReadonlyArray2};
@@ -47,13 +47,14 @@ fn run_model(
     sched: &Schedule,
     times: &[f64],
     opts: &SolverOpts,
+    par: Parallelism,
 ) -> Option<Result<Array3<f64>, SimError>> {
     // Static dispatch: each arm gets its own monomorphised solver.
     Some(match model {
-        "onecmt_iv" => simulate_batch(&OneCmtIv, theta, sched, times, opts),
-        "twocmt_iv" => simulate_batch(&TwoCmtIv, theta, sched, times, opts),
-        "twocmt_mm_iv" => simulate_batch(&TwoCmtMmIv, theta, sched, times, opts),
-        "twocmt_iv_idr" => simulate_batch(&TwoCmtIvIdr, theta, sched, times, opts),
+        "onecmt_iv" => simulate_batch_with(&OneCmtIv, theta, sched, times, opts, par),
+        "twocmt_iv" => simulate_batch_with(&TwoCmtIv, theta, sched, times, opts, par),
+        "twocmt_mm_iv" => simulate_batch_with(&TwoCmtMmIv, theta, sched, times, opts, par),
+        "twocmt_iv_idr" => simulate_batch_with(&TwoCmtIvIdr, theta, sched, times, opts, par),
         _ => return None,
     })
 }
@@ -111,13 +112,21 @@ fn simulate<'py>(
         ..SolverOpts::dopri5(rtol, atol)
     };
     let theta = theta.as_array();
+    // n_threads=1 and batches too small to gain from threads run on the calling thread: handing a call to a
+    // pool and waking its worker costs about one simulation (docs/decisions.md, SBI-flow E2).
+    let serial = n_threads == Some(1) || theta.nrows() < MIN_PARALLEL_BATCH;
     let pool = match n_threads {
         Some(0) => return Err(PyValueError::new_err("n_threads must be >= 1")),
-        Some(n) => Some(pool(n)?),
-        None => None,
+        Some(n) if !serial => Some(pool(n)?),
+        _ => None,
+    };
+    let par = if serial {
+        Parallelism::Serial
+    } else {
+        Parallelism::Auto
     };
     let out = py.detach(|| {
-        let run = || run_model(model, theta, &sched, &times, &opts);
+        let run = || run_model(model, theta, &sched, &times, &opts, par);
         match &pool {
             Some(p) => p.install(run),
             None => run(),

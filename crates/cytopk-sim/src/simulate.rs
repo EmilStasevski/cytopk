@@ -177,17 +177,43 @@ pub fn simulate_one<M: Model + ?Sized>(
     })
 }
 
-/// Simulates every row of `thetas` (shape `N × n_params`) in parallel on the current Rayon pool.
+/// How [`simulate_batch_with`] distributes simulations over threads.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Parallelism {
+    /// Run every simulation on the calling thread. No thread pool is involved, so no cross-thread hand-off.
+    Serial,
+    /// Use the current Rayon pool, except for batches smaller than [`MIN_PARALLEL_BATCH`], which run serially.
+    Auto,
+}
+
+/// Batches smaller than this run on the calling thread under [`Parallelism::Auto`]. Handing a call to the Rayon
+/// pool and waking its workers costs about one simulation's worth of time (measured in the SBI-flow E2
+/// benchmark, docs/decisions.md), so tiny batches do not gain from threads.
+pub const MIN_PARALLEL_BATCH: usize = 4;
+
+/// Simulates every row of `thetas` (shape `N × n_params`) with [`Parallelism::Auto`].
 ///
 /// Returns observations with shape `N × T × n_outputs`. The results are bit-identical for any number
-/// of threads, because each simulation is independent and deterministic. If several rows fail, the
-/// error for the lowest row index is returned, wrapped in [`SimError::InBatch`].
+/// of threads and either parallelism mode, because each simulation is independent and deterministic.
+/// If several rows fail, the error for the lowest row index is returned, wrapped in [`SimError::InBatch`].
 pub fn simulate_batch<M: Model + ?Sized>(
     m: &M,
     thetas: ArrayView2<'_, f64>,
     sched: &Schedule,
     times: &[f64],
     opts: &SolverOpts,
+) -> Result<Array3<f64>, SimError> {
+    simulate_batch_with(m, thetas, sched, times, opts, Parallelism::Auto)
+}
+
+/// Like [`simulate_batch`], with explicit control over threading.
+pub fn simulate_batch_with<M: Model + ?Sized>(
+    m: &M,
+    thetas: ArrayView2<'_, f64>,
+    sched: &Schedule,
+    times: &[f64],
+    opts: &SolverOpts,
+    parallelism: Parallelism,
 ) -> Result<Array3<f64>, SimError> {
     check_inputs(m, sched, times, opts)?;
     let n = thetas.nrows();
@@ -215,23 +241,29 @@ pub fn simulate_batch<M: Model + ?Sized>(
     let flat = out
         .as_slice_mut()
         .ok_or(SimError::InvalidOptions("internal layout error"))?;
+    let one = |theta: &mut Vec<f64>, (i, obs): (usize, &mut [f64])| {
+        for (dst, &src) in theta.iter_mut().zip(thetas.row(i)) {
+            *dst = src;
+        }
+        run(m, theta, &plan, opts, None, obs)
+            .map(|_| ())
+            .map_err(|e| SimError::InBatch {
+                index: i,
+                source: Box::new(e),
+            })
+    };
+    if parallelism == Parallelism::Serial || n < MIN_PARALLEL_BATCH {
+        let mut theta = vec![0.0; m.n_params()];
+        // Sequential order, so the first error is the lowest index, as in the parallel path.
+        for item in flat.chunks_mut(chunk).enumerate() {
+            one(&mut theta, item)?;
+        }
+        return Ok(out);
+    }
     let results: Vec<Result<(), SimError>> = flat
         .par_chunks_mut(chunk)
         .enumerate()
-        .map_init(
-            || vec![0.0; m.n_params()],
-            |theta, (i, obs)| {
-                for (dst, &src) in theta.iter_mut().zip(thetas.row(i)) {
-                    *dst = src;
-                }
-                run(m, theta, &plan, opts, None, obs)
-                    .map(|_| ())
-                    .map_err(|e| SimError::InBatch {
-                        index: i,
-                        source: Box::new(e),
-                    })
-            },
-        )
+        .map_init(|| vec![0.0; m.n_params()], one)
         .collect();
     results.into_iter().find(Result::is_err).unwrap_or(Ok(()))?;
     Ok(out)
