@@ -7,7 +7,7 @@ Steps (all seeds fixed):
  3. Test set B ("fast"): N_TEST further subjects via the fast path, for comparison.
  4. BayesFlow 2.x BasicWorkflow (CouplingFlow + TimeSeriesNetwork, library defaults), fit_offline.
  5. SBC on A and B: N_POST posterior draws per subject; ranks, ECDF and histogram plots, calibration error,
-    contraction, RMSE of the posterior median.
+    contraction, prior-normalised RMSE (BayesFlow defaults).
 
     KERAS_BACKEND=jax .venv-sbi/bin/python examples/cohort/run_m8.py
       -> examples/cohort/results/m8.json and examples/cohort/figures/*.png
