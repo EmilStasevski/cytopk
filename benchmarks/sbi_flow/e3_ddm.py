@@ -23,7 +23,6 @@ from __future__ import annotations
 
 import json
 import math
-import os
 import random
 import subprocess
 import sys
@@ -238,14 +237,15 @@ def correctness():
         tol = 4 * se + tol_extra
         timeouts = int(np.sum(ch == -1))
         row = {"n": n, "p_hat": p_hat, "se": se, "tolerance": tol, "abs_dev_from_P_corr": abs(p_hat - Pc),
-               "abs_dev_from_P": abs(p_hat - P), "timeouts": timeouts, "pass_analytic": abs(p_hat - Pc) <= tol}
+               "abs_dev_from_P": abs(p_hat - P), "timeouts": timeouts, "pass_analytic": bool(abs(p_hat - Pc) <= tol)}
         if name != "cytopk_default":
             p2 = float(np.mean(ch_ref == 1))
             pool = (p_hat * n + p2 * ch_ref.size) / (n + ch_ref.size)
             zstat = (p_hat - p2) / math.sqrt(pool * (1 - pool) * (1 / n + 1 / ch_ref.size))
             ks = ks_2samp(rt, rt_ref)
-            row.update({"z_vs_cytopk": zstat, "ks_stat_vs_cytopk": float(ks.statistic),
-                        "ks_p_vs_cytopk": float(ks.pvalue), "pass_vs_cytopk": abs(zstat) < 4 and ks.pvalue > 1e-3})
+            row.update({"z_vs_cytopk": float(zstat), "ks_stat_vs_cytopk": float(ks.statistic),
+                        "ks_p_vs_cytopk": float(ks.pvalue),
+                        "pass_vs_cytopk": bool(abs(zstat) < 4 and ks.pvalue > 1e-3)})
             if name == "numba_serial":
                 row["bit_identical_to_cytopk"] = bool(np.array_equal(ch, ch_ref) and
                                                       np.array_equal(rt.view(np.uint64), rt_ref.view(np.uint64)))
