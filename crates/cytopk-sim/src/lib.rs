@@ -28,4 +28,4 @@ pub use error::SimError;
 pub use model::{Constraint, Model};
 pub use models::{OneCmtIv, TwoCmtIv};
 pub use simulate::{Solution, simulate_batch, simulate_one};
-pub use solver::{Method, SolverOpts, SolverStats};
+pub use solver::{MAX_STATES, Method, SolverOpts, SolverStats};

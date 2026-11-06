@@ -3,7 +3,7 @@
 use ndarray::{Array2, Array3, ArrayView2};
 use rayon::prelude::*;
 
-use crate::solver::{SolverStats, Workspace, integrate_segment};
+use crate::solver::{MAX_STATES, SolverStats, Workspace, integrate_segment};
 use crate::{Model, Schedule, SimError, SolverOpts};
 
 /// The result of [`simulate_one`].
@@ -100,6 +100,13 @@ fn check_inputs<M: Model + ?Sized>(
 ) -> Result<(), SimError> {
     opts.validate()?;
     validate_times(times)?;
+    if m.n_states() > MAX_STATES {
+        return Err(SimError::TooManyStates {
+            model: m.name(),
+            n_states: m.n_states(),
+            max: MAX_STATES,
+        });
+    }
     sched.check_states(m.name(), m.n_states())
 }
 
@@ -111,21 +118,23 @@ fn run<M: Model + ?Sized>(
     theta: &[f64],
     plan: &Plan,
     opts: &SolverOpts,
-    ws: &mut Workspace,
-    y: &mut [f64],
     mut states_out: Option<&mut [f64]>,
     obs_out: &mut [f64],
 ) -> Result<SolverStats, SimError> {
     let ns = m.n_states();
     let no = m.n_outputs();
     let mut stats = SolverStats::default();
-    ws.h = 0.0;
+    // Stage buffers and state live on this stack frame: this lets LLVM keep them apart
+    // (no aliasing), which was worth ~35 % in the go/no-go profiling (docs/decisions.md).
+    let mut ws = Workspace::new();
+    let mut ybuf = [0.0; MAX_STATES];
+    let y = &mut ybuf[..ns];
     m.init(theta, y);
     let mut t = 0.0;
     let zeros = vec![0.0; ns];
     let mut input: &[f64] = &zeros; // no infusion is running before the first stop
     for (k, stop) in plan.stops.iter().enumerate() {
-        integrate_segment(m, theta, input, t, stop.t, y, ws, opts, &mut stats)?;
+        integrate_segment(m, theta, input, t, stop.t, y, &mut ws, opts, &mut stats)?;
         t = stop.t;
         for &(state, amount) in &plan.boluses[stop.boluses.clone()] {
             y[state] += amount;
@@ -158,18 +167,7 @@ pub fn simulate_one<M: Model + ?Sized>(
     let (nt, ns, no) = (times.len(), m.n_states(), m.n_outputs());
     let mut states = vec![0.0; nt * ns];
     let mut outputs = vec![0.0; nt * no];
-    let mut ws = Workspace::new(ns);
-    let mut y = vec![0.0; ns];
-    let stats = run(
-        m,
-        theta,
-        &plan,
-        opts,
-        &mut ws,
-        &mut y,
-        Some(&mut states),
-        &mut outputs,
-    )?;
+    let stats = run(m, theta, &plan, opts, Some(&mut states), &mut outputs)?;
     let shape_err = |_| SimError::InvalidOptions("internal shape error");
     Ok(Solution {
         times: times.to_vec(),
@@ -221,12 +219,12 @@ pub fn simulate_batch<M: Model + ?Sized>(
         .par_chunks_mut(chunk)
         .enumerate()
         .map_init(
-            || (Workspace::new(ns), vec![0.0; ns], vec![0.0; m.n_params()]),
-            |(ws, y, theta), (i, obs)| {
+            || vec![0.0; m.n_params()],
+            |theta, (i, obs)| {
                 for (dst, &src) in theta.iter_mut().zip(thetas.row(i)) {
                     *dst = src;
                 }
-                run(m, theta, &plan, opts, ws, y, None, obs)
+                run(m, theta, &plan, opts, None, obs)
                     .map(|_| ())
                     .map_err(|e| SimError::InBatch {
                         index: i,

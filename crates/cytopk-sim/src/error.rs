@@ -22,6 +22,16 @@ pub enum SimError {
         /// Number of model states.
         n_states: usize,
     },
+    /// The model has more states than the solver's fixed buffer capacity.
+    #[error("model `{model}` has {n_states} states; the solver supports at most {max}")]
+    TooManyStates {
+        /// Model name.
+        model: &'static str,
+        /// Number of model states.
+        n_states: usize,
+        /// Capacity ([`crate::MAX_STATES`]).
+        max: usize,
+    },
     /// A closed-form solution is not available for this dosing.
     #[error("closed form not available: {0}")]
     AnalyticUnsupported(&'static str),

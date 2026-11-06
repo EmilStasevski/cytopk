@@ -360,3 +360,48 @@ proptest! {
         }
     }
 }
+
+/// Models larger than the solver's stack-buffer capacity are rejected with a clear error.
+#[test]
+fn too_many_states_is_an_error() {
+    struct Big;
+    static NAMES: [&str; cytopk_sim::MAX_STATES + 1] = ["x"; cytopk_sim::MAX_STATES + 1];
+    impl Model for Big {
+        fn name(&self) -> &'static str {
+            "big"
+        }
+        fn state_names(&self) -> &'static [&'static str] {
+            &NAMES
+        }
+        fn param_names(&self) -> &'static [&'static str] {
+            &[]
+        }
+        fn param_constraints(&self) -> &'static [Constraint] {
+            &[]
+        }
+        fn output_names(&self) -> &'static [&'static str] {
+            &["y"]
+        }
+        fn rhs(&self, _: f64, _: &[f64], _: &[f64], _: &[f64], dy: &mut [f64]) {
+            dy.fill(0.0);
+        }
+        fn observe(&self, y: &[f64], _: &[f64], out: &mut [f64]) {
+            out[0] = y[0];
+        }
+    }
+    let r = simulate_one(
+        &Big,
+        &[],
+        &Schedule::empty(),
+        &[1.0],
+        &SolverOpts::default(),
+    );
+    assert!(matches!(
+        r,
+        Err(SimError::TooManyStates {
+            n_states: 33,
+            max: 32,
+            ..
+        })
+    ));
+}

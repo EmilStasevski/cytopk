@@ -105,22 +105,28 @@ pub struct SolverStats {
     pub n_rhs: usize,
 }
 
-/// Scratch buffers for one thread. Allocated once and reused across simulations.
+/// Largest number of states a model may have. The solver keeps its stage buffers in fixed-size
+/// stack arrays of this capacity (see `docs/decisions.md`, "stack buffers"). The capacity has no
+/// measurable cost, and it lets LLVM prove the buffers don't alias.
+pub const MAX_STATES: usize = 32;
+
+/// Stage buffers for one simulation. Create it as a local (on the stack), not on the heap.
+/// Only the first `n_states` entries of each buffer are used.
 #[derive(Debug, Clone)]
 pub(crate) struct Workspace {
-    k: [Vec<f64>; 7],
-    y_stage: Vec<f64>,
-    y_new: Vec<f64>,
+    k: [[f64; MAX_STATES]; 7],
+    y_stage: [f64; MAX_STATES],
+    y_new: [f64; MAX_STATES],
     /// Current step size proposal carried across segments (`0.0` = not yet chosen).
     pub(crate) h: f64,
 }
 
 impl Workspace {
-    pub(crate) fn new(n: usize) -> Self {
+    pub(crate) fn new() -> Self {
         Self {
-            k: std::array::from_fn(|_| vec![0.0; n]),
-            y_stage: vec![0.0; n],
-            y_new: vec![0.0; n],
+            k: [[0.0; MAX_STATES]; 7],
+            y_stage: [0.0; MAX_STATES],
+            y_new: [0.0; MAX_STATES],
             h: 0.0,
         }
     }
@@ -212,6 +218,7 @@ fn initial_step<M: Model + ?Sized>(
     // Hairer, Nørsett & Wanner, Solving ODEs I, Sec. II.4 ("starting step size"), order p = 5.
     let n = y.len();
     let [k1, k2, ..] = &mut ws.k;
+    let (k1, k2, y_stage) = (&mut k1[..n], &mut k2[..n], &mut ws.y_stage[..n]);
     m.rhs(t0, y, theta, input, k1);
     stats.n_rhs += 1;
     let sc = |yi: f64| opts.atol + opts.rtol * yi.abs();
@@ -224,10 +231,10 @@ fn initial_step<M: Model + ?Sized>(
     } else {
         0.01 * d0 / d1
     };
-    for ((ys, &yi), &fi) in ws.y_stage.iter_mut().zip(y).zip(k1.iter()) {
+    for ((ys, &yi), &fi) in y_stage.iter_mut().zip(y).zip(k1.iter()) {
         *ys = yi + h0 * fi;
     }
-    m.rhs(t0 + h0, &ws.y_stage, theta, input, k2);
+    m.rhs(t0 + h0, y_stage, theta, input, k2);
     stats.n_rhs += 1;
     let d2 = rms(&mut y
         .iter()
@@ -264,7 +271,7 @@ fn dopri5<M: Model + ?Sized>(
     let h_max = opts.h_max.unwrap_or(f64::INFINITY);
     let mut t = t0;
     // The first stage is recomputed at every segment start because the RHS may have jumped.
-    m.rhs(t, y, theta, input, &mut ws.k[0]);
+    m.rhs(t, y, theta, input, &mut ws.k[0][..n]);
     stats.n_rhs += 1;
     let mut last_rejected = false;
 
@@ -290,12 +297,13 @@ fn dopri5<M: Model + ?Sized>(
             k, y_stage, y_new, ..
         } = ws;
         let [k1, k2, k3, k4, k5, k6, k7] = k;
+        let (y_stage, y_new) = (&mut y_stage[..n], &mut y_new[..n]);
         macro_rules! stage {
-            ($dst:expr, $c:expr, $($a:expr => $kk:expr),+) => {{
+            ($dst:expr, $c:expr, $a0:expr => $k0:expr $(, $a:expr => $kk:expr)*) => {{
                 for i in 0..n {
-                    y_stage[i] = y[i] + h * (0.0 $(+ $a * $kk[i])+);
+                    y_stage[i] = y[i] + h * ($a0 * $k0[i] $(+ $a * $kk[i])*);
                 }
-                m.rhs(t + $c * h, y_stage, theta, input, $dst);
+                m.rhs(t + $c * h, y_stage, theta, input, &mut $dst[..n]);
             }};
         }
         stage!(k2, C2, A21 => k1);
@@ -307,7 +315,7 @@ fn dopri5<M: Model + ?Sized>(
             y_new[i] = y[i] + h * (B1 * k1[i] + B3 * k3[i] + B4 * k4[i] + B5 * k5[i] + B6 * k6[i]);
         }
         let t_new = if clamped { t1 } else { t + h };
-        m.rhs(t_new, y_new, theta, input, k7);
+        m.rhs(t_new, y_new, theta, input, &mut k7[..n]);
         stats.n_rhs += 6;
 
         let err = err_norm(
@@ -378,8 +386,9 @@ fn rk4<M: Model + ?Sized>(
     }
     let n_steps = n_steps_f as usize;
     let h = (t1 - t0) / n_steps as f64;
-    let Workspace { k, y_stage, .. } = ws;
-    let [k1, k2, k3, k4, ..] = k;
+    let [k1, k2, k3, k4, ..] = &mut ws.k;
+    let (k1, k2, k3, k4) = (&mut k1[..n], &mut k2[..n], &mut k3[..n], &mut k4[..n]);
+    let y_stage = &mut ws.y_stage[..n];
     for j in 0..n_steps {
         let t = t0 + h * j as f64;
         m.rhs(t, y, theta, input, k1);
