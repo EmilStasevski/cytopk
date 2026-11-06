@@ -1,12 +1,13 @@
 //! PyO3 bindings: `simulate` for every built-in model, and `models()` to list them.
 //! The fuller Python API (schedules, noise models, type stubs) follows in M3 (see docs/ROADMAP.md).
 
+use cytopk_sim::ddm::{DdmOpts, simulate_ddm as ddm_batch};
 use cytopk_sim::{
     Dose, MIN_PARALLEL_BATCH, Model, OneCmtIv, Parallelism, Schedule, SimError, SolverOpts,
     TwoCmtIv, TwoCmtIvIdr, TwoCmtMmIv, simulate_batch_with,
 };
 use ndarray::{Array3, ArrayView2};
-use numpy::{IntoPyArray, PyArray3, PyReadonlyArray1, PyReadonlyArray2};
+use numpy::{IntoPyArray, PyArray1, PyArray3, PyReadonlyArray1, PyReadonlyArray2};
 use pyo3::exceptions::{PyRuntimeError, PyValueError};
 use pyo3::prelude::*;
 use pyo3::types::PyDict;
@@ -141,6 +142,45 @@ fn simulate<'py>(
     }
 }
 
+/// Drift-diffusion model, one trial per row of `theta` (N x 4: v, a, z, t0). Returns `(rt, choice)`:
+/// float64 reaction times (s; NaN on timeout) and int8 choices (1 upper, 0 lower, -1 timeout).
+/// Simulation `i` uses its own xoshiro256++ stream from `(seed, i)`. Results are bit-identical for any `n_threads`.
+#[pyfunction]
+#[pyo3(signature = (theta, seed, dt=0.001, max_t=10.0, n_threads=None))]
+#[allow(clippy::type_complexity)]
+fn simulate_ddm<'py>(
+    py: Python<'py>,
+    theta: PyReadonlyArray2<'py, f64>,
+    seed: u64,
+    dt: f64,
+    max_t: f64,
+    n_threads: Option<usize>,
+) -> PyResult<(Bound<'py, PyArray1<f64>>, Bound<'py, PyArray1<i8>>)> {
+    let theta = theta.as_array();
+    let serial = n_threads == Some(1) || theta.nrows() < MIN_PARALLEL_BATCH;
+    let pool = match n_threads {
+        Some(0) => return Err(PyValueError::new_err("n_threads must be >= 1")),
+        Some(n) if !serial => Some(pool(n)?),
+        _ => None,
+    };
+    let par = if serial {
+        Parallelism::Serial
+    } else {
+        Parallelism::Auto
+    };
+    let opts = DdmOpts { dt, max_t };
+    let (rt, ch) = py
+        .detach(|| {
+            let run = || ddm_batch(theta, seed, &opts, par);
+            match &pool {
+                Some(p) => p.install(run),
+                None => run(),
+            }
+        })
+        .map_err(to_py)?;
+    Ok((rt.into_pyarray(py), ch.into_pyarray(py)))
+}
+
 /// Built-in models: `{name: {"params": [...], "states": [...], "outputs": [...]}}`.
 #[pyfunction]
 fn models(py: Python<'_>) -> PyResult<Bound<'_, PyDict>> {
@@ -160,5 +200,6 @@ fn models(py: Python<'_>) -> PyResult<Bound<'_, PyDict>> {
 fn _cytopk(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(simulate, m)?)?;
     m.add_function(wrap_pyfunction!(models, m)?)?;
+    m.add_function(wrap_pyfunction!(simulate_ddm, m)?)?;
     Ok(())
 }

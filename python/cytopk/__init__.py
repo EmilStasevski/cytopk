@@ -1,8 +1,8 @@
 """cytopk: fast IV PK/PD simulators (research prototype, not for clinical use)."""
 
-from ._cytopk import models, simulate
+from ._cytopk import models, simulate, simulate_ddm
 
-__all__ = ["models", "simulate", "simulate_twocmt_iv"]
+__all__ = ["models", "simulate", "simulate_ddm", "simulate_twocmt_iv"]
 
 
 def simulate_twocmt_iv(theta, times, dose_time, dose_amount, dose_duration, **kwargs):
