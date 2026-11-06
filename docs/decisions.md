@@ -138,3 +138,35 @@ and its plan is summarised in `docs/ROADMAP.md`.
   by ~3× the tolerance at dt = 1 ms.
 - **E4 not done.** BayesFlow 2.1's `DiskDataset` reads one pickle per simulation, so "10^7 simulations as shards" has no
   supported loader format.
+
+## M5: FCS reader (cytopk-fcs)
+
+- **Lenient by default, strict on request.**
+  - Real files rarely conform. Strict mode reads 6/30 of the public test files
+    (`benchmarks/results/fcs_robustness.json`).
+  - Lenient mode repairs each known deviation and returns a typed warning, rather than printing or guessing
+    silently.
+- **Empty value vs escaped delimiter.** A doubled delimiter right after a keyword is an empty value; anywhere else
+  it is an escape. The one legal case this misreads (a value that starts with the delimiter) is refused by the
+  writer. See `docs/fcs_notes.md`.
+- **DATA offset choice.**
+  - **Bug found and fixed:** the first version clipped TEXT where the HEADER said DATA started. On FlowIO's
+    `data_start_offset_discrepancy_example.fcs` that dropped `$BEGINDATA` and silently returned the wrong bytes;
+    the cross-check against flowio caught it.
+  - **Rule now:** never clip TEXT on the HEADER's word. Take the first range that lies inside the file, outside
+    TEXT, and holds at least `$TOT` events, keywords before HEADER.
+- **Integers become f64.** This is exact up to 53 bits and keeps one output type for D and I. The cost is the slow
+  integer path measured in `fcs_speed.json`, where fcsparser wins on a 32-bit integer file; a typed integer output
+  is a candidate for M6.
+- **Values as stored.** `$PnE`/`$PnG` are not applied. FlowKit's "raw" applies `$TIMESTEP`, gain and log scaling, so
+  cross-checks against FlowKit use only linear, gain-1, non-time channels.
+- **Test material.**
+  - **Bras & van der Velden (2020) set:** public on FlowRepository (FR-FCM-Z2LG), but downloading needs a CAPTCHA.
+    The only API client ID belongs to FlowRepositoryR, so it is not used. `scripts/fetch_test_data.py
+    --bras-archive` verifies and unpacks a hand-downloaded archive.
+  - **Artificial corpus:** `benchmarks/fcs/corpus.py` covers the same deviation categories. It favours cytopk by
+    construction, as `benchmarks/fcs/README.md` states.
+  - **Real files:** 30 files from the flowio, FlowKit and fcsparser repositories, pinned by commit and SHA-256.
+- **fcsparser 0.2.4 fails with NumPy 2** (`ndarray.newbyteorder`). It is benchmarked twice, in the shared NumPy 2.5
+  environment and in a NumPy 1.26 one, so its column reflects the reader, not the NumPy version.
+

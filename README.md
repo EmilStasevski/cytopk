@@ -1,7 +1,7 @@
 # cytopk
 
-Deterministic intravenous PK/PD simulators for simulation-based inference, written in Rust with Python bindings.
-FCS flow-cytometry I/O is planned.
+Deterministic intravenous PK/PD simulators for simulation-based inference, and a robust FCS 3.0/3.1 flow-cytometry
+reader and writer. Written in Rust, with Python bindings.
 
 > **Research prototype.** The models are toy models with illustrative parameter values. They are **not validated for
 > clinical or regulatory use.** The repository contains no real patient data.
@@ -15,7 +15,8 @@ FCS flow-cytometry I/O is planned.
 | Minimal Python binding (`cytopk.simulate`, `cytopk.models`) and a linear-model go/no-go benchmark | done |
 | M2 nonlinear PK (`twocmt_mm_iv`) and indirect-response PD (`twocmt_iv_idr`), exposed in Python, nonlinear benchmark | done |
 | Drift-diffusion simulator (`cytopk.simulate_ddm`) and an SBI-flow study with BayesFlow ([`benchmarks/sbi_flow/`](benchmarks/sbi_flow/README.md)) | done |
-| M3+ full Python API, FCS reader/writer, end-to-end amortized inference example | planned |
+| M5 FCS reader (`cytopk-fcs`): strict/lenient modes, F/D/I data, `$NEXTDATA`, mmap, Parquet, Python binding, robustness and speed benchmarks ([`benchmarks/fcs/`](benchmarks/fcs/README.md)) | done |
+| M3 full Python API; M6 FCS transforms, compensation and gating; end-to-end amortized inference example | planned |
 
 See [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
@@ -24,6 +25,7 @@ See [`docs/ROADMAP.md`](docs/ROADMAP.md).
 | name | kind | purpose |
 |---|---|---|
 | `cytopk-sim` | Rust crate | models, dosing schedules, solvers, batch simulation |
+| `cytopk-fcs` | Rust crate | FCS reader/writer; feature `arrow` adds Arrow/Parquet output |
 | `cytopk-py` | Rust crate (cdylib) | PyO3 bindings, built into the Python package `cytopk` |
 | `cytopk` | Python package (`python/`) | `import cytopk` |
 
@@ -67,6 +69,18 @@ conc = cytopk.simulate("twocmt_iv", theta, times,
 conc.shape   # (10000, 4, 1)
 
 cytopk.models()["twocmt_iv_idr"]   # {'params': ['CL', 'V1', 'Q', 'V2', 'kout', 'Emax', 'EC50'], ..., 'outputs': ['C', 'p']}
+```
+
+FCS (Python):
+
+```python
+f = cytopk.read_fcs("sample.fcs")          # lenient (default); strict=True rejects any deviation
+f.data                                     # (events, channels) float32 for $DATATYPE F, float64 for D and I
+f.names, f.text["$CYT"], f.spillover       # $PnN names, keywords, spillover matrix (or None)
+f.warnings                                 # what lenient mode repaired, e.g. [{"kind": "EmptyValue", ...}]
+f.to_parquet("sample.parquet")
+files = cytopk.read_fcs_many(paths)        # parallel; failed files come back as FcsReadError objects
+cytopk.write_fcs("out.fcs", data, ["FSC-A", "SSC-A"])
 ```
 
 Units are days, mg, L and mg/L. The output at time `t` includes any bolus given at `t`. Results are bit-identical for any
@@ -130,7 +144,7 @@ So the speed alone is not a strong reason to choose Rust over a well-written Num
 - **No JIT warm-up.** Numba and JAX need a warm-up call; cytopk needs none.
 - **Determinism is guaranteed and tested.** Output is bit-identical for any thread count. A per-subject Numba kernel can have this property too, but cytopk guarantees it in its API and tests it.
 - **No compiler at runtime.** cytopk is a compiled library, whereas Numba needs LLVM (llvmlite) at runtime.
-- **One core in Rust.** The same solver can serve the planned FCS and CLI tools.
+- **One core in Rust.** The simulators and the FCS reader share one Rust workspace and one Python package.
 
 The SciPy `solve_ivp` loop is a weak baseline: it pays Python overhead on every right-hand-side call. On one thread cytopk is
 153–200× faster than it, which mainly shows that looping over SciPy is a poor fit for simulation-based inference. JAX + diffrax on CPU was slower than both compiled loops here, and slower with 16
@@ -153,6 +167,30 @@ were committed before measuring. Measured on this machine:
 
 On these measurements, cytopk's case is no JIT warm-up (first call 0.002 s vs 1.69 s for Numba), tested
 determinism, and no compiler at runtime. It is not raw speed.
+
+The in-process slowdown seen there (an ODE call 5.3× slower inside the BayesFlow process) is **not caused by JAX**.
+Idle CPU cores clock down between calls under this machine's power-saving defaults. A busy main thread pinned to
+one core avoids it ([details](benchmarks/sbi_flow/README.md#in-process-slowdown-cause)).
+
+## FCS reader
+
+`cytopk-fcs` reads FCS 3.0/3.1 (2.0 and 3.2 in lenient mode), with `$DATATYPE` F/D/I (any whole-byte integer width),
+either byte order, `$NEXTDATA` chains, supplemental TEXT and `$SPILLOVER`.
+- **Strict mode** rejects anything the specification forbids.
+- **Lenient mode** (the default) repairs the deviations catalogued by Bras & van der Velden (2020): empty values,
+  delimiter errors, wrong `$TOT`/`$ENDDATA`, HEADER/TEXT offset disagreements, malformed `$SPILLOVER`, and more. It
+  reports each repair as a warning. The full list is in [`docs/fcs_notes.md`](docs/fcs_notes.md).
+- **No panics:** mutation proptests run in CI, and a cargo-fuzz run is recorded in
+  [`benchmarks/results/fcs_fuzz.json`](benchmarks/results/fcs_fuzz.json).
+
+Measured in [`benchmarks/fcs/`](benchmarks/fcs/README.md) against flowio, FlowKit, fcsparser and flowCore:
+- **Real public files:** cytopk returns data for 28 of 30. fcsparser (under NumPy 1.x) also reads 28, flowio's
+  lenient mode 25 and flowCore 21. The two files cytopk rejects fail in every reader.
+- **Agreement:** where readers disagree on values, the three cases traced so far are errors in the other readers.
+- **Speed:** on large float32 files cytopk is 15.8–25.8× faster than the fastest other reader, but mostly through a
+  16-thread decode. With one thread the advantage is 1.93–4.01×.
+- **Where others win:** fcsparser is faster on a 32-bit integer file (11.3 vs 19.6 ms).
+- **Memory:** peak memory is about the same as fcsparser's and lower than flowio, FlowKit and flowCore.
 
 ## Licence
 
