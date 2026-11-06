@@ -46,3 +46,36 @@ Each entry has a date, the decision, and the reason. Newest entries go at the bo
   zero long after the dose, where the absolute tolerance dominates by design.
 - **Tests run with `opt-level = 2`**, so the 1000-set agreement tests take ~0.1 s.
 - Test RNG: `rand_chacha::ChaCha8Rng` with fixed seeds, so the random parameter sets are reproducible across platforms.
+
+## 2026-11-06: Go/no-go benchmark (before M2)
+- **Script and results:** `benchmarks/quick_bench.py` → `benchmarks/results/quick_bench.{json,csv,md}` (git 772d522).
+  The scenario is twocmt_iv with 4 weekly 1-hour infusions and 20 output times; every adaptive solver uses rtol 1e-6 / atol 1e-9.
+  N = 1e4 and 1e5; 1 thread and all 16. This is a quick protocol (5–9 repeats, median), not the full M4 protocol.
+- **Protocol choices:** each configuration runs in its own subprocess. On this hybrid CPU (i5-14400F: CPUs 0–11 are
+  P-core threads, 12–15 are E-cores), single-thread rows are pinned to CPU 0 *before* any worker thread exists, so
+  Rayon's and Numba's threads inherit the pinning. Unpinned single-thread runs varied by up to 1.5× depending on whether the
+  scheduler picked a P- or an E-core (measured: 8.4 vs 13.1 µs/sim for the same Rust code). The SciPy loop is timed on the first
+  2000 subjects (one run) and scaled linearly; the table marks this.
+- **The Numba baseline is a line-by-line port of our Dormand–Prince** (same controller, same stopping points), so the
+  speed comparison is like for like. Rust and Numba give bit-identical outputs.
+- **First result: Rust was slower than Numba** (single thread, fixed θ: 8.3 vs 6.2 µs/sim). `perf` is not usable here (Ubuntu
+  `perf_event_paranoid = 4`, kernel tools mismatch), so I attributed the time by controlled experiments
+  (examples `step_stats`, `numba_port`):
+  - Stepping to every output time costs 13 % of the per-simulation time (8.27 vs 7.21 µs with event-only stops; 60 vs 51 accepted steps,
+    25 vs 9 segment restarts). Numba steps to the same times, so **this is not the cause of the gap**. After the fix it is 8 %
+    (5.40 vs 4.99 µs).
+  - Ruled out by measurement: `rhs` not inlined (forcing `#[inline(always)]` removed the calls but saved 0 %), the `0.0 +` seed in
+    the stage sums (1 %), runtime state count / bounds checks (2 %), per-step bookkeeping (stats, budget, finite checks: 0 %),
+    the library error norm (0 %), the Rayon batch harness (0 %).
+  - A plain-Rust port of the Numba kernel took 5.8 µs, so the language was not the problem. **Cause:** the state and stage buffers were
+    heap `Vec`s reached through pointers, so LLVM had to assume a store to one buffer could change another and reloaded values
+    between stages. Moving the stage buffers alone to the stack gave 8.27 µs, moving `y` alone gave 8.03 µs, and moving both gave 5.44 µs.
+  - **Fix:** fixed-capacity stack arrays (`MAX_STATES = 32`; capacity 4, 16 or 64 measured the same). Models with more states get
+    `SimError::TooManyStates`. Results are unchanged: all tests pass with the same error figures.
+- **The binding built a new Rayon pool on every call.** Pools are now cached per thread count.
+- **Accuracy note:** the max relative error of Rust/Numba (1.4e-6 at N=1e4, 1.8e-6 at N=1e5) exceeds rtol = 1e-6. That is expected,
+  because rtol bounds the local error per step, not the global error. SciPy RK45 reached 1.0e-6 on its 2000-subject subset.
+  Matching *measured* accuracy, as the brief section 7.1 asks, is a job for M4: tune each tool to the same achieved error.
+- **Decision: go.** At equal tolerances Rust is at least as fast as the Numba port, single- and multi-threaded, and has no JIT
+  warm-up (Numba: 0.9–1.0 s per process). It is far faster than the SciPy loop. For this *linear* model the vectorised NumPy closed form is faster than Rust
+  on one thread, as the brief predicted. The case for the Rust simulator rests on the nonlinear models (M2), which have no closed form.
