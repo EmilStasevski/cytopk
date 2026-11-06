@@ -293,7 +293,7 @@ def meta(extra=None):
     gpu = cmd("nvidia-smi", "--query-gpu=name,driver_version,memory.total", "--format=csv,noheader")
     return {
         "date_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "git_sha": cmd("git", "rev-parse", "HEAD"), "git_dirty": bool(cmd("git", "status", "--porcelain")),
+        "git_sha": cmd("git", "rev-parse", "HEAD"), "git_dirty": bool(cmd("git", "status", "--porcelain", "--untracked-files=no")),
         "cpu": cpu, "logical_cpus": os.cpu_count(), "gpu": gpu, "os": platform.platform(),
         "python": sys.version.split()[0], "rustc": cmd("rustc", "--version"), "versions": vers,
         "loadavg_at_start": os.getloadavg(), **(extra or {}),
