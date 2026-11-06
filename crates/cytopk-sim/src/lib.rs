@@ -16,6 +16,7 @@
 //! ```
 
 pub mod analytic;
+pub mod ddm;
 mod dosing;
 mod error;
 mod model;
