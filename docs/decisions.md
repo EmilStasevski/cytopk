@@ -19,3 +19,30 @@ Each entry has a date, the decision, and the reason. Newest entries go at the bo
 - Workspace lints: `unsafe_code = forbid`, `missing_docs`, and clippy `unwrap_used`/`expect_used` as warnings,
   which CI turns into errors. Tests may opt out locally with `#![allow(...)]`.
 - `[profile.test] opt-level = 2`, so the tests with 1000+ random parameter sets run fast.
+- `unsafe_code` is `deny`, not `forbid`. ndarray's `s!` macro expands to code with `#[allow(unsafe_code)]`,
+  which `forbid` rejects. Our own code still contains no `unsafe`.
+
+## 2026-11-06: M1 simulator design
+- **Outputs come from stepping exactly to each output time**, not from dense output. Output accuracy then equals the
+  solver's controlled accuracy, and no step crosses a discontinuity, because dose times and infusion ends are also
+  breakpoints. The cost is shorter steps on dense output grids. This can be revisited in M4 if benchmarks show it matters.
+- **Simulation starts at t = 0** from `Model::init` (zeros for PK). Dose and output times must be ≥ 0. Doses after
+  the last output time are dropped from the integration plan.
+- **Event convention:** the output at `t` includes boluses at `t`. Infusions are active on `[start, start + duration)`. Infusion
+  rates for each piece are recomputed from the schedule at every breakpoint instead of being added and subtracted, so no
+  rounding error builds up.
+- **Step size across pieces:** the last unclamped proposal is carried over. A step clamped to a piece end does not shrink
+  it. The first stage is re-evaluated at each piece start because the RHS can jump. The Hairer starting-step heuristic runs once
+  per simulation, at the first piece.
+- **No `Analytic` trait object** on `Model` (the brief sketches one). The closed forms are plain functions in `cytopk_sim::analytic`.
+  They are only oracles and baselines, and keeping them off the trait means nonlinear models don't need a dummy implementation.
+- **Parameter constraints are declared per model** (`Constraint::{Positive, NonNegative}`) and checked before integration.
+  CL and Q may be 0, which the conservation tests need. Volumes must be > 0.
+- **Batch errors are deterministic:** parameters are validated sequentially first, then solver errors are collected
+  per row, and the lowest failing row index is reported (`SimError::InBatch`).
+- **Accuracy target (brief 5.3.1):** at `rtol = 1e-8`, `atol = 1e-12`, the observed max relative error is 3.9e-8 (1-cmt) and
+  2.3e-8 (2-cmt) over 1000 random sets each. The test asserts ≤ 1e-6 as the brief requests. Relative error is measured where
+  `C > 1e-6·Cmax`. Below that, the error is measured relative to `Cmax` (observed ≤ 5e-14). This avoids dividing by values near
+  zero long after the dose, where the absolute tolerance dominates by design.
+- **Tests run with `opt-level = 2`**, so the 1000-set agreement tests take ~0.1 s.
+- Test RNG: `rand_chacha::ChaCha8Rng` with fixed seeds, so the random parameter sets are reproducible across platforms.
