@@ -1,0 +1,2026 @@
+{
+  "meta": {
+    "date_utc": "2026-11-06T17:31:10Z",
+    "git_sha": "790ad355abd3c6ebd5298f341daade320c11f144",
+    "git_dirty": false,
+    "cpu": "Intel(R) Core(TM) i5-14400F",
+    "logical_cpus": 16,
+    "gpu": "NVIDIA GeForce RTX 5060 Ti, 580.178.04, 16311 MiB",
+    "os": "Linux-6.17.0-1023-oem-x86_64-with-glibc2.39",
+    "python": "3.13.13",
+    "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+    "versions": {
+      "bayesflow": null,
+      "keras": null,
+      "jax": null,
+      "jaxlib": null,
+      "jax-cuda13-plugin": null,
+      "numba": null,
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "joblib": "1.6.0",
+      "cytopk": "0.1.0.dev0"
+    },
+    "loadavg_at_start": [
+      5.27294921875,
+      4.49609375,
+      4.98388671875
+    ],
+    "experiment": "FCS read speed and memory",
+    "versions_fcs": {
+      "cytopk": "0.1.0.dev0",
+      "flowio": "1.4.0",
+      "flowkit": "1.3.0",
+      "fcsparser": "0.2.4",
+      "numpy": "2.5.4",
+      "pandas": "3.1.1",
+      "numpy1_env": "3.12.3 1.26.4 2.2.3 0.2.4",
+      "flowCore": "2.24.0",
+      "R": "R version 4.6.2 (2026-10-29)"
+    },
+    "repeats": 5,
+    "n_small": 500,
+    "cpu_threads": 16
+  },
+  "single": [
+    {
+      "file": "gen_100000x20.fcs",
+      "bytes": 8001033,
+      "reader": "cytopk",
+      "generated": true,
+      "seconds_median": 0.0007101949995558243,
+      "peak_rss_extra_mb": 15.69921875,
+      "peak_rss_mb": 44.23046875
+    },
+    {
+      "file": "gen_100000x20.fcs",
+      "bytes": 8001033,
+      "reader": "cytopk_1thread",
+      "generated": true,
+      "seconds_median": 0.002682129001186695,
+      "peak_rss_extra_mb": 15.49609375,
+      "peak_rss_mb": 43.93359375
+    },
+    {
+      "file": "gen_100000x20.fcs",
+      "bytes": 8001033,
+      "reader": "flowio",
+      "generated": true,
+      "seconds_median": 0.007449431999702938,
+      "peak_rss_extra_mb": 23.02734375,
+      "peak_rss_mb": 50.46484375
+    },
+    {
+      "file": "gen_100000x20.fcs",
+      "bytes": 8001033,
+      "reader": "flowkit",
+      "generated": true,
+      "seconds_median": 0.008670772000186844,
+      "peak_rss_extra_mb": 28.59375,
+      "peak_rss_mb": 226.96875
+    },
+    {
+      "file": "gen_100000x20.fcs",
+      "bytes": 8001033,
+      "reader": "fcsparser",
+      "generated": true,
+      "seconds_median": 0.005950471997493878,
+      "peak_rss_extra_mb": 20.4609375,
+      "peak_rss_mb": 124.90234375
+    },
+    {
+      "file": "gen_100000x20.fcs",
+      "bytes": 8001033,
+      "reader": "flowcore",
+      "generated": true,
+      "seconds_median": 0.034,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 40.04296875,
+      "peak_rss_mb": 182.0
+    },
+    {
+      "file": "gen_100000x40.fcs",
+      "bytes": 16001894,
+      "reader": "cytopk",
+      "generated": true,
+      "seconds_median": 0.0007776450001983903,
+      "peak_rss_extra_mb": 30.515625,
+      "peak_rss_mb": 59.15625
+    },
+    {
+      "file": "gen_100000x40.fcs",
+      "bytes": 16001894,
+      "reader": "cytopk_1thread",
+      "generated": true,
+      "seconds_median": 0.0030194930004654452,
+      "peak_rss_extra_mb": 30.9140625,
+      "peak_rss_mb": 59.5234375
+    },
+    {
+      "file": "gen_100000x40.fcs",
+      "bytes": 16001894,
+      "reader": "flowio",
+      "generated": true,
+      "seconds_median": 0.014077962001465494,
+      "peak_rss_extra_mb": 45.953125,
+      "peak_rss_mb": 73.29296875
+    },
+    {
+      "file": "gen_100000x40.fcs",
+      "bytes": 16001894,
+      "reader": "flowkit",
+      "generated": true,
+      "seconds_median": 0.016967594001471298,
+      "peak_rss_extra_mb": 51.9375,
+      "peak_rss_mb": 249.96875
+    },
+    {
+      "file": "gen_100000x40.fcs",
+      "bytes": 16001894,
+      "reader": "fcsparser",
+      "generated": true,
+      "seconds_median": 0.012095894999220036,
+      "peak_rss_extra_mb": 35.40234375,
+      "peak_rss_mb": 140.0078125
+    },
+    {
+      "file": "gen_100000x40.fcs",
+      "bytes": 16001894,
+      "reader": "flowcore",
+      "generated": true,
+      "seconds_median": 0.111,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 101.28125,
+      "peak_rss_mb": 242.87109375
+    },
+    {
+      "file": "gen_1000000x20.fcs",
+      "bytes": 80001035,
+      "reader": "cytopk",
+      "generated": true,
+      "seconds_median": 0.003708893000293756,
+      "peak_rss_extra_mb": 152.5390625,
+      "peak_rss_mb": 181.18359375
+    },
+    {
+      "file": "gen_1000000x20.fcs",
+      "bytes": 80001035,
+      "reader": "cytopk_1thread",
+      "generated": true,
+      "seconds_median": 0.03053679699951317,
+      "peak_rss_extra_mb": 153.05078125,
+      "peak_rss_mb": 181.45703125
+    },
+    {
+      "file": "gen_1000000x20.fcs",
+      "bytes": 80001035,
+      "reader": "flowio",
+      "generated": true,
+      "seconds_median": 0.08339016100217123,
+      "peak_rss_extra_mb": 228.81640625,
+      "peak_rss_mb": 256.41796875
+    },
+    {
+      "file": "gen_1000000x20.fcs",
+      "bytes": 80001035,
+      "reader": "flowkit",
+      "generated": true,
+      "seconds_median": 0.13051916800031904,
+      "peak_rss_extra_mb": 241.95703125,
+      "peak_rss_mb": 440.40625
+    },
+    {
+      "file": "gen_1000000x20.fcs",
+      "bytes": 80001035,
+      "reader": "fcsparser",
+      "generated": true,
+      "seconds_median": 0.07532158400135813,
+      "peak_rss_extra_mb": 157.83203125,
+      "peak_rss_mb": 262.18359375
+    },
+    {
+      "file": "gen_1000000x20.fcs",
+      "bytes": 80001035,
+      "reader": "flowcore",
+      "generated": true,
+      "seconds_median": 0.443,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 466.80078125,
+      "peak_rss_mb": 608.81640625
+    },
+    {
+      "file": "gen_1000000x40.fcs",
+      "bytes": 160001896,
+      "reader": "cytopk",
+      "generated": true,
+      "seconds_median": 0.01028923700141604,
+      "peak_rss_extra_mb": 305.30859375,
+      "peak_rss_mb": 333.98828125
+    },
+    {
+      "file": "gen_1000000x40.fcs",
+      "bytes": 160001896,
+      "reader": "cytopk_1thread",
+      "generated": true,
+      "seconds_median": 0.060281870002654614,
+      "peak_rss_extra_mb": 305.515625,
+      "peak_rss_mb": 333.9765625
+    },
+    {
+      "file": "gen_1000000x40.fcs",
+      "bytes": 160001896,
+      "reader": "flowio",
+      "generated": true,
+      "seconds_median": 0.16260116099874722,
+      "peak_rss_extra_mb": 457.9375,
+      "peak_rss_mb": 485.39453125
+    },
+    {
+      "file": "gen_1000000x40.fcs",
+      "bytes": 160001896,
+      "reader": "flowkit",
+      "generated": true,
+      "seconds_median": 0.1684663010018994,
+      "peak_rss_extra_mb": 470.6640625,
+      "peak_rss_mb": 668.88671875
+    },
+    {
+      "file": "gen_1000000x40.fcs",
+      "bytes": 160001896,
+      "reader": "fcsparser",
+      "generated": true,
+      "seconds_median": 0.18345313999816426,
+      "peak_rss_extra_mb": 310.5390625,
+      "peak_rss_mb": 414.76171875
+    },
+    {
+      "file": "gen_1000000x40.fcs",
+      "bytes": 160001896,
+      "reader": "flowcore",
+      "generated": true,
+      "seconds_median": 0.976,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 620.453125,
+      "peak_rss_mb": 761.87890625
+    },
+    {
+      "file": "gen_10000000x20.fcs",
+      "bytes": 800001037,
+      "reader": "cytopk",
+      "generated": true,
+      "seconds_median": 0.032046684998931596,
+      "peak_rss_extra_mb": 1526.5703125,
+      "peak_rss_mb": 1555.1328125
+    },
+    {
+      "file": "gen_10000000x20.fcs",
+      "bytes": 800001037,
+      "reader": "cytopk_1thread",
+      "generated": true,
+      "seconds_median": 0.38224968099893886,
+      "peak_rss_extra_mb": 1526.078125,
+      "peak_rss_mb": 1554.65234375
+    },
+    {
+      "file": "gen_10000000x20.fcs",
+      "bytes": 800001037,
+      "reader": "flowio",
+      "generated": true,
+      "seconds_median": 0.998022507999849,
+      "peak_rss_extra_mb": 2288.79296875,
+      "peak_rss_mb": 2316.3046875
+    },
+    {
+      "file": "gen_10000000x20.fcs",
+      "bytes": 800001037,
+      "reader": "flowkit",
+      "generated": true,
+      "seconds_median": 1.2977523010013101,
+      "peak_rss_extra_mb": 2369.84375,
+      "peak_rss_mb": 2568.4609375
+    },
+    {
+      "file": "gen_10000000x20.fcs",
+      "bytes": 800001037,
+      "reader": "fcsparser",
+      "generated": true,
+      "seconds_median": 0.7372551160005969,
+      "peak_rss_extra_mb": 1531.515625,
+      "peak_rss_mb": 1635.640625
+    },
+    {
+      "file": "gen_10000000x20.fcs",
+      "bytes": 800001037,
+      "reader": "flowcore",
+      "generated": true,
+      "seconds_median": 3.785,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 3061.0703125,
+      "peak_rss_mb": 3203.12109375
+    },
+    {
+      "file": "gen_10000000x40.fcs",
+      "bytes": 1600001898,
+      "reader": "cytopk",
+      "generated": true,
+      "seconds_median": 0.06425715899968054,
+      "peak_rss_extra_mb": 3052.421875,
+      "peak_rss_mb": 3080.953125
+    },
+    {
+      "file": "gen_10000000x40.fcs",
+      "bytes": 1600001898,
+      "reader": "cytopk_1thread",
+      "generated": true,
+      "seconds_median": 0.6561333040008321,
+      "peak_rss_extra_mb": 3052.17578125,
+      "peak_rss_mb": 3080.80859375
+    },
+    {
+      "file": "gen_10000000x40.fcs",
+      "bytes": 1600001898,
+      "reader": "flowio",
+      "generated": true,
+      "seconds_median": 1.6576914559991565,
+      "peak_rss_extra_mb": 4577.84375,
+      "peak_rss_mb": 4605.28125
+    },
+    {
+      "file": "gen_10000000x40.fcs",
+      "bytes": 1600001898,
+      "reader": "flowkit",
+      "generated": true,
+      "seconds_median": 1.778681312000117,
+      "peak_rss_extra_mb": 4659.37890625,
+      "peak_rss_mb": 4857.8125
+    },
+    {
+      "file": "gen_10000000x40.fcs",
+      "bytes": 1600001898,
+      "reader": "fcsparser",
+      "generated": true,
+      "seconds_median": 1.6990761380002368,
+      "peak_rss_extra_mb": 3057.19921875,
+      "peak_rss_mb": 3161.4140625
+    },
+    {
+      "file": "gen_10000000x40.fcs",
+      "bytes": 1600001898,
+      "reader": "flowcore",
+      "generated": true,
+      "seconds_median": 7.327,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 6112.98046875,
+      "peak_rss_mb": 6255.1015625
+    },
+    {
+      "file": "100715.fcs",
+      "bytes": 4166144,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.00044884100134368055,
+      "peak_rss_extra_mb": 8.46484375,
+      "peak_rss_mb": 36.9921875
+    },
+    {
+      "file": "100715.fcs",
+      "bytes": 4166144,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.0004179150018899236,
+      "peak_rss_extra_mb": 8.01171875,
+      "peak_rss_mb": 36.7734375
+    },
+    {
+      "file": "100715.fcs",
+      "bytes": 4166144,
+      "reader": "flowio",
+      "generated": false,
+      "seconds_median": 0.004377343997475691,
+      "peak_rss_extra_mb": 12.05078125,
+      "peak_rss_mb": 39.46875
+    },
+    {
+      "file": "100715.fcs",
+      "bytes": 4166144,
+      "reader": "flowkit",
+      "generated": false,
+      "seconds_median": 0.004432800000358839,
+      "peak_rss_extra_mb": 18.14453125,
+      "peak_rss_mb": 216.2578125
+    },
+    {
+      "file": "100715.fcs",
+      "bytes": 4166144,
+      "reader": "fcsparser",
+      "generated": false,
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "file": "100715.fcs",
+      "bytes": 4166144,
+      "reader": "flowcore",
+      "generated": false,
+      "seconds_median": 0.027,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 48.1015625,
+      "peak_rss_mb": 189.87109375
+    },
+    {
+      "file": "3FITC_4PE_004.fcs",
+      "bytes": 757929,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.0008379379978578072,
+      "peak_rss_extra_mb": 4.765625,
+      "peak_rss_mb": 33.32421875
+    },
+    {
+      "file": "3FITC_4PE_004.fcs",
+      "bytes": 757929,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.0008633500001451466,
+      "peak_rss_extra_mb": 4.57421875,
+      "peak_rss_mb": 33.15234375
+    },
+    {
+      "file": "3FITC_4PE_004.fcs",
+      "bytes": 757929,
+      "reader": "flowio",
+      "generated": false,
+      "seconds_median": 0.0338396549996105,
+      "peak_rss_extra_mb": 3.875,
+      "peak_rss_mb": 31.6796875
+    },
+    {
+      "file": "3FITC_4PE_004.fcs",
+      "bytes": 757929,
+      "reader": "flowkit",
+      "generated": false,
+      "seconds_median": 0.08099863799725426,
+      "peak_rss_extra_mb": 8.734375,
+      "peak_rss_mb": 207.01953125
+    },
+    {
+      "file": "3FITC_4PE_004.fcs",
+      "bytes": 757929,
+      "reader": "fcsparser",
+      "generated": false,
+      "seconds_median": 0.0019460119983705226,
+      "peak_rss_extra_mb": 5.81640625,
+      "peak_rss_mb": 110.37109375
+    },
+    {
+      "file": "3FITC_4PE_004.fcs",
+      "bytes": 757929,
+      "reader": "flowcore",
+      "generated": false,
+      "seconds_median": 0.037,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 26.91015625,
+      "peak_rss_mb": 168.96875
+    },
+    {
+      "file": "B01 KC-A-W---91-US.fcs",
+      "bytes": 93402,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.0002750120002019685,
+      "peak_rss_extra_mb": 0.50390625,
+      "peak_rss_mb": 29.16015625
+    },
+    {
+      "file": "B01 KC-A-W---91-US.fcs",
+      "bytes": 93402,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.0003581450000638142,
+      "peak_rss_extra_mb": 0.01953125,
+      "peak_rss_mb": 28.66796875
+    },
+    {
+      "file": "B01 KC-A-W---91-US.fcs",
+      "bytes": 93402,
+      "reader": "flowio",
+      "generated": false,
+      "seconds_median": 0.0033347459975630045,
+      "peak_rss_extra_mb": 0.81640625,
+      "peak_rss_mb": 28.14453125
+    },
+    {
+      "file": "B01 KC-A-W---91-US.fcs",
+      "bytes": 93402,
+      "reader": "flowkit",
+      "generated": false,
+      "seconds_median": 0.0034443660006218124,
+      "peak_rss_extra_mb": 7.04296875,
+      "peak_rss_mb": 205.41796875
+    },
+    {
+      "file": "B01 KC-A-W---91-US.fcs",
+      "bytes": 93402,
+      "reader": "fcsparser",
+      "generated": false,
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "file": "B01 KC-A-W---91-US.fcs",
+      "bytes": 93402,
+      "reader": "flowcore",
+      "generated": false,
+      "seconds_median": 0.005,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 18.265625,
+      "peak_rss_mb": 160.2265625
+    },
+    {
+      "file": "G11.fcs",
+      "bytes": 285872,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.0003648710007837508,
+      "peak_rss_extra_mb": 0.75390625,
+      "peak_rss_mb": 29.31640625
+    },
+    {
+      "file": "G11.fcs",
+      "bytes": 285872,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.00012905899711768143,
+      "peak_rss_extra_mb": 0.67578125,
+      "peak_rss_mb": 29.234375
+    },
+    {
+      "file": "G11.fcs",
+      "bytes": 285872,
+      "reader": "flowio",
+      "generated": false,
+      "seconds_median": 0.0006423510021704715,
+      "peak_rss_extra_mb": 0.84375,
+      "peak_rss_mb": 28.21875
+    },
+    {
+      "file": "G11.fcs",
+      "bytes": 285872,
+      "reader": "flowkit",
+      "generated": false,
+      "seconds_median": 0.0016231570007221308,
+      "peak_rss_extra_mb": 7.15625,
+      "peak_rss_mb": 205.57421875
+    },
+    {
+      "file": "G11.fcs",
+      "bytes": 285872,
+      "reader": "fcsparser",
+      "generated": false,
+      "seconds_median": 0.0008721480007807259,
+      "peak_rss_extra_mb": 6.83203125,
+      "peak_rss_mb": 111.26171875
+    },
+    {
+      "file": "G11.fcs",
+      "bytes": 285872,
+      "reader": "flowcore",
+      "generated": false,
+      "error": "Error: Empty keyword name detected!If it is due to the double delimiters in keyword value, please set emptyValue to FALSE and try again!\nExecution halted\n"
+    },
+    {
+      "file": "coulter.lmd",
+      "bytes": 944166,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.00044272800005273893,
+      "peak_rss_extra_mb": 1.93359375,
+      "peak_rss_mb": 30.625
+    },
+    {
+      "file": "coulter.lmd",
+      "bytes": 944166,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.0007009079999988899,
+      "peak_rss_extra_mb": 2.0078125,
+      "peak_rss_mb": 30.71875
+    },
+    {
+      "file": "coulter.lmd",
+      "bytes": 944166,
+      "reader": "flowio",
+      "generated": false,
+      "error": "flowio.exceptions.MultipleDataSetsError: coulter.lmd contains multiple data sets, use read_multiple_data_sets function"
+    },
+    {
+      "file": "coulter.lmd",
+      "bytes": 944166,
+      "reader": "flowkit",
+      "generated": false,
+      "error": "flowio.exceptions.MultipleDataSetsError: coulter.lmd contains multiple data sets, use read_multiple_data_sets function"
+    },
+    {
+      "file": "coulter.lmd",
+      "bytes": 944166,
+      "reader": "fcsparser",
+      "generated": false,
+      "seconds_median": 0.0008904940004867967,
+      "peak_rss_extra_mb": 7.76953125,
+      "peak_rss_mb": 112.33203125
+    },
+    {
+      "file": "coulter.lmd",
+      "bytes": 944166,
+      "reader": "flowcore",
+      "generated": false,
+      "seconds_median": 0.015,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 21.41796875,
+      "peak_rss_mb": 163.52734375
+    },
+    {
+      "file": "data1.fcs",
+      "bytes": 216432,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.00033745499968063086,
+      "peak_rss_extra_mb": 1.53125,
+      "peak_rss_mb": 30.171875
+    },
+    {
+      "file": "data1.fcs",
+      "bytes": 216432,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.0005283279970171861,
+      "peak_rss_extra_mb": 1.33984375,
+      "peak_rss_mb": 29.98828125
+    },
+    {
+      "file": "data1.fcs",
+      "bytes": 216432,
+      "reader": "flowio",
+      "generated": false,
+      "seconds_median": 0.013570813000114867,
+      "peak_rss_extra_mb": 1.28515625,
+      "peak_rss_mb": 28.8203125
+    },
+    {
+      "file": "data1.fcs",
+      "bytes": 216432,
+      "reader": "flowkit",
+      "generated": false,
+      "seconds_median": 0.008193289999326225,
+      "peak_rss_extra_mb": 7.359375,
+      "peak_rss_mb": 206.16796875
+    },
+    {
+      "file": "data1.fcs",
+      "bytes": 216432,
+      "reader": "fcsparser",
+      "generated": false,
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "file": "data1.fcs",
+      "bytes": 216432,
+      "reader": "flowcore",
+      "generated": false,
+      "seconds_median": 0.012,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 20.04296875,
+      "peak_rss_mb": 162.12890625
+    },
+    {
+      "file": "data_start_offset_discrepancy_example.fcs",
+      "bytes": 6263,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.0003870509972330183,
+      "peak_rss_extra_mb": 0.421875,
+      "peak_rss_mb": 29.07421875
+    },
+    {
+      "file": "data_start_offset_discrepancy_example.fcs",
+      "bytes": 6263,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.00021675800235243514,
+      "peak_rss_extra_mb": 0.37109375,
+      "peak_rss_mb": 28.94140625
+    },
+    {
+      "file": "data_start_offset_discrepancy_example.fcs",
+      "bytes": 6263,
+      "reader": "flowio",
+      "generated": false,
+      "error": "flowio.exceptions.DataOffsetDiscrepancyError: data_start_offset_discrepancy_example.fcs has a discrepancy in the DATA start byte location: 5555 (HEADER) vs 6081 (TEXT)"
+    },
+    {
+      "file": "data_start_offset_discrepancy_example.fcs",
+      "bytes": 6263,
+      "reader": "flowkit",
+      "generated": false,
+      "error": "flowio.exceptions.DataOffsetDiscrepancyError: data_start_offset_discrepancy_example.fcs has a discrepancy in the DATA start byte location: 5555 (HEADER) vs 6081 (TEXT)"
+    },
+    {
+      "file": "data_start_offset_discrepancy_example.fcs",
+      "bytes": 6263,
+      "reader": "fcsparser",
+      "generated": false,
+      "seconds_median": 0.0009431680009583943,
+      "peak_rss_extra_mb": 6.56640625,
+      "peak_rss_mb": 111.16796875
+    },
+    {
+      "file": "data_start_offset_discrepancy_example.fcs",
+      "bytes": 6263,
+      "reader": "flowcore",
+      "generated": false,
+      "error": "Error in checkOffset(offsets, txt, ...) : \n  The HEADER and the TEXT segment define different starting point (5555:6081) to read the data.\nCalls: rd -> read.FCS -> findOffsets -> checkOffset\nExecution halted\n"
+    },
+    {
+      "file": "data_stop_offset_discrepancy_example.fcs",
+      "bytes": 6263,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.0001948830031324178,
+      "peak_rss_extra_mb": 0.53515625,
+      "peak_rss_mb": 29.1328125
+    },
+    {
+      "file": "data_stop_offset_discrepancy_example.fcs",
+      "bytes": 6263,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.0001965100018423982,
+      "peak_rss_extra_mb": 0.41015625,
+      "peak_rss_mb": 29.11328125
+    },
+    {
+      "file": "data_stop_offset_discrepancy_example.fcs",
+      "bytes": 6263,
+      "reader": "flowio",
+      "generated": false,
+      "error": "flowio.exceptions.DataOffsetDiscrepancyError: data_stop_offset_discrepancy_example.fcs has a discrepancy in the DATA end byte location: 6944 (HEADER) vs 6188 (TEXT)"
+    },
+    {
+      "file": "data_stop_offset_discrepancy_example.fcs",
+      "bytes": 6263,
+      "reader": "flowkit",
+      "generated": false,
+      "error": "flowio.exceptions.DataOffsetDiscrepancyError: data_stop_offset_discrepancy_example.fcs has a discrepancy in the DATA end byte location: 6944 (HEADER) vs 6188 (TEXT)"
+    },
+    {
+      "file": "data_stop_offset_discrepancy_example.fcs",
+      "bytes": 6263,
+      "reader": "fcsparser",
+      "generated": false,
+      "seconds_median": 0.000936430998990545,
+      "peak_rss_extra_mb": 6.25,
+      "peak_rss_mb": 110.76953125
+    },
+    {
+      "file": "data_stop_offset_discrepancy_example.fcs",
+      "bytes": 6263,
+      "reader": "flowcore",
+      "generated": false,
+      "error": "Error in checkOffset(offsets, txt, ...) : \n  The HEADER and the TEXT segment define different ending point (6944:6188) to read the data.\nCalls: rd -> read.FCS -> findOffsets -> checkOffset\nExecution halted\n"
+    },
+    {
+      "file": "variable_int_example.fcs",
+      "bytes": 6189,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.0001661220012465492,
+      "peak_rss_extra_mb": 0.55078125,
+      "peak_rss_mb": 29.01171875
+    },
+    {
+      "file": "variable_int_example.fcs",
+      "bytes": 6189,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.00019604099725256674,
+      "peak_rss_extra_mb": 0.29296875,
+      "peak_rss_mb": 29.0390625
+    },
+    {
+      "file": "variable_int_example.fcs",
+      "bytes": 6189,
+      "reader": "flowio",
+      "generated": false,
+      "seconds_median": 0.00041740000233403407,
+      "peak_rss_extra_mb": 0.14453125,
+      "peak_rss_mb": 27.6953125
+    },
+    {
+      "file": "variable_int_example.fcs",
+      "bytes": 6189,
+      "reader": "flowkit",
+      "generated": false,
+      "error": "ValueError: Timestep value should be a float value but found the value 'xxxxxxxxx'"
+    },
+    {
+      "file": "variable_int_example.fcs",
+      "bytes": 6189,
+      "reader": "fcsparser",
+      "generated": false,
+      "seconds_median": 0.0009491880009591114,
+      "peak_rss_extra_mb": 7.23828125,
+      "peak_rss_mb": 111.203125
+    },
+    {
+      "file": "variable_int_example.fcs",
+      "bytes": 6189,
+      "reader": "flowcore",
+      "generated": false,
+      "error": "Error in readFCSdata(con, offsets, txt, transformation, which.lines, scale,  : \n  object 'dat' not found\nCalls: rd -> read.FCS -> readFCSdata\nExecution halted\n"
+    },
+    {
+      "file": "M0_WM278_S1.fcs",
+      "bytes": 13499572,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.019599757997639244,
+      "peak_rss_extra_mb": 38.8828125,
+      "peak_rss_mb": 67.4921875
+    },
+    {
+      "file": "M0_WM278_S1.fcs",
+      "bytes": 13499572,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.020078667999769095,
+      "peak_rss_extra_mb": 38.8125,
+      "peak_rss_mb": 67.578125
+    },
+    {
+      "file": "M0_WM278_S1.fcs",
+      "bytes": 13499572,
+      "reader": "flowio",
+      "generated": false,
+      "seconds_median": 0.36199128800217295,
+      "peak_rss_extra_mb": 63.9609375,
+      "peak_rss_mb": 91.3203125
+    },
+    {
+      "file": "M0_WM278_S1.fcs",
+      "bytes": 13499572,
+      "reader": "flowkit",
+      "generated": false,
+      "seconds_median": 0.37169109899696195,
+      "peak_rss_extra_mb": 62.23046875,
+      "peak_rss_mb": 261.0
+    },
+    {
+      "file": "M0_WM278_S1.fcs",
+      "bytes": 13499572,
+      "reader": "fcsparser",
+      "generated": false,
+      "seconds_median": 0.01127996300056111,
+      "peak_rss_extra_mb": 43.25,
+      "peak_rss_mb": 147.69921875
+    },
+    {
+      "file": "M0_WM278_S1.fcs",
+      "bytes": 13499572,
+      "reader": "flowcore",
+      "generated": false,
+      "seconds_median": 0.33,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 112.1328125,
+      "peak_rss_mb": 253.9296875
+    },
+    {
+      "file": "109567.fcs",
+      "bytes": 10250368,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.000697431001754012,
+      "peak_rss_extra_mb": 19.65234375,
+      "peak_rss_mb": 48.296875
+    },
+    {
+      "file": "109567.fcs",
+      "bytes": 10250368,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.0027899870001419913,
+      "peak_rss_extra_mb": 20.0234375,
+      "peak_rss_mb": 48.64453125
+    },
+    {
+      "file": "109567.fcs",
+      "bytes": 10250368,
+      "reader": "flowio",
+      "generated": false,
+      "seconds_median": 0.009461032997933216,
+      "peak_rss_extra_mb": 29.1875,
+      "peak_rss_mb": 56.7890625
+    },
+    {
+      "file": "109567.fcs",
+      "bytes": 10250368,
+      "reader": "flowkit",
+      "generated": false,
+      "seconds_median": 0.01188485300008324,
+      "peak_rss_extra_mb": 35.7890625,
+      "peak_rss_mb": 234.40625
+    },
+    {
+      "file": "109567.fcs",
+      "bytes": 10250368,
+      "reader": "fcsparser",
+      "generated": false,
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "file": "109567.fcs",
+      "bytes": 10250368,
+      "reader": "flowcore",
+      "generated": false,
+      "seconds_median": 0.051,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 49.12109375,
+      "peak_rss_mb": 190.91015625
+    },
+    {
+      "file": "101_DEN084Y5_15_E01_008_clean.fcs",
+      "bytes": 17412282,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.0008833789979689755,
+      "peak_rss_extra_mb": 33.2578125,
+      "peak_rss_mb": 62.0390625
+    },
+    {
+      "file": "101_DEN084Y5_15_E01_008_clean.fcs",
+      "bytes": 17412282,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.0045744950002699625,
+      "peak_rss_extra_mb": 33.55859375,
+      "peak_rss_mb": 62.234375
+    },
+    {
+      "file": "101_DEN084Y5_15_E01_008_clean.fcs",
+      "bytes": 17412282,
+      "reader": "flowio",
+      "generated": false,
+      "seconds_median": 0.008078954000666272,
+      "peak_rss_extra_mb": 49.6015625,
+      "peak_rss_mb": 77.18359375
+    },
+    {
+      "file": "101_DEN084Y5_15_E01_008_clean.fcs",
+      "bytes": 17412282,
+      "reader": "flowkit",
+      "generated": false,
+      "seconds_median": 0.013320850997843081,
+      "peak_rss_extra_mb": 56.90625,
+      "peak_rss_mb": 255.46875
+    },
+    {
+      "file": "101_DEN084Y5_15_E01_008_clean.fcs",
+      "bytes": 17412282,
+      "reader": "fcsparser",
+      "generated": false,
+      "seconds_median": 0.011170366997248493,
+      "peak_rss_extra_mb": 38.2734375,
+      "peak_rss_mb": 142.6796875
+    },
+    {
+      "file": "101_DEN084Y5_15_E01_008_clean.fcs",
+      "bytes": 17412282,
+      "reader": "flowcore",
+      "generated": false,
+      "seconds_median": 0.082,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 109.29296875,
+      "peak_rss_mb": 251.015625
+    },
+    {
+      "file": "index_sorted_example.fcs",
+      "bytes": 25938,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 9.552900155540556e-05,
+      "peak_rss_extra_mb": 0.5234375,
+      "peak_rss_mb": 28.93359375
+    },
+    {
+      "file": "index_sorted_example.fcs",
+      "bytes": 25938,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.0001389559984090738,
+      "peak_rss_extra_mb": 0.32421875,
+      "peak_rss_mb": 29.0859375
+    },
+    {
+      "file": "index_sorted_example.fcs",
+      "bytes": 25938,
+      "reader": "flowio",
+      "generated": false,
+      "seconds_median": 0.00030349699954967946,
+      "peak_rss_extra_mb": 0.1171875,
+      "peak_rss_mb": 27.6953125
+    },
+    {
+      "file": "index_sorted_example.fcs",
+      "bytes": 25938,
+      "reader": "flowkit",
+      "generated": false,
+      "seconds_median": 0.0007016950003162492,
+      "peak_rss_extra_mb": 6.3203125,
+      "peak_rss_mb": 204.94921875
+    },
+    {
+      "file": "index_sorted_example.fcs",
+      "bytes": 25938,
+      "reader": "fcsparser",
+      "generated": false,
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "file": "index_sorted_example.fcs",
+      "bytes": 25938,
+      "reader": "flowcore",
+      "generated": false,
+      "seconds_median": 0.003,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 17.3125,
+      "peak_rss_mb": 159.16015625
+    },
+    {
+      "file": "data_set_simple_line_100.fcs",
+      "bytes": 1297,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 1.3076998584438115e-05,
+      "peak_rss_extra_mb": 0.234375,
+      "peak_rss_mb": 29.0
+    },
+    {
+      "file": "data_set_simple_line_100.fcs",
+      "bytes": 1297,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 1.890400017146021e-05,
+      "peak_rss_extra_mb": 0.2265625,
+      "peak_rss_mb": 28.81640625
+    },
+    {
+      "file": "data_set_simple_line_100.fcs",
+      "bytes": 1297,
+      "reader": "flowio",
+      "generated": false,
+      "seconds_median": 7.187200026237406e-05,
+      "peak_rss_extra_mb": -0.046875,
+      "peak_rss_mb": 27.5
+    },
+    {
+      "file": "data_set_simple_line_100.fcs",
+      "bytes": 1297,
+      "reader": "flowkit",
+      "generated": false,
+      "seconds_median": 0.0005851219975738786,
+      "peak_rss_extra_mb": 3.83203125,
+      "peak_rss_mb": 202.2109375
+    },
+    {
+      "file": "data_set_simple_line_100.fcs",
+      "bytes": 1297,
+      "reader": "fcsparser",
+      "generated": false,
+      "seconds_median": 0.0006145110019133426,
+      "peak_rss_extra_mb": 4.90625,
+      "peak_rss_mb": 109.09765625
+    },
+    {
+      "file": "data_set_simple_line_100.fcs",
+      "bytes": 1297,
+      "reader": "flowcore",
+      "generated": false,
+      "seconds_median": 0.002,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 16.1328125,
+      "peak_rss_mb": 158.2265625
+    },
+    {
+      "file": "test_comp_example.fcs",
+      "bytes": 773944,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.00016613799743936397,
+      "peak_rss_extra_mb": 1.8046875,
+      "peak_rss_mb": 30.51171875
+    },
+    {
+      "file": "test_comp_example.fcs",
+      "bytes": 773944,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.00021694000315619633,
+      "peak_rss_extra_mb": 1.96484375,
+      "peak_rss_mb": 30.5546875
+    },
+    {
+      "file": "test_comp_example.fcs",
+      "bytes": 773944,
+      "reader": "flowio",
+      "generated": false,
+      "error": "flowio.exceptions.FCSParsingError: FCS file test_comp_example.fcs reports a data offset that is off by 1. Set `ignore_offset_error=True` to force reading in this file."
+    },
+    {
+      "file": "test_comp_example.fcs",
+      "bytes": 773944,
+      "reader": "flowkit",
+      "generated": false,
+      "error": "flowio.exceptions.FCSParsingError: FCS file test_comp_example.fcs reports a data offset that is off by 1. Set `ignore_offset_error=True` to force reading in this file."
+    },
+    {
+      "file": "test_comp_example.fcs",
+      "bytes": 773944,
+      "reader": "fcsparser",
+      "generated": false,
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "file": "test_comp_example.fcs",
+      "bytes": 773944,
+      "reader": "flowcore",
+      "generated": false,
+      "seconds_median": 0.006,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 23.53125,
+      "peak_rss_mb": 165.25390625
+    },
+    {
+      "file": "test_data_2d_01.fcs",
+      "bytes": 80500,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 1.6669000615365803e-05,
+      "peak_rss_extra_mb": 0.39453125,
+      "peak_rss_mb": 29.03125
+    },
+    {
+      "file": "test_data_2d_01.fcs",
+      "bytes": 80500,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 3.003300298587419e-05,
+      "peak_rss_extra_mb": 0.5078125,
+      "peak_rss_mb": 29.14453125
+    },
+    {
+      "file": "test_data_2d_01.fcs",
+      "bytes": 80500,
+      "reader": "flowio",
+      "generated": false,
+      "seconds_median": 0.0001312849999521859,
+      "peak_rss_extra_mb": 0.4765625,
+      "peak_rss_mb": 27.75
+    },
+    {
+      "file": "test_data_2d_01.fcs",
+      "bytes": 80500,
+      "reader": "flowkit",
+      "generated": false,
+      "seconds_median": 0.000622014998953091,
+      "peak_rss_extra_mb": 4.63671875,
+      "peak_rss_mb": 203.05859375
+    },
+    {
+      "file": "test_data_2d_01.fcs",
+      "bytes": 80500,
+      "reader": "fcsparser",
+      "generated": false,
+      "seconds_median": 0.0005870439999853261,
+      "peak_rss_extra_mb": 4.578125,
+      "peak_rss_mb": 109.04296875
+    },
+    {
+      "file": "test_data_2d_01.fcs",
+      "bytes": 80500,
+      "reader": "flowcore",
+      "generated": false,
+      "seconds_median": 0.003,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 17.18359375,
+      "peak_rss_mb": 159.16796875
+    },
+    {
+      "file": "Cytek_xP5.fcs",
+      "bytes": 1043904,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.00047226700189639814,
+      "peak_rss_extra_mb": 2.515625,
+      "peak_rss_mb": 31.109375
+    },
+    {
+      "file": "Cytek_xP5.fcs",
+      "bytes": 1043904,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.0008776030008448288,
+      "peak_rss_extra_mb": 2.19921875,
+      "peak_rss_mb": 30.83203125
+    },
+    {
+      "file": "Cytek_xP5.fcs",
+      "bytes": 1043904,
+      "reader": "flowio",
+      "generated": false,
+      "error": "ValueError: cannot reshape array of size 1 into shape (8)"
+    },
+    {
+      "file": "Cytek_xP5.fcs",
+      "bytes": 1043904,
+      "reader": "flowkit",
+      "generated": false,
+      "error": "ValueError: cannot reshape array of size 1 into shape (8)"
+    },
+    {
+      "file": "Cytek_xP5.fcs",
+      "bytes": 1043904,
+      "reader": "fcsparser",
+      "generated": false,
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "file": "Cytek_xP5.fcs",
+      "bytes": 1043904,
+      "reader": "flowcore",
+      "generated": false,
+      "seconds_median": 0.259,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 110.25,
+      "peak_rss_mb": 252.22265625
+    },
+    {
+      "file": "Sample_Well_A02.fcs",
+      "bytes": 601136,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.0011436919994594064,
+      "peak_rss_extra_mb": 3.65625,
+      "peak_rss_mb": 32.2578125
+    },
+    {
+      "file": "Sample_Well_A02.fcs",
+      "bytes": 601136,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.0013087420011288486,
+      "peak_rss_extra_mb": 3.6875,
+      "peak_rss_mb": 32.390625
+    },
+    {
+      "file": "Sample_Well_A02.fcs",
+      "bytes": 601136,
+      "reader": "flowio",
+      "generated": false,
+      "seconds_median": 0.01841668899942306,
+      "peak_rss_extra_mb": 3.62890625,
+      "peak_rss_mb": 31.17578125
+    },
+    {
+      "file": "Sample_Well_A02.fcs",
+      "bytes": 601136,
+      "reader": "flowkit",
+      "generated": false,
+      "seconds_median": 0.022034941997844726,
+      "peak_rss_extra_mb": 10.484375,
+      "peak_rss_mb": 209.16796875
+    },
+    {
+      "file": "Sample_Well_A02.fcs",
+      "bytes": 601136,
+      "reader": "fcsparser",
+      "generated": false,
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "file": "Sample_Well_A02.fcs",
+      "bytes": 601136,
+      "reader": "flowcore",
+      "generated": false,
+      "seconds_median": 0.028,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 25.45703125,
+      "peak_rss_mb": 167.53125
+    },
+    {
+      "file": "facs_diva_test.fcs",
+      "bytes": 4007061,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.00046744900100748055,
+      "peak_rss_extra_mb": 8.19140625,
+      "peak_rss_mb": 36.7734375
+    },
+    {
+      "file": "facs_diva_test.fcs",
+      "bytes": 4007061,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.000582583001232706,
+      "peak_rss_extra_mb": 7.82421875,
+      "peak_rss_mb": 36.52734375
+    },
+    {
+      "file": "facs_diva_test.fcs",
+      "bytes": 4007061,
+      "reader": "flowio",
+      "generated": false,
+      "seconds_median": 0.005138686999998754,
+      "peak_rss_extra_mb": 11.6484375,
+      "peak_rss_mb": 39.16015625
+    },
+    {
+      "file": "facs_diva_test.fcs",
+      "bytes": 4007061,
+      "reader": "flowkit",
+      "generated": false,
+      "seconds_median": 0.004884021996986121,
+      "peak_rss_extra_mb": 17.69921875,
+      "peak_rss_mb": 215.07421875
+    },
+    {
+      "file": "facs_diva_test.fcs",
+      "bytes": 4007061,
+      "reader": "fcsparser",
+      "generated": false,
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "file": "facs_diva_test.fcs",
+      "bytes": 4007061,
+      "reader": "flowcore",
+      "generated": false,
+      "seconds_median": 0.023,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 46.57421875,
+      "peak_rss_mb": 188.65234375
+    },
+    {
+      "file": "FCS_3.0_Fortessa_PBS_Specimen_001_A1_A01.fcs",
+      "bytes": 512210,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.00010983100219164044,
+      "peak_rss_extra_mb": 1.03515625,
+      "peak_rss_mb": 29.73828125
+    },
+    {
+      "file": "FCS_3.0_Fortessa_PBS_Specimen_001_A1_A01.fcs",
+      "bytes": 512210,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.00015430900020874105,
+      "peak_rss_extra_mb": 1.2578125,
+      "peak_rss_mb": 29.8515625
+    },
+    {
+      "file": "FCS_3.0_Fortessa_PBS_Specimen_001_A1_A01.fcs",
+      "bytes": 512210,
+      "reader": "flowio",
+      "generated": false,
+      "seconds_median": 0.0008307120006065816,
+      "peak_rss_extra_mb": 0.92578125,
+      "peak_rss_mb": 28.58984375
+    },
+    {
+      "file": "FCS_3.0_Fortessa_PBS_Specimen_001_A1_A01.fcs",
+      "bytes": 512210,
+      "reader": "flowkit",
+      "generated": false,
+      "seconds_median": 0.0008766009996179491,
+      "peak_rss_extra_mb": 8.1796875,
+      "peak_rss_mb": 206.6015625
+    },
+    {
+      "file": "FCS_3.0_Fortessa_PBS_Specimen_001_A1_A01.fcs",
+      "bytes": 512210,
+      "reader": "fcsparser",
+      "generated": false,
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "file": "FCS_3.0_Fortessa_PBS_Specimen_001_A1_A01.fcs",
+      "bytes": 512210,
+      "reader": "flowcore",
+      "generated": false,
+      "seconds_median": 0.004,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 20.5390625,
+      "peak_rss_mb": 162.61328125
+    },
+    {
+      "file": "Guava Muse.fcs",
+      "bytes": 8488938,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 8.63879977259785e-05,
+      "peak_rss_extra_mb": 0.609375,
+      "peak_rss_mb": 29.078125
+    },
+    {
+      "file": "Guava Muse.fcs",
+      "bytes": 8488938,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.00012336200234130956,
+      "peak_rss_extra_mb": 0.4296875,
+      "peak_rss_mb": 28.859375
+    },
+    {
+      "file": "Guava Muse.fcs",
+      "bytes": 8488938,
+      "reader": "flowio",
+      "generated": false,
+      "error": "flowio.exceptions.MultipleDataSetsError: Guava Muse.fcs contains multiple data sets, use read_multiple_data_sets function"
+    },
+    {
+      "file": "Guava Muse.fcs",
+      "bytes": 8488938,
+      "reader": "flowkit",
+      "generated": false,
+      "error": "flowio.exceptions.MultipleDataSetsError: Guava Muse.fcs contains multiple data sets, use read_multiple_data_sets function"
+    },
+    {
+      "file": "Guava Muse.fcs",
+      "bytes": 8488938,
+      "reader": "fcsparser",
+      "generated": false,
+      "seconds_median": 0.0006589849981537554,
+      "peak_rss_extra_mb": 6.11328125,
+      "peak_rss_mb": 110.69140625
+    },
+    {
+      "file": "Guava Muse.fcs",
+      "bytes": 8488938,
+      "reader": "flowcore",
+      "generated": false,
+      "seconds_median": 0.003,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 16.83984375,
+      "peak_rss_mb": 159.05078125
+    },
+    {
+      "file": "HTS_BD_LSR_II_Mixed_Specimen_001_D6_D06.fcs",
+      "bytes": 659953,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.00018416400052956305,
+      "peak_rss_extra_mb": 1.3515625,
+      "peak_rss_mb": 30.015625
+    },
+    {
+      "file": "HTS_BD_LSR_II_Mixed_Specimen_001_D6_D06.fcs",
+      "bytes": 659953,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.00016704500012565404,
+      "peak_rss_extra_mb": 1.94140625,
+      "peak_rss_mb": 30.1640625
+    },
+    {
+      "file": "HTS_BD_LSR_II_Mixed_Specimen_001_D6_D06.fcs",
+      "bytes": 659953,
+      "reader": "flowio",
+      "generated": false,
+      "seconds_median": 0.0009961280011339113,
+      "peak_rss_extra_mb": 1.9296875,
+      "peak_rss_mb": 29.31640625
+    },
+    {
+      "file": "HTS_BD_LSR_II_Mixed_Specimen_001_D6_D06.fcs",
+      "bytes": 659953,
+      "reader": "flowkit",
+      "generated": false,
+      "seconds_median": 0.001062606999767013,
+      "peak_rss_extra_mb": 8.109375,
+      "peak_rss_mb": 206.984375
+    },
+    {
+      "file": "HTS_BD_LSR_II_Mixed_Specimen_001_D6_D06.fcs",
+      "bytes": 659953,
+      "reader": "fcsparser",
+      "generated": false,
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "file": "HTS_BD_LSR_II_Mixed_Specimen_001_D6_D06.fcs",
+      "bytes": 659953,
+      "reader": "flowcore",
+      "generated": false,
+      "seconds_median": 0.005,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 21.9296875,
+      "peak_rss_mb": 164.00390625
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_2.0_Custom_Without_Add_Well_A1.001.fcs",
+      "bytes": 643582,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.00021744699915871024,
+      "peak_rss_extra_mb": 1.5859375,
+      "peak_rss_mb": 30.32421875
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_2.0_Custom_Without_Add_Well_A1.001.fcs",
+      "bytes": 643582,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.00013722199946641922,
+      "peak_rss_extra_mb": 1.52734375,
+      "peak_rss_mb": 30.04296875
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_2.0_Custom_Without_Add_Well_A1.001.fcs",
+      "bytes": 643582,
+      "reader": "flowio",
+      "generated": false,
+      "seconds_median": 0.001044344997353619,
+      "peak_rss_extra_mb": 1.9765625,
+      "peak_rss_mb": 29.44921875
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_2.0_Custom_Without_Add_Well_A1.001.fcs",
+      "bytes": 643582,
+      "reader": "flowkit",
+      "generated": false,
+      "seconds_median": 0.0008955140001489781,
+      "peak_rss_extra_mb": 7.62890625,
+      "peak_rss_mb": 206.17578125
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_2.0_Custom_Without_Add_Well_A1.001.fcs",
+      "bytes": 643582,
+      "reader": "fcsparser",
+      "generated": false,
+      "seconds_median": 0.0009507229988230392,
+      "peak_rss_extra_mb": 7.8203125,
+      "peak_rss_mb": 112.07421875
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_2.0_Custom_Without_Add_Well_A1.001.fcs",
+      "bytes": 643582,
+      "reader": "flowcore",
+      "generated": false,
+      "seconds_median": 0.005,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 21.765625,
+      "peak_rss_mb": 163.61328125
+    },
+    {
+      "file": "FCS3.0_Custom_Compatible.fcs",
+      "bytes": 641900,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.0002454550012771506,
+      "peak_rss_extra_mb": 1.25390625,
+      "peak_rss_mb": 29.94140625
+    },
+    {
+      "file": "FCS3.0_Custom_Compatible.fcs",
+      "bytes": 641900,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.00014150500282994471,
+      "peak_rss_extra_mb": 1.64453125,
+      "peak_rss_mb": 30.234375
+    },
+    {
+      "file": "FCS3.0_Custom_Compatible.fcs",
+      "bytes": 641900,
+      "reader": "flowio",
+      "generated": false,
+      "seconds_median": 0.0009507050017418806,
+      "peak_rss_extra_mb": 2.19921875,
+      "peak_rss_mb": 29.4375
+    },
+    {
+      "file": "FCS3.0_Custom_Compatible.fcs",
+      "bytes": 641900,
+      "reader": "flowkit",
+      "generated": false,
+      "seconds_median": 0.0008232959989982191,
+      "peak_rss_extra_mb": 8.23046875,
+      "peak_rss_mb": 206.86328125
+    },
+    {
+      "file": "FCS3.0_Custom_Compatible.fcs",
+      "bytes": 641900,
+      "reader": "fcsparser",
+      "generated": false,
+      "seconds_median": 0.0008583689996157773,
+      "peak_rss_extra_mb": 7.37890625,
+      "peak_rss_mb": 111.87109375
+    },
+    {
+      "file": "FCS3.0_Custom_Compatible.fcs",
+      "bytes": 641900,
+      "reader": "flowcore",
+      "generated": false,
+      "seconds_median": 0.005,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 21.58203125,
+      "peak_rss_mb": 163.46875
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_3.1_Well_A1.001.fcs",
+      "bytes": 887613,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.00023568100004922599,
+      "peak_rss_extra_mb": 2.07421875,
+      "peak_rss_mb": 30.82421875
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_3.1_Well_A1.001.fcs",
+      "bytes": 887613,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.00032278300204779953,
+      "peak_rss_extra_mb": 1.66796875,
+      "peak_rss_mb": 30.52734375
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_3.1_Well_A1.001.fcs",
+      "bytes": 887613,
+      "reader": "flowio",
+      "generated": false,
+      "error": "flowio.exceptions.FCSParsingError: FCS file EY_2013-07-19_PBS_FCS_3.1_Well_A1.001.fcs reports a data offset that is off by 1. Set `ignore_offset_error=True` to force reading in this file."
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_3.1_Well_A1.001.fcs",
+      "bytes": 887613,
+      "reader": "flowkit",
+      "generated": false,
+      "error": "flowio.exceptions.FCSParsingError: FCS file EY_2013-07-19_PBS_FCS_3.1_Well_A1.001.fcs reports a data offset that is off by 1. Set `ignore_offset_error=True` to force reading in this file."
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_3.1_Well_A1.001.fcs",
+      "bytes": 887613,
+      "reader": "fcsparser",
+      "generated": false,
+      "seconds_median": 0.000928924997424474,
+      "peak_rss_extra_mb": 8.0234375,
+      "peak_rss_mb": 112.23046875
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_3.1_Well_A1.001.fcs",
+      "bytes": 887613,
+      "reader": "flowcore",
+      "generated": false,
+      "error": "Error: $SPILLOVER size discrepancy could not be resolved!\nExecution halted\n"
+    },
+    {
+      "file": "SG_2014-09-26_Duplicate_Names.fcs",
+      "bytes": 294908,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.0001019629999063909,
+      "peak_rss_extra_mb": 0.64453125,
+      "peak_rss_mb": 29.33984375
+    },
+    {
+      "file": "SG_2014-09-26_Duplicate_Names.fcs",
+      "bytes": 294908,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 9.942700125975534e-05,
+      "peak_rss_extra_mb": 0.73046875,
+      "peak_rss_mb": 29.36328125
+    },
+    {
+      "file": "SG_2014-09-26_Duplicate_Names.fcs",
+      "bytes": 294908,
+      "reader": "flowio",
+      "generated": false,
+      "error": "flowio.exceptions.FCSParsingError: FCS file SG_2014-09-26_Duplicate_Names.fcs reports a data offset that is off by 1. Set `ignore_offset_error=True` to force reading in this file."
+    },
+    {
+      "file": "SG_2014-09-26_Duplicate_Names.fcs",
+      "bytes": 294908,
+      "reader": "flowkit",
+      "generated": false,
+      "error": "flowio.exceptions.FCSParsingError: FCS file SG_2014-09-26_Duplicate_Names.fcs reports a data offset that is off by 1. Set `ignore_offset_error=True` to force reading in this file."
+    },
+    {
+      "file": "SG_2014-09-26_Duplicate_Names.fcs",
+      "bytes": 294908,
+      "reader": "fcsparser",
+      "generated": false,
+      "seconds_median": 0.0007712520018685609,
+      "peak_rss_extra_mb": 6.87109375,
+      "peak_rss_mb": 111.30859375
+    },
+    {
+      "file": "SG_2014-09-26_Duplicate_Names.fcs",
+      "bytes": 294908,
+      "reader": "flowcore",
+      "generated": false,
+      "error": "Error: Empty keyword name detected!If it is due to the double delimiters in keyword value, please set emptyValue to FALSE and try again!\nExecution halted\n"
+    },
+    {
+      "file": "corrupted.fcs",
+      "bytes": 10,
+      "reader": "cytopk",
+      "generated": false,
+      "error": "_cytopk.FcsReadError: file too short for an FCS HEADER: 10 bytes at offset 0, need 58"
+    },
+    {
+      "file": "corrupted.fcs",
+      "bytes": 10,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "error": "_cytopk.FcsReadError: file too short for an FCS HEADER: 10 bytes at offset 0, need 58"
+    },
+    {
+      "file": "corrupted.fcs",
+      "bytes": 10,
+      "reader": "flowio",
+      "generated": false,
+      "error": "ValueError: invalid literal for int() with base 10: b''"
+    },
+    {
+      "file": "corrupted.fcs",
+      "bytes": 10,
+      "reader": "flowkit",
+      "generated": false,
+      "error": "ValueError: invalid literal for int() with base 10: b''"
+    },
+    {
+      "file": "corrupted.fcs",
+      "bytes": 10,
+      "reader": "fcsparser",
+      "generated": false,
+      "error": "ValueError: The FCS file \"/home/emil/cytopk/data/fcs/fcsparser/corrupted.fcs\" seems corrupted. (Parser cannot locate information about the \"text start\" segment.)"
+    },
+    {
+      "file": "corrupted.fcs",
+      "bytes": 10,
+      "reader": "flowcore",
+      "generated": false,
+      "error": "Error in readFCSheader(con) : \n  This does not seem to be a valid FCS2.0, FCS3.0 or FCS3.1 file\nCalls: rd -> read.FCS -> findOffsets -> readFCSheader\nExecution halted\n"
+    },
+    {
+      "file": "cyflow_cube_8.fcs",
+      "bytes": 58393,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.00035390899938647635,
+      "peak_rss_extra_mb": 0.421875,
+      "peak_rss_mb": 29.0390625
+    },
+    {
+      "file": "cyflow_cube_8.fcs",
+      "bytes": 58393,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.0004574790000333451,
+      "peak_rss_extra_mb": 0.61328125,
+      "peak_rss_mb": 29.09375
+    },
+    {
+      "file": "cyflow_cube_8.fcs",
+      "bytes": 58393,
+      "reader": "flowio",
+      "generated": false,
+      "seconds_median": 0.0009627459985495079,
+      "peak_rss_extra_mb": 0.1328125,
+      "peak_rss_mb": 27.87109375
+    },
+    {
+      "file": "cyflow_cube_8.fcs",
+      "bytes": 58393,
+      "reader": "flowkit",
+      "generated": false,
+      "seconds_median": 0.0010246380006719846,
+      "peak_rss_extra_mb": 6.43359375,
+      "peak_rss_mb": 204.94140625
+    },
+    {
+      "file": "cyflow_cube_8.fcs",
+      "bytes": 58393,
+      "reader": "fcsparser",
+      "generated": false,
+      "seconds_median": 0.000948369997786358,
+      "peak_rss_extra_mb": 6.60546875,
+      "peak_rss_mb": 111.12109375
+    },
+    {
+      "file": "cyflow_cube_8.fcs",
+      "bytes": 58393,
+      "reader": "flowcore",
+      "generated": false,
+      "error": "Error in readFCSdata(con, offsets, txt, transformation, which.lines, scale,  : \n  object 'dat' not found\nCalls: rd -> read.FCS -> readFCSdata\nExecution halted\n"
+    },
+    {
+      "file": "sample_header.fcs",
+      "bytes": 3931,
+      "reader": "cytopk",
+      "generated": false,
+      "error": "_cytopk.FcsReadError: DATA segment: DATA starts at byte 5912, beyond the file end (3931 bytes)"
+    },
+    {
+      "file": "sample_header.fcs",
+      "bytes": 3931,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "error": "_cytopk.FcsReadError: DATA segment: DATA starts at byte 5912, beyond the file end (3931 bytes)"
+    },
+    {
+      "file": "sample_header.fcs",
+      "bytes": 3931,
+      "reader": "flowio",
+      "generated": false,
+      "error": "flowio.exceptions.FCSParsingError: FCS file indicates data section greater than file size"
+    },
+    {
+      "file": "sample_header.fcs",
+      "bytes": 3931,
+      "reader": "flowkit",
+      "generated": false,
+      "error": "flowio.exceptions.FCSParsingError: FCS file indicates data section greater than file size"
+    },
+    {
+      "file": "sample_header.fcs",
+      "bytes": 3931,
+      "reader": "fcsparser",
+      "generated": false,
+      "error": "ValueError: The FCS file \"/home/emil/cytopk/data/fcs/fcsparser/sample_header.fcs\" is corrupted. Part of the data segment is missing."
+    },
+    {
+      "file": "sample_header.fcs",
+      "bytes": 3931,
+      "reader": "flowcore",
+      "generated": false,
+      "error": "Error in read.FCS(f, transformation = FALSE, truncate_max_range = FALSE) : \n  file/home/emil/cytopk/data/fcs/fcsparser/sample_header.fcsseems to be corrupted. \n The actual number of cells in data section (0) is not consistent with keyword '$TOT' (20000)\nCalls: rd -> read.FCS\nExecution halted\n"
+    },
+    {
+      "file": "fcs1_cleaned.lmd",
+      "bytes": 704367,
+      "reader": "cytopk",
+      "generated": false,
+      "seconds_median": 0.001546358998893993,
+      "peak_rss_extra_mb": 4.36328125,
+      "peak_rss_mb": 32.8828125
+    },
+    {
+      "file": "fcs1_cleaned.lmd",
+      "bytes": 704367,
+      "reader": "cytopk_1thread",
+      "generated": false,
+      "seconds_median": 0.0015461080001841765,
+      "peak_rss_extra_mb": 4.484375,
+      "peak_rss_mb": 32.96875
+    },
+    {
+      "file": "fcs1_cleaned.lmd",
+      "bytes": 704367,
+      "reader": "flowio",
+      "generated": false,
+      "seconds_median": 0.024822991003020434,
+      "peak_rss_extra_mb": 4.34375,
+      "peak_rss_mb": 31.515625
+    },
+    {
+      "file": "fcs1_cleaned.lmd",
+      "bytes": 704367,
+      "reader": "flowkit",
+      "generated": false,
+      "seconds_median": 0.026560466998489574,
+      "peak_rss_extra_mb": 11.32421875,
+      "peak_rss_mb": 209.84765625
+    },
+    {
+      "file": "fcs1_cleaned.lmd",
+      "bytes": 704367,
+      "reader": "fcsparser",
+      "generated": false,
+      "seconds_median": 0.0019383600010769442,
+      "peak_rss_extra_mb": 7.82421875,
+      "peak_rss_mb": 112.1875
+    },
+    {
+      "file": "fcs1_cleaned.lmd",
+      "bytes": 704367,
+      "reader": "flowcore",
+      "generated": false,
+      "seconds_median": 0.038,
+      "note": "flowCore: read.FCS + exprs() as double; R matrix, not NumPy float32",
+      "peak_rss_extra_mb": 26.50390625,
+      "peak_rss_mb": 168.20703125
+    }
+  ],
+  "many": [
+    {
+      "mode": "cytopk_many",
+      "files": 500,
+      "seconds_median": 0.05765217400039546,
+      "seconds_all": [
+        0.043233345000771806,
+        0.05765217400039546,
+        0.07099292999919271
+      ]
+    },
+    {
+      "mode": "cytopk",
+      "files": 500,
+      "seconds_median": 0.15378206800232874,
+      "seconds_all": [
+        0.14323713699923246,
+        0.20710181899994495,
+        0.15378206800232874
+      ]
+    },
+    {
+      "mode": "cytopk_1thread",
+      "files": 500,
+      "seconds_median": 0.13359248000051593,
+      "seconds_all": [
+        0.13233334300093702,
+        0.13361810599963064,
+        0.13359248000051593
+      ]
+    },
+    {
+      "mode": "flowio",
+      "files": 500,
+      "seconds_median": 0.23370648099808022,
+      "seconds_all": [
+        0.32261497099898406,
+        0.22827518400299596,
+        0.23370648099808022
+      ]
+    },
+    {
+      "mode": "flowkit",
+      "files": 500,
+      "seconds_median": 1.3031732750023366,
+      "seconds_all": [
+        1.3031732750023366,
+        1.7493035469997267,
+        1.2688876769971102
+      ]
+    },
+    {
+      "mode": "fcsparser",
+      "files": 500,
+      "seconds_median": 0.6800663100002566,
+      "seconds_all": [
+        0.7543216749982093,
+        0.6800663100002566,
+        0.6443837309998344
+      ]
+    },
+    {
+      "mode": "cytopk_joblib",
+      "files": 500,
+      "seconds_median": 0.9815012819999538,
+      "seconds_all": [
+        0.9815012819999538,
+        1.025560748999851,
+        0.5807639119993837
+      ]
+    },
+    {
+      "mode": "flowio_joblib",
+      "files": 500,
+      "seconds_median": 1.0150410560017917,
+      "seconds_all": [
+        0.6516819879980176,
+        1.1845953289994213,
+        1.0150410560017917
+      ]
+    },
+    {
+      "mode": "flowkit_joblib",
+      "files": 500,
+      "seconds_median": 2.124751261999336,
+      "seconds_all": [
+        2.0506664360000286,
+        2.266556139999011,
+        2.124751261999336
+      ]
+    },
+    {
+      "mode": "fcsparser_joblib",
+      "files": 500,
+      "seconds_median": 1.4540728890024184,
+      "seconds_all": [
+        1.211804211998242,
+        1.498380704997544,
+        1.4540728890024184
+      ]
+    }
+  ]
+}

@@ -77,16 +77,18 @@ def speed():
             return "—"
         return f"{x['peak_rss_extra_mb']:,.0f}"
     out = ["**Time to a float32 NumPy matrix** (median of 5 warm-cache reads; flowCore: to an R double matrix):",
-           "", "| file | MB | " + " | ".join(readers) + " | fastest other / cytopk |",
-           "|---|---:|" + "---:|" * len(readers) + "---:|"]
+           "", "| file | MB | " + " | ".join(readers) + " | fastest other / cytopk | fastest other / cytopk_1thread |",
+           "|---|---:|" + "---:|" * len(readers) + "---:|---:|"]
     for f in files:
         x0 = get.get((f, "cytopk"))
         others = [get[(f, r)]["seconds_median"] for r in readers
                   if not r.startswith("cytopk") and "seconds_median" in get.get((f, r), {})]
-        ratio = (f"{min(others) / x0['seconds_median']:.2f}×"
-                 if others and x0 and "seconds_median" in x0 else "—")
+        def ratio(x):
+            return (f"{min(others) / x['seconds_median']:.2f}×"
+                    if others and x and "seconds_median" in x else "—")
         out.append(f"| {f[:44]} | {next(x['bytes'] for x in rows if x['file'] == f) / 1e6:,.1f} | "
-                   + " | ".join(t(get.get((f, r))) for r in readers) + f" | {ratio} |")
+                   + " | ".join(t(get.get((f, r))) for r in readers)
+                   + f" | {ratio(x0)} | {ratio(get.get((f, 'cytopk_1thread')))} |")
     out += ["", "**Extra peak RSS of one read** (MB; max RSS of import + read minus import only):", "",
             "| file | " + " | ".join(readers) + " |", "|---|" + "---:|" * len(readers)]
     for f in files:
