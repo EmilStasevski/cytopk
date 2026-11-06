@@ -124,9 +124,14 @@ and its plan is summarised in `docs/ROADMAP.md`.
 - **Interleaved measurement for fast simulators (E1).** Running Numba and cytopk in separate processes gave a 19.65 vs 3.97 ms
   difference at B = 2048 that did not reproduce. Once JAX is loaded, per-call times vary a lot between processes and over time.
   Measuring both in one BayesFlow process, round-robin over 80 rounds, removes that confound.
-- **Unexplained in-process slowdown.** With BayesFlow/JAX loaded, the same ODE call is 5.3–5.8× slower than in a clean
-  process, and a NumPy stage right after a 16-thread call is 2.8–4.4× slower (E2b). Idle threads use no CPU. I did not
-  find the mechanism (`perf` is unavailable here). Recorded as measured, not explained.
+- **In-process slowdown: cause found, and it is not JAX** (`benchmarks/sbi_flow/jax_slowdown.py`).
+  - E1's 5.3× slower ODE call comes from the idle gaps between calls, not from JAX. Importing, initialising and
+    running JAX changes nothing. NumPy work or a ≥ 1 ms sleep between calls reproduces the slowdown without JAX.
+  - Controlled single-core test: a sleeping gap drops CPU 0 to 800–1,782 MHz and slows calls 2.3–5.4×, while a
+    spinning gap keeps 4,100+ MHz and leaves the call time unchanged. Machine: intel_pstate powersave, EPP `power`.
+  - A busy main thread pinned to one core keeps the pool fast; the reason is not shown.
+  - The decisive EPP=performance check needs root and was not run.
+  - E1 numbers are kept as measured under the default power settings.
 - **DDM RNG.** I chose xoshiro256++ with SplitMix64 per-trial seeding and the Marsaglia polar method because the exact same algorithm can be
   written in Numba, which makes Rust-vs-Numba agreement a bit-for-bit check. Ziggurat would be faster but harder to replicate.
   The analytic check uses the Broadie–Glasserman–Kou discrete-monitoring correction, because the uncorrected formula is off

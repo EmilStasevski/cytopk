@@ -36,10 +36,14 @@ Inside the BayesFlow process, cytopk's own Rust stage is 16–40 % of its t_sim.
 adapter (a fixed ~1.0–1.5 ms per call) and the prior take the rest. Even an ODE stage that took zero time would leave the
 GPU-training share at 26–48 % (sum of the other measured stages).
 
-A second effect is environmental. With JAX loaded in the same process, the same ODE call is 5.3× slower for cytopk
-(1.46 → 7.80 ms at B = 2048) and 5.8× slower for Numba (1.56 → 9.03 ms) than in a clean process (E1 vs E2). NumPy
-stages that follow a multi-threaded call are also slowed (E2b). I have not identified the mechanism; idle threads use
-no CPU.
+A second effect is environmental, and it is **not JAX**. In E1 the same ODE call was 5.3× slower for cytopk
+(1.46 → 7.80 ms at B = 2048) than in E2's clean process. The bisection below (`jax_slowdown.py`) reproduces that
+without importing JAX at all. The cause is the time between calls. In E2 the calls ran back to back. In E1, every
+call was followed by single-threaded NumPy and adapter work, during which the 16 pool threads sat idle. On this
+machine (intel_pstate, governor `powersave`, EPP `power`) idle cores drop their clock, and a 1.5 ms call is too short
+for them to climb back. Details and tables are in [the slowdown section](#in-process-slowdown-cause). For E1 this
+means the measured t_sim is valid for this machine's default power settings. With a performance power profile, or
+a busy main thread pinned to one core, the ODE stage would be about 5× shorter.
 
 So, measured on this machine: the case for Rust here is **not raw speed**. It is:
 - **no JIT warm-up:** first call 0.002 s for cytopk vs 1.69 s for Numba in E1, and 0.01 vs 0.54–1.01 s in E3;
@@ -248,6 +252,89 @@ As expected, cytopk and Numba are close:
 - **vs NumPy vectorised:** both compiled versions are 2.3× faster at N = 10^6 and 6.2× faster at N = 10^3.
 - **vs pure Python:** about 28× faster.
 
+## In-process slowdown: cause
+
+`jax_slowdown.py` runs each configuration in its own process and records affinity, thread counts
+(`threadpoolctl`), the Numba threading layer and cpufreq state. The results are in `results/jax_slowdown.json`
+(parts A–C) and `results/jax_slowdown_pin.json` (part D). Each configuration was run in two separate passes;
+both are shown.
+
+ODE call at B = 2048, 16 threads, ms (median of 200 calls; repeat 0 / repeat 1):
+
+| configuration | cytopk | Numba |
+|---|---:|---:|
+| b2b, jax=none | 1.52 / 1.57 | 8.56 / 7.53 |
+| b2b, jax=import | 1.48 / 1.60 | 7.14 / 6.91 |
+| b2b, jax=init | 1.46 / 1.56 | 3.34 / 7.16 |
+| b2b, jax=jit | 1.47 / 1.53 | 3.49 / 5.80 |
+| b2b, jax=bf | 1.47 / 1.52 | 2.96 / 6.84 |
+| b2b, jax=init, JAX_PLATFORMS=cuda,cpu | 1.47 / 1.49 | 11.44 / 6.92 |
+| noise, jax=none | 7.84 / 8.14 | 3.04 / 11.88 |
+| noise, jax=bf | 7.80 / 8.26 | 6.82 / 9.68 |
+| interleave, jax=none | 2.40 / 1.70 | 5.29 / 4.98 |
+| interleave, jax=bf | 1.73 / 1.84 | 4.47 / 5.80 |
+| sleep_0.05, jax=none | 1.45 / 1.81 | 6.17 / 8.71 |
+| sleep_0.2, jax=none | 2.05 / 1.74 | 9.18 / 8.57 |
+| sleep_1, jax=none | 7.57 / 2.62 | 11.25 / 8.42 |
+| sleep_3, jax=none | 7.90 / 5.74 | 11.52 / 11.05 |
+| spin_3, jax=none | 7.51 / 4.64 | 11.11 / 7.36 |
+| e1, jax=bf (E1 replica) | 7.90 / 8.76 | 10.93 / 12.05 |
+| e1, jax=bf, main thread pinned to CPU 0 | 1.66 / 1.66 | 10.20 / 9.98 |
+| e1, jax=bf, OMP_NUM_THREADS=1 | 7.87 / 8.95 | 6.80 / 11.78 |
+| e1, jax=bf, XLA_FLAGS single-threaded Eigen | 8.72 / 8.48 | 11.79 / 11.55 |
+| e1, jax=bf, OMP_WAIT_POLICY=passive | 1.78 / 3.54 | 10.92 / 5.75 |
+| e1, jax=bf, OMP_WAIT_POLICY=active | 2.94 / 3.01 | 7.12 / 6.20 |
+| e1, jax=bf, NUMBA_THREADING_LAYER=workqueue | 8.82 / 8.90 | 4.15 / 11.09 |
+| noise, jax=none, pin=none | 1.97 / 7.93 | 2.96 / 3.96 |
+| noise, jax=none, pin=main | 1.77 / 1.49 | 2.92 / 1.99 |
+| sleep_3, jax=none, pin=none | 3.11 / 7.98 | 10.02 / 9.61 |
+| sleep_3, jax=none, pin=main | 3.45 / 7.97 | 10.39 / 9.40 |
+| spin_3, jax=none, pin=none | 2.66 / 7.75 | 9.15 / 8.21 |
+| spin_3, jax=none, pin=main | 1.99 / 1.52 | 2.43 / 2.03 |
+
+Single thread pinned to CPU 0, no pool, cytopk n_threads=1 (ms per call; CPU 0 scaling_cur_freq median, MHz; repeat 0 / repeat 1):
+
+| batch | back to back | sleep 3 ms between calls | spin 3 ms between calls |
+|---:|---:|---:|---:|
+| 16 | 0.15 ms @ 4100 / 0.15 ms @ 4100 | 0.82 ms @ 800 / 0.45 ms @ 1495 | 0.15 ms @ 4100 / 0.15 ms @ 4100 |
+| 128 | 1.20 ms @ 4100 / 1.14 ms @ 4220 | 2.81 ms @ 1782 / 4.67 ms @ 1100 | 1.20 ms @ 4100 / 1.21 ms @ 4100 |
+| 512 | 4.80 ms @ 4100 / 4.90 ms @ 4100 | 18.86 ms @ 1235 / 4.96 ms @ 4073 | 4.53 ms @ 4382 / 4.81 ms @ 4100 |
+| 2048 | 19.23 ms @ 4100 / 19.48 ms @ 4100 | 22.24 ms @ 4100 / 19.64 ms @ 4100 | 19.25 ms @ 4100 / 19.44 ms @ 4100 |
+
+cpufreq: driver intel_pstate, governor powersave, EPP power, range 800–4700 MHz; idle states POLL (0 µs), C1_ACPI (1 µs), C2_ACPI (127 µs), C3_ACPI (1048 µs).
+
+What the controlled tests show:
+- **JAX is ruled out.** Back-to-back calls take 1.46–1.60 ms for cytopk whether JAX is not imported, imported,
+  initialised (CPU or `JAX_PLATFORMS=cuda,cpu`), has run a jitted call, or BayesFlow and its adapter are loaded.
+  `OMP_NUM_THREADS=1` and single-threaded XLA Eigen do not remove the slowdown either.
+- **An idle gap reproduces it without JAX.** NumPy noise between calls gives 7.84 / 8.14 ms with no JAX, the same
+  as the E1 replica (7.90 / 8.76 ms). A `time.sleep` of ≥ 1 ms between calls gives the same effect in most passes;
+  a 0.05 ms gap does not.
+- **The mechanism is the clock (single thread, no pool, one core, same work).** Only what the thread does between
+  calls changes. With a 3 ms sleep, CPU 0 reads 800–1,782 MHz and calls slow down 2.3–5.4× at B = 16–512. With a
+  3 ms busy spin, it stays at 4,100–4,382 MHz and the call time is unchanged. Long calls (B = 2048, about 19 ms)
+  barely slow down because the clock ramps back during the call. The effect is frequent but not deterministic:
+  at B = 512 the second pass did not slow down (4.96 ms at 4,073 MHz).
+- **A pinned main thread fixes it.** In the full E1 loop, pinning the main thread to CPU 0 brings cytopk back to
+  1.66 ms in both passes. In part D, a pinned main thread that spins or does the noise work between calls keeps
+  the pool fast (1.49–1.99 ms); one that sleeps does not (3.45 / 7.97 ms). An unpinned spinning thread does not
+  help either (2.66 / 7.75 ms).
+  - I have not shown *why* one busy core keeps the 16 pool cores fast. Shared frequency requests across cores
+    would explain it, but I have not tested that.
+  - The pinning test runs after the pools exist, so no worker inherits the pin. A first version of the script
+    created two pools after pinning, which put 16 threads on one CPU; that version was fixed before any committed
+    run.
+- **Numba is noisy here even back to back** (2.96–11.44 ms across passes), so it is not a clean control. Its
+  `OMP_WAIT_POLICY=active` (spinning workers) gives 6.20–7.12 ms.
+- **Not done:** the decisive check, setting EPP to `performance` or raising `scaling_min_freq`, needs root:
+  `echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference`, then rerun
+  `python jax_slowdown.py --parts ABC`. `perf` is also unavailable (`perf_event_paranoid = 4`), so cycle counts were
+  not measured.
+
+**Practical consequence:** on a laptop or desktop with power-saving defaults, a compiled simulator called once per
+training step can run at a fraction of its benchmarked speed. Keeping the calling thread busy and pinned, or using a
+performance power profile, recovers it.
+
 ## E4 (stretch): not done
 
 BayesFlow 2.1's `DiskDataset` loads **one file per simulation** (default `*.pkl`, read via `pickle_load`), and each batch
@@ -267,5 +354,7 @@ JAX_PLATFORMS=cpu .venv-sbi/bin/python benchmarks/sbi_flow/e1_share.py sim
 JAX_PLATFORMS=cpu .venv-sbi/bin/python benchmarks/sbi_flow/e1_share.py step --device cpu
 JAX_PLATFORMS=cuda,cpu .venv-sbi/bin/python benchmarks/sbi_flow/e1_share.py step --device gpu
 JAX_PLATFORMS=cpu .venv-sbi/bin/python benchmarks/sbi_flow/e3_ddm.py
+(cd benchmarks/sbi_flow && ../../.venv-sbi/bin/python jax_slowdown.py --parts ABC && \
+  ../../.venv-sbi/bin/python jax_slowdown.py --parts D --out results/jax_slowdown_pin.json)
 .venv-sbi/bin/python benchmarks/sbi_flow/plots.py && .venv-sbi/bin/python benchmarks/sbi_flow/make_tables.py
 ```
