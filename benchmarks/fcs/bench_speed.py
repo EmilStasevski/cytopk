@@ -11,13 +11,20 @@
     and a plain loop for every reader, plus joblib (16 processes) for the Python readers. That is what users do
     for parallel reads.
 
-    python bench_speed.py     # -> benchmarks/results/fcs_speed.json
+(c) --cold: the same timings with the file evicted from the page cache before every timed read
+    (posix_fadvise DONTNEED, see pagecache.py; residency is measured with mincore and recorded). No root here,
+    so /proc/sys/vm/drop_caches is not used and the drive's own cache cannot be cleared. Peak memory is not
+    re-measured (it does not depend on the cache). For many small files, all files are evicted before each run.
+
+    python bench_speed.py          # -> benchmarks/results/fcs_speed.json
+    python bench_speed.py --cold   # -> benchmarks/results/fcs_speed_cold.json
 """
 
 from __future__ import annotations
 
 import json
 import os
+import shlex
 import subprocess
 import sys
 import time
@@ -28,6 +35,7 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.insert(0, str(HERE))
+import pagecache  # noqa: E402
 import readers  # noqa: E402
 
 GEN = ROOT / "data" / "fcs_bench"
@@ -39,6 +47,7 @@ SPEED_READERS = ["cytopk", "cytopk_1thread", "flowio", "flowkit", "fcsparser"]
 # parallelism from per-byte efficiency. The other readers are single-threaded.
 ENV = {"cytopk_1thread": {"RAYON_NUM_THREADS": "1"}}
 ALIAS = {"cytopk_1thread": "cytopk"}
+COLD = os.environ.get("FCS_COLD") == "1"  # set by --cold, inherited by the worker processes
 
 
 def generate():
@@ -73,13 +82,16 @@ def to_f32(reader, path):
 
 def worker_time(reader, path):
     to_f32(reader, path)  # warm-up (page cache, lazy imports)
-    ts = []
+    ts, res = [], []
     for _ in range(REPEATS):
+        if COLD:
+            pagecache.drop(path)
+            res.append(pagecache.resident(path))
         t0 = time.perf_counter()
         a = to_f32(reader, path)
         ts.append(time.perf_counter() - t0)
         del a
-    print(json.dumps({"times": ts}))
+    print(json.dumps({"times": ts, "resident_before": res}))
 
 
 def worker_mem(reader, path):
@@ -91,6 +103,9 @@ def worker_mem(reader, path):
 
 def worker_many(mode, listfile):
     paths = Path(listfile).read_text().splitlines()
+    if COLD:
+        for p in paths:
+            pagecache.drop(p)
     t0 = time.perf_counter()
     if mode == "cytopk_many":
         import cytopk
@@ -123,11 +138,33 @@ def py(*a):
 
 def flowcore_cmds(path):
     t = ["Rscript", str(HERE / "flowcore_reader.R")]
-    return t + ["time", str(REPEATS + 1), str(path)], t + ["time", "1", str(path)], t + ["import"]
+    timing = t + ["time", str(REPEATS + 1), str(path)]
+    if COLD:
+        timing.append(shlex.join([sys.executable, str(HERE / "pagecache.py"), "drop", str(path)]))
+    return timing, t + ["time", "1", str(path)], t + ["import"]
+
+
+def storage():
+    """Block device that holds the benchmark files (model and rotational flag from sysfs)."""
+    try:
+        src = subprocess.run(["findmnt", "-n", "-o", "SOURCE", "--target", str(GEN)], capture_output=True,
+                             text=True).stdout.strip()
+        dev = Path(src).name
+        blk = next((d for d in Path("/sys/block").iterdir() if dev.startswith(d.name)), None)
+        if blk is None:
+            return {"device": dev}
+        model = (blk / "device" / "model").read_text().strip() if (blk / "device" / "model").exists() else None
+        return {"device": blk.name, "model": model, "rotational": (blk / "queue" / "rotational").read_text().strip()}
+    except (OSError, StopIteration):
+        return None
 
 
 def main():
-    if len(sys.argv) > 1 and sys.argv[1].startswith("--"):
+    global COLD
+    if sys.argv[1:] == ["--cold"]:
+        COLD = True
+        os.environ["FCS_COLD"] = "1"
+    elif len(sys.argv) > 1 and sys.argv[1].startswith("--"):
         mode = sys.argv[1]
         if mode == "--time":
             return worker_time(sys.argv[2], sys.argv[3])
@@ -162,11 +199,15 @@ def main():
                 p = subprocess.run(py("--time", r, str(path)), capture_output=True, text=True,
                                    env={**os.environ, **ENV.get(r, {})})
                 if p.returncode == 0:
-                    row["seconds_median"] = float(np.median(json.loads(p.stdout.strip().splitlines()[-1])["times"]))
+                    w = json.loads(p.stdout.strip().splitlines()[-1])
+                    row["seconds_median"] = float(np.median(w["times"]))
+                    if COLD:
+                        row["seconds_all"] = w["times"]
+                        row["resident_before_max"] = max(w["resident_before"])
                 else:
                     row["error"] = p.stderr.strip().splitlines()[-1][:300] if p.stderr.strip() else "failed"
                 mcmd, base = py("--mem", r, str(path)), py("--mem", r, "-")
-            if "seconds_median" in row:
+            if "seconds_median" in row and not COLD:
                 peak, err = peak_rss_kb(mcmd, ENV.get(r))
                 b, _ = peak_rss_kb(base, ENV.get(r))
                 if peak is not None and b is not None:
@@ -192,8 +233,10 @@ def main():
         many.append({"mode": m, "files": len(smalls), "seconds_median": float(np.median(ts)) if ts else None,
                      "seconds_all": ts, **({} if ts else {"error": err})})
         print(f"many {m:22s} {many[-1]['seconds_median']}", flush=True)
-    out = ROOT / "benchmarks" / "results" / "fcs_speed.json"
-    out.write_text(json.dumps({"meta": common.meta({"experiment": "FCS read speed and memory",
+    out = ROOT / "benchmarks" / "results" / ("fcs_speed_cold.json" if COLD else "fcs_speed.json")
+    cache = ({"page_cache": "evicted before every timed read (posix_fadvise DONTNEED, no root); drive cache "
+                            "not cleared", "storage": storage()} if COLD else {"page_cache": "warm"})
+    out.write_text(json.dumps({"meta": common.meta({"experiment": "FCS read speed and memory", **cache,
                                                     "versions_fcs": versions(), "repeats": REPEATS,
                                                     "n_small": N_SMALL, "cpu_threads": os.cpu_count()}),
                                "single": rows, "many": many}, indent=2) + "\n")

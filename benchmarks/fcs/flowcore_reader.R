@@ -1,7 +1,8 @@
 # flowCore adapter for the FCS benchmarks.
 #   Rscript flowcore_reader.R read  <out_dir> <file>...   per file: <out_dir>/<i>.bin (float64, row-major
 #                                                         events x params), <i>.json {ok, names, n, p, error}
-#   Rscript flowcore_reader.R time  <repeats> <file>       prints seconds of each read.FCS call, one per line
+#   Rscript flowcore_reader.R time  <repeats> <file> [cmd] prints seconds of each read.FCS call, one per line;
+#                                                         [cmd] (e.g. a page-cache drop) runs before each read
 #   Rscript flowcore_reader.R import                       loads flowCore only (baseline for peak RSS)
 # read.FCS options: transformation = FALSE (values as stored), truncate_max_range = FALSE (no clipping at
 # $PnR); everything else is flowCore's default.
@@ -28,6 +29,7 @@ if (args[1] == "read") {
 } else if (args[1] == "time") {
   reps <- as.integer(args[2])
   for (r in seq_len(reps)) {
+    if (length(args) >= 4) system(args[4])
     t0 <- proc.time()[["elapsed"]]
     ff <- rd(args[3])
     m <- exprs(ff)
