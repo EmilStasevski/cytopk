@@ -1,10 +1,12 @@
 # Decision log
 
 Each entry has a date, the decision, and the reason. Newest entries go at the bottom.
+References to "the brief" mean the original planning brief. It was removed from the repo on 2026-11-06,
+and its plan is summarised in `docs/ROADMAP.md`.
 
 ## 2026-11-06: Owner answers to the brief's section 12
 - IV means intravenous administration. v0 covers bolus and zero-order infusion, and the framework is general enough to add absorption later.
-- Licence: MIT OR Apache-2.0. Apache text taken verbatim from apache.org (sha256 `cfc7749b…d30`).
+- Licence: MIT OR Apache-2.0 at first; superseded the same day by Apache-2.0 only (see below).
 - Git stays local for now: no GitHub remote and no publishing. The CI workflow is written but has not run on GitHub yet.
 - The optional R oracles (rxode2/mrgsolve/flowCore) are skipped for now, although R is installed locally.
 - Real FCS test files use the default: two small, permissively licensed public files, fetched by a script in M5.
@@ -79,3 +81,12 @@ Each entry has a date, the decision, and the reason. Newest entries go at the bo
 - **Decision: go.** At equal tolerances Rust is at least as fast as the Numba port, single- and multi-threaded, and has no JIT
   warm-up (Numba: 0.9–1.0 s per process). It is far faster than the SciPy loop. For this *linear* model the vectorised NumPy closed form is faster than Rust
   on one thread, as the brief predicted. The case for the Rust simulator rests on the nonlinear models (M2), which have no closed form.
+
+## 2026-11-06: Repository cleanup
+- **Licence is Apache-2.0 only** (owner's decision). `LICENSE` is the verbatim apache.org text, with the appendix placeholder filled in
+  (`Copyright 2026 Emil Stasevski`). `LICENSE-MIT` was removed. Cargo, pyproject and CITATION.cff now say `Apache-2.0`.
+- **Author is "Emil Stasevski".** The 8 commits pushed so far were rewritten from author name `EmilStasevski` (same e-mail) and
+  force-pushed, at the owner's request. Author and committer dates were preserved. The SHAs changed. The go/no-go result file
+  `benchmarks/results/quick_bench.json` records `git_sha` 772d522, which is now **3589faa** (same tree).
+- The planning brief (`docs/BRIEF.md`) was replaced by a short `docs/ROADMAP.md`. The agent instruction file `CLAUDE.md` is no
+  longer tracked.
