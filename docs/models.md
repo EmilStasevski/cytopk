@@ -10,17 +10,19 @@
 | amount | mg |
 | volume (V, V1, V2) | L |
 | clearance (CL, Q) | L/day |
-| concentration | mg/L |
-| infusion rate | mg/day |
+| concentration (C, Km, EC50) | mg/L |
+| infusion rate, Vmax | mg/day |
+| kout | 1/day |
+| R, Emax, p | dimensionless |
 
-## Implemented models (M1)
+## Implemented models
 
 | id | states | parameters (constraint) | outputs |
 |---|---|---|---|
 | `onecmt_iv` | A1 | CL (≥ 0), V (> 0) | C = A1/V |
 | `twocmt_iv` | A1 (central), A2 (peripheral) | CL (≥ 0), V1 (> 0), Q (≥ 0), V2 (> 0) | C = A1/V1 |
-
-The milestone M2 models (`twocmt_mm_iv`, `twocmt_iv_idr`) will be documented here when they are implemented.
+| `twocmt_mm_iv` | A1, A2 | Vmax (≥ 0), Km (> 0), V1 (> 0), Q (≥ 0), V2 (> 0) | C = A1/V1 |
+| `twocmt_iv_idr` | A1, A2, R | CL (≥ 0), V1 (> 0), Q (≥ 0), V2 (> 0), kout (> 0), Emax (≥ 0), EC50 (> 0) | C = A1/V1, p = R/(R + 9) |
 
 ### `onecmt_iv`
 
@@ -35,7 +37,35 @@ dA1/dt = −CL·C1 − Q·(C1 − C2) + u1(t),    C1 = A1/V1
 dA2/dt =          Q·(C1 − C2) + u2(t),    C2 = A2/V2
 ```
 
-`u_i(t)` is the total infusion rate into state `i` (see Dosing). Every state starts at 0 at `t = 0` (a drug-naive subject).
+`u_i(t)` is the total infusion rate into state `i` (see Dosing). Every PK state starts at 0 at `t = 0` (a drug-naive subject).
+
+### `twocmt_mm_iv` (Michaelis–Menten elimination)
+
+```
+dA1/dt = −Vmax·C1/(Km + C1) − Q·(C1 − C2) + u1(t)
+dA2/dt =                       Q·(C1 − C2) + u2(t)
+```
+
+Elimination saturates at `Vmax` (mg/day). For `C1 ≪ Km` it is linear with `CL = Vmax/Km`, and for `C1 ≫ Km` it
+is zero-order. The model is nonlinear in dose: exposure grows more than proportionally once elimination saturates.
+
+### `twocmt_iv_idr` (indirect response, stimulated production)
+
+> **Toy pharmacodynamic model** with illustrative, normalised parameters. It shows how a PK model drives an
+> immune-cell readout. It is not a validated model of any real drug or cell population.
+
+The `twocmt_iv` PK drives a response state `R`, the normalised abundance of "activated" immune cells:
+
+```
+C     = A1/V1
+dR/dt = kout·(1 + Emax·C/(EC50 + C)) − kout·R,    R(0) = 1
+p     = R/(R + 9)
+```
+
+At baseline the production rate equals `kout`, so `R = 1` is a steady state. The drug multiplies production
+by at most `1 + Emax`, so `R` stays in `[1, 1 + Emax]`. The observed activated-cell fraction `p` uses a fixed
+reference level `R_ref = 9` (`IDR_R_REF`), which gives a 10 % baseline. Its maximum is `(1 + Emax)/(10 + Emax)`.
+The numbers are a toy choice. In the planned end-to-end example, `p` is the success probability of a beta-binomial gate count.
 
 ## Dosing
 
@@ -61,6 +91,10 @@ the output error is the solver's own controlled error, not interpolation error.
   The first step uses the Hairer starting-step heuristic, and later pieces reuse the last step-size proposal.
 - `Rk4 { step }` is classical RK4. Each piece is split into `ceil(len/step)` equal steps. Use it for reference and debugging.
 - Defaults: `rtol = 1e-6`, `atol = 1e-9` (mg), `max_steps = 100 000` attempts per simulation.
+
+**Positivity.** Explicit Runge–Kutta methods do not preserve positivity exactly. Once the drug has been essentially
+eliminated, an amount can dip below zero by noise smaller than `atol`. The tests observed −1.2e-14 mg for
+`twocmt_mm_iv` at `atol = 1e-12`. States are not clamped, because that would change the integrator.
 
 **Stiffness.** Both methods are explicit. For the parameter ranges used here, the eigenvalues are of order
 0.01–10 per day over horizons of weeks, so the problems are not stiff and explicit RK is the right tool. A model with
@@ -110,7 +144,9 @@ For `Q = 0` the central compartment is decoupled and reduces to the 1-compartmen
 The multiple-dose check uses the 1-cmt accumulation ratio: the trough after many boluses every `τ` approaches
 `C_1(τ)/(1 − e^{−kτ})`.
 
-## Validation summary (M1)
+## Validation summary
+
+### Linear models (M1)
 
 | check | result (see `cargo test -p cytopk-sim -- --nocapture`) |
 |---|---|
@@ -125,9 +161,24 @@ The multiple-dose check uses the 1-cmt accumulation ratio: the trough after many
 | property tests: dose order irrelevant; invalid doses rejected (never panic); infusion → bolus as duration → 0; linear in dose | pass (128 cases each) |
 | bit-identical batch output with 1, 2 and all threads; batch path = single-subject path; Fortran-order θ | pass |
 
-The exact errors depend on the random draws (seeded, so reproducible). The limits in the table are the ones asserted by the tests.
+### Nonlinear models (M2)
 
-## Illustrative prior ranges (for M2/M8, not used yet)
+| check | result |
+|---|---|
+| vs SciPy DOP853 at rtol 1e-12 (stopping at every event and output time, no interpolation); 6 scenarios: saturating and near-linear MM bolus, weekly MM infusions, IDR single infusion, IDR fast kout, IDR with a peripheral bolus. cytopk at rtol 1e-10 | max rel. error 1.9e-11 … 1.4e-9 (limit 1e-7) |
+| MM mass balance `dose − eliminated − A1 − A2 = 0` (auxiliary state); `Vmax = 0` ⇒ nothing eliminated | ≤ 1e-8 × total dose |
+| MM linear limit (`Km = 1e9`, `Vmax = CL·Km`) vs the 2-cmt closed form | rel. error < 2e-6 (≈ C/Km) |
+| MM zero-order limit (`Km → 0`, `Q = 0`): `A1 = D − Vmax·t` | abs. error < 1e-6 mg |
+| MM comparison property `C(kD) ≥ k·C(D)` for k ≥ 1, strict somewhere (property test, above the noise floor) | pass (64 cases; 2000 in a stress run) |
+| MM: doubling a saturating dose more than doubles AUC; linear model exactly 2× | pass |
+| IDR PK part equals the 2-cmt closed form; `R ∈ [1, 1 + Emax]`; `p` consistent; `Emax = 0` or no dose ⇒ baseline exactly | pass |
+| IDR response monotone in dose and saturating at `1 + Emax` | pass |
+| bit-identical batches with 1, 2 and all threads, for both models | pass |
+| mutation check: four injected equation bugs (MM saturation, IDR baseline production, `R(0)`, `R_ref`) | each caught |
+
+The exact errors depend on the random draws (seeded, so reproducible). The limits in the tables are the ones asserted by the tests.
+
+## Illustrative parameter values
 
 Values typical of a monoclonal-antibody-like drug, for demonstration only: CL ≈ 0.2 L/day, V1 ≈ 3 L, Q ≈ 0.5 L/day,
 V2 ≈ 3 L, kout ≈ 0.3 1/day, Emax ≈ 2, EC50 ≈ 5 mg/L; doses 50/200/800 mg as 1-hour infusions. The M1 tests sample
