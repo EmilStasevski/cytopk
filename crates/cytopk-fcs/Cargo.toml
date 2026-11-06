@@ -1,0 +1,32 @@
+[package]
+name = "cytopk-fcs"
+description = "Robust FCS 3.0/3.1 flow-cytometry reader and writer (strict and lenient modes, mmap, Arrow/Parquet output)"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[features]
+default = []
+# Arrow RecordBatch and Parquet output (FcsFile::to_record_batch, write_parquet).
+arrow = ["dep:arrow-array", "dep:arrow-schema", "dep:parquet"]
+
+[dependencies]
+ndarray.workspace = true
+rayon.workspace = true
+thiserror.workspace = true
+memmap2 = "0.9.12"
+arrow-array = { version = "60.1.0", optional = true }
+arrow-schema = { version = "60.1.0", optional = true }
+parquet = { version = "60.1.0", optional = true, default-features = false, features = ["arrow", "snap"] }
+
+[dev-dependencies]
+proptest.workspace = true
+rand.workspace = true
+rand_chacha.workspace = true
+
+[lints]
+workspace = true
