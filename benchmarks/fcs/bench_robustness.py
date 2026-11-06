@@ -11,6 +11,7 @@ Outcome per (reader, file):
   error        the reader raised an exception
   timeout      over TIMEOUT seconds
   crash        the process died (segfault, abort)
+Real files: FlowKit is compared on linear, gain-1, non-time channels only (see flowkit_columns).
 Each (reader, file) runs in its own subprocess, so a crash or hang cannot affect the others.
 
     python bench_robustness.py      # -> benchmarks/results/fcs_robustness.json
@@ -105,6 +106,15 @@ def flowcore_available():
         return False
 
 
+def flowkit_columns(path):
+    """FlowKit's "raw" events already apply $TIMESTEP, gain and $PnE log scaling, so FlowKit is compared on
+    linear, gain-1, non-time channels only (the channels where "raw" means "as stored")."""
+    import cytopk
+    f = cytopk.read_fcs(path)
+    return [j for j, c in enumerate(f.channels)
+            if c["log"] == (0.0, 0.0) and c["gain"] in (None, 1.0) and "time" not in c["name"].lower()]
+
+
 def classify(res, data, truth, names):
     if res["status"] != "ok":
         return res["status"]
@@ -181,10 +191,14 @@ def main():
             if fc:
                 got["flowcore"] = run_flowcore([path], tmp)[0]
             ref_res, ref = got.get("cytopk", ({"status": "error"}, None))
+            keep = flowkit_columns(path) if ref_res["status"] == "ok" else None
             for r, (res, data) in got.items():
                 agree = None
                 if res["status"] == "ok" and ref_res["status"] == "ok" and r != "cytopk":
-                    agree = bool(data.shape == ref.shape and np.array_equal(data, ref, equal_nan=True)
+                    a, b = data, ref
+                    if r.startswith("flowkit") and data.shape == ref.shape:
+                        a, b = data[:, keep], ref[:, keep]
+                    agree = bool(a.shape == b.shape and np.array_equal(a, b, equal_nan=True)
                                  and res["names"] == ref_res["names"])
                 real_rows.append({"file": path.name, "source": path.parent.name, "reader": r,
                                   "status": res["status"], "agrees_with_cytopk": agree,

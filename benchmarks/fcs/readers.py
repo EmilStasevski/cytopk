@@ -1,6 +1,6 @@
 """Uniform adapters: path -> (channel names, events x parameters NumPy array). Each raises on failure.
 
-Options are each library's defaults, except where a library has an explicit "be lenient" switch. Those switches
+Options are each library's defaults (fcsparser: channel names from $PnN, as every other reader here), except where a library has an explicit "be lenient" switch. Those switches
 get a second, `_lenient` variant, because a user facing a broken file would try them.
 flowCore runs in R through flowcore_reader.R and is driven from bench_*.py, not from here.
 """
@@ -61,7 +61,7 @@ def fcsparser_default(p):
     import fcsparser
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
-        meta, df = fcsparser.parse(str(p), reformat_meta=True)
+        meta, df = fcsparser.parse(str(p), reformat_meta=True, channel_naming="$PnN")
         return list(meta["_channel_names_"]), df.to_numpy()
 
 
