@@ -109,3 +109,27 @@ and its plan is summarised in `docs/ROADMAP.md`.
   IDR; Rust is 1.07–1.22× faster with 16 threads. I did not profile the single-threaded IDR gap: it is small and the conclusion doesn't
   depend on it. JAX + diffrax on CPU (untuned, `vmap` in lockstep) was 2.3–9.9× slower than single-threaded Rust and slower with
   16 threads than with 1. The load average at start was 3.3, from the preceding smoke run, and is recorded in the JSON.
+
+## 2026-11-06: SBI-flow benchmarks (benchmarks/sbi_flow/)
+- **Decision rules were committed before measuring** (b3ecf04). Verdicts and all tables are in `benchmarks/sbi_flow/README.md`.
+  The tables are generated from the JSON by `make_tables.py`, so nothing is typed in by hand.
+- **Separate environment `.venv-sbi`** (BayesFlow 2.1.0, Keras 3.15.1, JAX 0.12.0.1 with CUDA 13 wheels) so the GPU-enabled JAX
+  cannot silently change the earlier CPU-only benchmark environment. The RTX 5060 Ti (compute capability 12.0) works with
+  `jax[cuda13]` on driver 580. GPU runs need `JAX_PLATFORMS=cuda,cpu`, because BayesFlow's logging uses a CPU device callback.
+- **Small-batch fix (E2).** `n_threads=1` paid ~9 µs per call, even for zero simulations, handing the call to a cached
+  1-thread Rayon pool. That is about one whole simulation. `n_threads=1`, and any batch below `MIN_PARALLEL_BATCH = 4`, now run on the
+  calling thread (`Parallelism::Serial`, new `simulate_batch_with`). Batch-1 latency fell from 20.3 to 9.9 µs. Results are bit-identical
+  in both modes (tested). The threshold of 4 is the smallest batch at which the 16-thread path already beat a single thread in
+  the before-fix sweep (31 vs 86 µs at batch 8). Below that, the hand-off cost is comparable to the work.
+- **Interleaved measurement for fast simulators (E1).** Running Numba and cytopk in separate processes gave a 19.65 vs 3.97 ms
+  difference at B = 2048 that did not reproduce. Once JAX is loaded, per-call times vary a lot between processes and over time.
+  Measuring both in one BayesFlow process, round-robin over 80 rounds, removes that confound.
+- **Unexplained in-process slowdown.** With BayesFlow/JAX loaded, the same ODE call is 5.3–5.8× slower than in a clean
+  process, and a NumPy stage right after a 16-thread call is 2.8–4.4× slower (E2b). Idle threads use no CPU. I did not
+  find the mechanism (`perf` is unavailable here). Recorded as measured, not explained.
+- **DDM RNG.** I chose xoshiro256++ with SplitMix64 per-trial seeding and the Marsaglia polar method because the exact same algorithm can be
+  written in Numba, which makes Rust-vs-Numba agreement a bit-for-bit check. Ziggurat would be faster but harder to replicate.
+  The analytic check uses the Broadie–Glasserman–Kou discrete-monitoring correction, because the uncorrected formula is off
+  by ~3× the tolerance at dt = 1 ms.
+- **E4 not done.** BayesFlow 2.1's `DiskDataset` reads one pickle per simulation, so "10^7 simulations as shards" has no
+  supported loader format.
