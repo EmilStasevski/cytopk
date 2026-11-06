@@ -1,5 +1,8 @@
 //! PyO3 bindings: `simulate` for every built-in model, and `models()` to list them.
 //! The fuller Python API (schedules, noise models, type stubs) follows in M3 (see docs/ROADMAP.md).
+//! FCS reading and writing: see `fcs.rs`.
+
+mod fcs;
 
 use cytopk_sim::ddm::{DdmOpts, simulate_ddm as ddm_batch};
 use cytopk_sim::{
@@ -201,5 +204,6 @@ fn _cytopk(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(simulate, m)?)?;
     m.add_function(wrap_pyfunction!(models, m)?)?;
     m.add_function(wrap_pyfunction!(simulate_ddm, m)?)?;
+    fcs::register(m)?;
     Ok(())
 }

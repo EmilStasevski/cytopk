@@ -1,6 +1,6 @@
 [package]
 name = "cytopk-py"
-description = "Python bindings for cytopk (minimal: twocmt_iv simulate, for the go/no-go benchmark)"
+description = "Python bindings for cytopk: PK/PD simulators and the FCS reader/writer"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -15,6 +15,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 cytopk-sim = { path = "../cytopk-sim" }
+cytopk-fcs = { path = "../cytopk-fcs", features = ["arrow"] }
 ndarray.workspace = true
 rayon.workspace = true
 numpy = "0.30.0"
