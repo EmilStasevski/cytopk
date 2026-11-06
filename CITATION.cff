@@ -6,5 +6,5 @@ authors:
   - family-names: Stasevski
     given-names: Emil
 version: 0.1.0-dev
-license: "MIT OR Apache-2.0"
+license: "Apache-2.0"
 repository-code: "https://github.com/EmilStasevski/cytopk"

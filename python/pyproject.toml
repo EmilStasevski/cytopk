@@ -7,7 +7,8 @@ name = "cytopk"
 version = "0.1.0.dev0"
 requires-python = ">=3.10"
 dependencies = ["numpy>=2"]
-license = "MIT OR Apache-2.0"
+license = "Apache-2.0"
+authors = [{ name = "Emil Stasevski" }]
 
 [tool.maturin]
 manifest-path = "../crates/cytopk-py/Cargo.toml"
