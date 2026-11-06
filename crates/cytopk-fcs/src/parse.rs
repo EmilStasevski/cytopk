@@ -8,6 +8,7 @@ use crate::{ByteOrder, Channel, Data, DataType, FcsFile, ReadOptions};
 use ndarray::Array2;
 use rayon::prelude::*;
 use std::collections::BTreeMap;
+use std::mem::MaybeUninit;
 
 /// Above this many values the DATA decode runs on the Rayon pool.
 const PAR_DECODE_VALUES: usize = 1 << 20;
@@ -607,37 +608,158 @@ fn decode(
         DataType::I => {
             let widths: Vec<usize> = ch.iter().map(|c| (c.bits / 8) as usize).collect();
             let masks: Vec<u64> = ch.iter().map(|c| int_mask(c.bits, c.range)).collect();
-            let row = |ev: &[u8], out: &mut [f64]| {
-                let mut o = 0;
-                for (j, (&w, &m)) in widths.iter().zip(&masks).enumerate() {
-                    let b = &ev[o..o + w];
-                    let mut x = 0u64;
-                    if le {
-                        for &byte in b.iter().rev() {
-                            x = (x << 8) | u64::from(byte);
-                        }
-                    } else {
-                        for &byte in b {
-                            x = (x << 8) | u64::from(byte);
-                        }
-                    }
-                    out[j] = (x & m) as f64;
-                    o += w;
-                }
+            let v = if n_par > 0 {
+                decode_int(
+                    bytes,
+                    &widths,
+                    &masks,
+                    le,
+                    n * n_par >= PAR_DECODE_VALUES,
+                    false,
+                )
+            } else {
+                Vec::new()
             };
-            let mut v = vec![0f64; n * n_par];
-            if n_par > 0 {
-                if n * n_par >= PAR_DECODE_VALUES {
-                    v.par_chunks_exact_mut(n_par)
-                        .zip(bytes.par_chunks_exact(bpe))
-                        .for_each(|(out, ev)| row(ev, out));
-                } else {
-                    for (out, ev) in v.chunks_exact_mut(n_par).zip(bytes.chunks_exact(bpe)) {
-                        row(ev, out);
-                    }
+            Ok(Data::F64(shape(v, n, n_par)?))
+        }
+    }
+}
+
+/// Decode integer DATA (`bytes`: whole events, `widths[j]` bytes for parameter j) into a row-major
+/// events x parameters vector. When every parameter has the same width of 1, 2, 4 or 8 bytes (nearly all
+/// real files), a width- and byte-order-specialised kernel converts whole words with
+/// `from_le_bytes`/`from_be_bytes`; otherwise (or with `force_generic`) [`int_generic`] assembles each value
+/// byte by byte. Both are bit-identical (`tests::int_bulk_matches_generic`). The output is written once,
+/// without zero-filling it first.
+pub(crate) fn decode_int(
+    bytes: &[u8],
+    widths: &[usize],
+    masks: &[u64],
+    le: bool,
+    par: bool,
+    force_generic: bool,
+) -> Vec<f64> {
+    let p = widths.len();
+    let bpe: usize = widths.iter().sum();
+    assert!(p > 0 && masks.len() == p && bytes.len() % bpe == 0);
+    let len = bytes.len() / bpe * p;
+    let mut v = Vec::with_capacity(len);
+    let out = &mut v.spare_capacity_mut()[..len];
+    let w0 = widths[0];
+    let uniform = !force_generic && widths.iter().all(|&w| w == w0);
+    match (uniform, w0, le) {
+        (true, 1, _) => int_rows::<1, true>(bytes, masks, par, out),
+        (true, 2, true) => int_rows::<2, true>(bytes, masks, par, out),
+        (true, 2, false) => int_rows::<2, false>(bytes, masks, par, out),
+        (true, 4, true) => int_rows::<4, true>(bytes, masks, par, out),
+        (true, 4, false) => int_rows::<4, false>(bytes, masks, par, out),
+        (true, 8, true) => int_rows::<8, true>(bytes, masks, par, out),
+        (true, 8, false) => int_rows::<8, false>(bytes, masks, par, out),
+        _ => int_generic(bytes, widths, masks, le, par, out),
+    }
+    // SAFETY: `bytes` holds exactly len / p whole events (asserted above). Both kernels pair each output row
+    // of p values with one event of bpe bytes (`chunks_exact` on both sides, equal counts) and write every
+    // value of the row, so all `len` elements of the spare capacity are initialised.
+    #[allow(unsafe_code)]
+    unsafe {
+        v.set_len(len)
+    };
+    v
+}
+
+/// Events per Rayon task in the integer decoder (large enough to amortise scheduling, small enough to balance).
+const INT_ROWS_PER_TASK: usize = 4096;
+
+#[inline(always)]
+fn word<const W: usize, const LE: bool>(c: &[u8]) -> u64 {
+    match W {
+        1 => u64::from(c[0]),
+        2 => {
+            let b = [c[0], c[1]];
+            u64::from(if LE {
+                u16::from_le_bytes(b)
+            } else {
+                u16::from_be_bytes(b)
+            })
+        }
+        4 => {
+            let b = [c[0], c[1], c[2], c[3]];
+            u64::from(if LE {
+                u32::from_le_bytes(b)
+            } else {
+                u32::from_be_bytes(b)
+            })
+        }
+        _ => {
+            let b = [c[0], c[1], c[2], c[3], c[4], c[5], c[6], c[7]];
+            if LE {
+                u64::from_le_bytes(b)
+            } else {
+                u64::from_be_bytes(b)
+            }
+        }
+    }
+}
+
+fn int_rows<const W: usize, const LE: bool>(
+    bytes: &[u8],
+    masks: &[u64],
+    par: bool,
+    out: &mut [MaybeUninit<f64>],
+) {
+    let p = masks.len();
+    let block = |ev: &[u8], o: &mut [MaybeUninit<f64>]| {
+        for (orow, erow) in o.chunks_exact_mut(p).zip(ev.chunks_exact(p * W)) {
+            for ((x, c), &m) in orow.iter_mut().zip(erow.chunks_exact(W)).zip(masks) {
+                x.write((word::<W, LE>(c) & m) as f64);
+            }
+        }
+    };
+    if par {
+        out.par_chunks_mut(p * INT_ROWS_PER_TASK)
+            .zip(bytes.par_chunks(p * W * INT_ROWS_PER_TASK))
+            .for_each(|(o, ev)| block(ev, o));
+    } else {
+        block(bytes, out);
+    }
+}
+
+/// Byte-by-byte integer decoder for any mix of whole-byte widths (8-64 bits).
+fn int_generic(
+    bytes: &[u8],
+    widths: &[usize],
+    masks: &[u64],
+    le: bool,
+    par: bool,
+    out: &mut [MaybeUninit<f64>],
+) {
+    let n_par = widths.len();
+    let bpe: usize = widths.iter().sum();
+    let row = |ev: &[u8], out: &mut [MaybeUninit<f64>]| {
+        let mut o = 0;
+        for (j, (&w, &m)) in widths.iter().zip(masks).enumerate() {
+            let b = &ev[o..o + w];
+            let mut x = 0u64;
+            if le {
+                for &byte in b.iter().rev() {
+                    x = (x << 8) | u64::from(byte);
+                }
+            } else {
+                for &byte in b {
+                    x = (x << 8) | u64::from(byte);
                 }
             }
-            Ok(Data::F64(shape(v, n, n_par)?))
+            out[j].write((x & m) as f64);
+            o += w;
+        }
+    };
+    if par {
+        out.par_chunks_exact_mut(n_par)
+            .zip(bytes.par_chunks_exact(bpe))
+            .for_each(|(o, ev)| row(ev, o));
+    } else {
+        for (o, ev) in out.chunks_exact_mut(n_par).zip(bytes.chunks_exact(bpe)) {
+            row(ev, o);
         }
     }
 }
@@ -815,4 +937,47 @@ fn next_dataset(
 fn trim_str(s: &str) -> &str {
     // `trim_ascii` on bytes keeps this consistent with the HEADER parser.
     std::str::from_utf8(trim_ascii(s.as_bytes())).unwrap_or(s)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use proptest::prelude::*;
+
+    fn widths_strategy() -> impl Strategy<Value = Vec<usize>> {
+        prop_oneof![
+            (
+                prop::sample::select(vec![1usize, 2, 3, 4, 5, 6, 7, 8]),
+                1usize..24
+            )
+                .prop_map(|(w, p)| vec![w; p]),
+            prop::collection::vec(1usize..=8, 1..24),
+        ]
+    }
+
+    proptest! {
+        #![proptest_config(ProptestConfig::with_cases(512))]
+        /// The specialised bulk kernels and the byte-by-byte decoder agree bit for bit, for every width,
+        /// byte order, mask (from random $PnR, including missing, zero and over-range) and serial/parallel.
+        #[test]
+        fn int_bulk_matches_generic(
+            widths in widths_strategy(),
+            n in 0usize..9000,
+            le in any::<bool>(),
+            par in any::<bool>(),
+            seed in any::<u64>(),
+            ranges in prop::collection::vec(prop_oneof![Just(0.0f64), Just(f64::NAN), 1.0f64..1e20], 24),
+        ) {
+            use rand::{RngExt, SeedableRng};
+            let bpe: usize = widths.iter().sum();
+            let mut bytes = vec![0u8; n * bpe];
+            rand_chacha::ChaCha8Rng::seed_from_u64(seed).fill(&mut bytes[..]);
+            let masks: Vec<u64> = widths.iter().zip(&ranges).map(|(&w, &r)| int_mask(8 * w as u32, r)).collect();
+            let a = decode_int(&bytes, &widths, &masks, le, par, false);
+            let b = decode_int(&bytes, &widths, &masks, le, false, true);
+            prop_assert_eq!(a.len(), n * widths.len());
+            prop_assert_eq!(b.len(), n * widths.len());
+            prop_assert!(a.iter().zip(&b).all(|(x, y)| x.to_bits() == y.to_bits()));
+        }
+    }
 }
