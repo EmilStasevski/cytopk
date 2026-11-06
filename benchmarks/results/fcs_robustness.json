@@ -1,0 +1,4936 @@
+{
+  "meta": {
+    "date_utc": "2026-11-06T17:13:43Z",
+    "git_sha": "bc70e9ad1f395db154bfe30bcba2fb29ce310de4",
+    "git_dirty": false,
+    "cpu": "Intel(R) Core(TM) i5-14400F",
+    "logical_cpus": 16,
+    "gpu": "NVIDIA GeForce RTX 5060 Ti, 580.178.04, 16311 MiB",
+    "os": "Linux-6.17.0-1023-oem-x86_64-with-glibc2.39",
+    "python": "3.13.13",
+    "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+    "versions": {
+      "bayesflow": null,
+      "keras": null,
+      "jax": null,
+      "jaxlib": null,
+      "jax-cuda13-plugin": null,
+      "numba": null,
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "joblib": "1.6.0",
+      "cytopk": "0.1.0.dev0"
+    },
+    "loadavg_at_start": [
+      4.4775390625,
+      6.48193359375,
+      7.19677734375
+    ],
+    "experiment": "FCS robustness",
+    "versions_fcs": {
+      "cytopk": "0.1.0.dev0",
+      "flowio": "1.4.0",
+      "flowkit": "1.3.0",
+      "fcsparser": "0.2.4",
+      "numpy": "2.5.4",
+      "pandas": "3.1.1",
+      "numpy1_env": "3.12.3 1.26.4 2.2.3 0.2.4",
+      "flowCore": "2.24.0",
+      "R": "R version 4.6.2 (2026-10-29)"
+    },
+    "readers": [
+      "cytopk",
+      "cytopk_strict",
+      "flowio",
+      "flowio_lenient",
+      "flowkit",
+      "flowkit_lenient",
+      "fcsparser",
+      "fcsparser_numpy1",
+      "flowcore"
+    ],
+    "timeout_s": 60
+  },
+  "corpus": [
+    {
+      "case": "clean_f32_le",
+      "kind": "conformant",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_f32_le",
+      "kind": "conformant",
+      "reader": "cytopk_strict",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_f32_le",
+      "kind": "conformant",
+      "reader": "flowio",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_f32_le",
+      "kind": "conformant",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_f32_le",
+      "kind": "conformant",
+      "reader": "flowkit",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_f32_le",
+      "kind": "conformant",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_f32_le",
+      "kind": "conformant",
+      "reader": "fcsparser",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_f32_le",
+      "kind": "conformant",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_f64_be",
+      "kind": "conformant",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_f64_be",
+      "kind": "conformant",
+      "reader": "cytopk_strict",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_f64_be",
+      "kind": "conformant",
+      "reader": "flowio",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_f64_be",
+      "kind": "conformant",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_f64_be",
+      "kind": "conformant",
+      "reader": "flowkit",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_f64_be",
+      "kind": "conformant",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_f64_be",
+      "kind": "conformant",
+      "reader": "fcsparser",
+      "outcome": "error",
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "case": "clean_f64_be",
+      "kind": "conformant",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_int_mixed_widths_be",
+      "kind": "conformant",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_int_mixed_widths_be",
+      "kind": "conformant",
+      "reader": "cytopk_strict",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_int_mixed_widths_be",
+      "kind": "conformant",
+      "reader": "flowio",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_int_mixed_widths_be",
+      "kind": "conformant",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_int_mixed_widths_be",
+      "kind": "conformant",
+      "reader": "flowkit",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_int_mixed_widths_be",
+      "kind": "conformant",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_int_mixed_widths_be",
+      "kind": "conformant",
+      "reader": "fcsparser",
+      "outcome": "error",
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "case": "clean_int_mixed_widths_be",
+      "kind": "conformant",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "header_data_offsets_zero",
+      "kind": "conformant",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "header_data_offsets_zero",
+      "kind": "conformant",
+      "reader": "cytopk_strict",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "header_data_offsets_zero",
+      "kind": "conformant",
+      "reader": "flowio",
+      "outcome": "error",
+      "error": "DataOffsetDiscrepancyError: header_data_offsets_zero.fcs has a discrepancy in the DATA start byte location: 0 (HEADER) vs 8192 (TEXT)"
+    },
+    {
+      "case": "header_data_offsets_zero",
+      "kind": "conformant",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "header_data_offsets_zero",
+      "kind": "conformant",
+      "reader": "flowkit",
+      "outcome": "error",
+      "error": "DataOffsetDiscrepancyError: header_data_offsets_zero.fcs has a discrepancy in the DATA start byte location: 0 (HEADER) vs 8192 (TEXT)"
+    },
+    {
+      "case": "header_data_offsets_zero",
+      "kind": "conformant",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "header_data_offsets_zero",
+      "kind": "conformant",
+      "reader": "fcsparser",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "header_data_offsets_zero",
+      "kind": "conformant",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "delimiter_pipe_escaped_values",
+      "kind": "conformant",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "delimiter_pipe_escaped_values",
+      "kind": "conformant",
+      "reader": "cytopk_strict",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "delimiter_pipe_escaped_values",
+      "kind": "conformant",
+      "reader": "flowio",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "delimiter_pipe_escaped_values",
+      "kind": "conformant",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "delimiter_pipe_escaped_values",
+      "kind": "conformant",
+      "reader": "flowkit",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "delimiter_pipe_escaped_values",
+      "kind": "conformant",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "delimiter_pipe_escaped_values",
+      "kind": "conformant",
+      "reader": "fcsparser",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "delimiter_pipe_escaped_values",
+      "kind": "conformant",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "lowercase_keywords",
+      "kind": "conformant",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "lowercase_keywords",
+      "kind": "conformant",
+      "reader": "cytopk_strict",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "lowercase_keywords",
+      "kind": "conformant",
+      "reader": "flowio",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "lowercase_keywords",
+      "kind": "conformant",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "lowercase_keywords",
+      "kind": "conformant",
+      "reader": "flowkit",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "lowercase_keywords",
+      "kind": "conformant",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "lowercase_keywords",
+      "kind": "conformant",
+      "reader": "fcsparser",
+      "outcome": "error",
+      "error": "KeyError: '$PAR'"
+    },
+    {
+      "case": "lowercase_keywords",
+      "kind": "conformant",
+      "reader": "fcsparser_numpy1",
+      "outcome": "error",
+      "error": "KeyError: '$PAR'"
+    },
+    {
+      "case": "int16_bits_above_PnR",
+      "kind": "conformant",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "int16_bits_above_PnR",
+      "kind": "conformant",
+      "reader": "cytopk_strict",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "int16_bits_above_PnR",
+      "kind": "conformant",
+      "reader": "flowio",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "int16_bits_above_PnR",
+      "kind": "conformant",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "int16_bits_above_PnR",
+      "kind": "conformant",
+      "reader": "flowkit",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "int16_bits_above_PnR",
+      "kind": "conformant",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "int16_bits_above_PnR",
+      "kind": "conformant",
+      "reader": "fcsparser",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "int16_bits_above_PnR",
+      "kind": "conformant",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "empty_value",
+      "kind": "deviation",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "empty_value",
+      "kind": "deviation",
+      "reader": "cytopk_strict",
+      "outcome": "error",
+      "error": "FcsReadError: TEXT segment (byte 539): 5 trailing bytes after the last delimiter ignored"
+    },
+    {
+      "case": "empty_value",
+      "kind": "deviation",
+      "reader": "flowio",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "empty_value",
+      "kind": "deviation",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "empty_value",
+      "kind": "deviation",
+      "reader": "flowkit",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "empty_value",
+      "kind": "deviation",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "empty_value",
+      "kind": "deviation",
+      "reader": "fcsparser",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "empty_value",
+      "kind": "deviation",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "consecutive_empty_values",
+      "kind": "deviation",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "consecutive_empty_values",
+      "kind": "deviation",
+      "reader": "cytopk_strict",
+      "outcome": "error",
+      "error": "FcsReadError: TEXT segment (byte 550): 14 trailing bytes after the last delimiter ignored"
+    },
+    {
+      "case": "consecutive_empty_values",
+      "kind": "deviation",
+      "reader": "flowio",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "consecutive_empty_values",
+      "kind": "deviation",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "consecutive_empty_values",
+      "kind": "deviation",
+      "reader": "flowkit",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "consecutive_empty_values",
+      "kind": "deviation",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "consecutive_empty_values",
+      "kind": "deviation",
+      "reader": "fcsparser",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "consecutive_empty_values",
+      "kind": "deviation",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "missing_final_delimiter",
+      "kind": "deviation",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "missing_final_delimiter",
+      "kind": "deviation",
+      "reader": "cytopk_strict",
+      "outcome": "error",
+      "error": "FcsReadError: TEXT segment (byte 532): TEXT does not end with the delimiter; last value kept"
+    },
+    {
+      "case": "missing_final_delimiter",
+      "kind": "deviation",
+      "reader": "flowio",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "missing_final_delimiter",
+      "kind": "deviation",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "missing_final_delimiter",
+      "kind": "deviation",
+      "reader": "flowkit",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "missing_final_delimiter",
+      "kind": "deviation",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "missing_final_delimiter",
+      "kind": "deviation",
+      "reader": "fcsparser",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "missing_final_delimiter",
+      "kind": "deviation",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "doubled_final_delimiter",
+      "kind": "deviation",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "doubled_final_delimiter",
+      "kind": "deviation",
+      "reader": "cytopk_strict",
+      "outcome": "error",
+      "error": "FcsReadError: TEXT segment (byte 534): TEXT does not end with the delimiter; last value kept"
+    },
+    {
+      "case": "doubled_final_delimiter",
+      "kind": "deviation",
+      "reader": "flowio",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "doubled_final_delimiter",
+      "kind": "deviation",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "doubled_final_delimiter",
+      "kind": "deviation",
+      "reader": "flowkit",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "doubled_final_delimiter",
+      "kind": "deviation",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "doubled_final_delimiter",
+      "kind": "deviation",
+      "reader": "fcsparser",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "doubled_final_delimiter",
+      "kind": "deviation",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "trailing_bytes_in_text",
+      "kind": "deviation",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "trailing_bytes_in_text",
+      "kind": "deviation",
+      "reader": "cytopk_strict",
+      "outcome": "error",
+      "error": "FcsReadError: TEXT segment (byte 542): 9 trailing bytes after the last delimiter ignored"
+    },
+    {
+      "case": "trailing_bytes_in_text",
+      "kind": "deviation",
+      "reader": "flowio",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "trailing_bytes_in_text",
+      "kind": "deviation",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "trailing_bytes_in_text",
+      "kind": "deviation",
+      "reader": "flowkit",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "trailing_bytes_in_text",
+      "kind": "deviation",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "trailing_bytes_in_text",
+      "kind": "deviation",
+      "reader": "fcsparser",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "trailing_bytes_in_text",
+      "kind": "deviation",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "keyword_with_spaces",
+      "kind": "deviation",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "keyword_with_spaces",
+      "kind": "deviation",
+      "reader": "cytopk_strict",
+      "outcome": "error",
+      "error": "FcsReadError: keyword $COM: keyword \" $COM \" has surrounding spaces; trimmed"
+    },
+    {
+      "case": "keyword_with_spaces",
+      "kind": "deviation",
+      "reader": "flowio",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "keyword_with_spaces",
+      "kind": "deviation",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "keyword_with_spaces",
+      "kind": "deviation",
+      "reader": "flowkit",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "keyword_with_spaces",
+      "kind": "deviation",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "keyword_with_spaces",
+      "kind": "deviation",
+      "reader": "fcsparser",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "keyword_with_spaces",
+      "kind": "deviation",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "duplicate_keyword",
+      "kind": "deviation",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "duplicate_keyword",
+      "kind": "deviation",
+      "reader": "cytopk_strict",
+      "outcome": "error",
+      "error": "FcsReadError: keyword $COM: keyword appears more than once; first value kept"
+    },
+    {
+      "case": "duplicate_keyword",
+      "kind": "deviation",
+      "reader": "flowio",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "duplicate_keyword",
+      "kind": "deviation",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "duplicate_keyword",
+      "kind": "deviation",
+      "reader": "flowkit",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "duplicate_keyword",
+      "kind": "deviation",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "duplicate_keyword",
+      "kind": "deviation",
+      "reader": "fcsparser",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "duplicate_keyword",
+      "kind": "deviation",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "latin1_text",
+      "kind": "deviation",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "latin1_text",
+      "kind": "deviation",
+      "reader": "cytopk_strict",
+      "outcome": "error",
+      "error": "FcsReadError: TEXT segment (byte 58): TEXT is not valid UTF-8; decoded as Latin-1"
+    },
+    {
+      "case": "latin1_text",
+      "kind": "deviation",
+      "reader": "flowio",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "latin1_text",
+      "kind": "deviation",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "latin1_text",
+      "kind": "deviation",
+      "reader": "flowkit",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "latin1_text",
+      "kind": "deviation",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "latin1_text",
+      "kind": "deviation",
+      "reader": "fcsparser",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "latin1_text",
+      "kind": "deviation",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "missing_PnE",
+      "kind": "deviation",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "missing_PnE",
+      "kind": "deviation",
+      "reader": "cytopk_strict",
+      "outcome": "error",
+      "error": "FcsReadError: keyword $P1E: $P1E missing; linear (0,0) assumed"
+    },
+    {
+      "case": "missing_PnE",
+      "kind": "deviation",
+      "reader": "flowio",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "missing_PnE",
+      "kind": "deviation",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "missing_PnE",
+      "kind": "deviation",
+      "reader": "flowkit",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "missing_PnE",
+      "kind": "deviation",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "missing_PnE",
+      "kind": "deviation",
+      "reader": "fcsparser",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "missing_PnE",
+      "kind": "deviation",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "missing_NEXTDATA",
+      "kind": "deviation",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "missing_NEXTDATA",
+      "kind": "deviation",
+      "reader": "cytopk_strict",
+      "outcome": "error",
+      "error": "FcsReadError: keyword $NEXTDATA: $NEXTDATA missing; no further datasets read"
+    },
+    {
+      "case": "missing_NEXTDATA",
+      "kind": "deviation",
+      "reader": "flowio",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "missing_NEXTDATA",
+      "kind": "deviation",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "missing_NEXTDATA",
+      "kind": "deviation",
+      "reader": "flowkit",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "missing_NEXTDATA",
+      "kind": "deviation",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "missing_NEXTDATA",
+      "kind": "deviation",
+      "reader": "fcsparser",
+      "outcome": "error",
+      "error": "KeyError: '$NEXTDATA'"
+    },
+    {
+      "case": "missing_NEXTDATA",
+      "kind": "deviation",
+      "reader": "fcsparser_numpy1",
+      "outcome": "error",
+      "error": "KeyError: '$NEXTDATA'"
+    },
+    {
+      "case": "version_fcs2_0",
+      "kind": "deviation",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "version_fcs2_0",
+      "kind": "deviation",
+      "reader": "cytopk_strict",
+      "outcome": "error",
+      "error": "FcsReadError: not a supported FCS version: \"FCS2.0\" at offset 0 (supported: FCS3.0, FCS3.1; lenient also FCS2.0, FCS3.2)"
+    },
+    {
+      "case": "version_fcs2_0",
+      "kind": "deviation",
+      "reader": "flowio",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "version_fcs2_0",
+      "kind": "deviation",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "version_fcs2_0",
+      "kind": "deviation",
+      "reader": "flowkit",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "version_fcs2_0",
+      "kind": "deviation",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "version_fcs2_0",
+      "kind": "deviation",
+      "reader": "fcsparser",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "version_fcs2_0",
+      "kind": "deviation",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "enddata_off_by_one",
+      "kind": "deviation",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "enddata_off_by_one",
+      "kind": "deviation",
+      "reader": "cytopk_strict",
+      "outcome": "error",
+      "error": "FcsReadError: DATA segment: DATA has 32001 bytes, $TOT x bytes/event = 32000; first 1000 events read (1 extra bytes)"
+    },
+    {
+      "case": "enddata_off_by_one",
+      "kind": "deviation",
+      "reader": "flowio",
+      "outcome": "error",
+      "error": "FCSParsingError: FCS file enddata_off_by_one.fcs reports a data offset that is off by 1. Set `ignore_offset_error=True` to force reading in this file."
+    },
+    {
+      "case": "enddata_off_by_one",
+      "kind": "deviation",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "enddata_off_by_one",
+      "kind": "deviation",
+      "reader": "flowkit",
+      "outcome": "error",
+      "error": "FCSParsingError: FCS file enddata_off_by_one.fcs reports a data offset that is off by 1. Set `ignore_offset_error=True` to force reading in this file."
+    },
+    {
+      "case": "enddata_off_by_one",
+      "kind": "deviation",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "enddata_off_by_one",
+      "kind": "deviation",
+      "reader": "fcsparser",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "enddata_off_by_one",
+      "kind": "deviation",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "header_keyword_data_mismatch",
+      "kind": "deviation",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "header_keyword_data_mismatch",
+      "kind": "deviation",
+      "reader": "cytopk_strict",
+      "outcome": "error",
+      "error": "FcsReadError: DATA segment: HEADER DATA [8196, 40195] and $BEGINDATA/$ENDDATA [8192, 40191] disagree; using [8192, 40191]"
+    },
+    {
+      "case": "header_keyword_data_mismatch",
+      "kind": "deviation",
+      "reader": "flowio",
+      "outcome": "error",
+      "error": "DataOffsetDiscrepancyError: header_keyword_data_mismatch.fcs has a discrepancy in the DATA start byte location: 8196 (HEADER) vs 8192 (TEXT)"
+    },
+    {
+      "case": "header_keyword_data_mismatch",
+      "kind": "deviation",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "header_keyword_data_mismatch",
+      "kind": "deviation",
+      "reader": "flowkit",
+      "outcome": "error",
+      "error": "DataOffsetDiscrepancyError: header_keyword_data_mismatch.fcs has a discrepancy in the DATA start byte location: 8196 (HEADER) vs 8192 (TEXT)"
+    },
+    {
+      "case": "header_keyword_data_mismatch",
+      "kind": "deviation",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "header_keyword_data_mismatch",
+      "kind": "deviation",
+      "reader": "fcsparser",
+      "outcome": "error",
+      "error": "ValueError: cannot reshape array of size 31996 into shape (8000,4)"
+    },
+    {
+      "case": "header_keyword_data_mismatch",
+      "kind": "deviation",
+      "reader": "fcsparser_numpy1",
+      "outcome": "error",
+      "error": "ValueError: cannot reshape array of size 31996 into shape (8000,4)"
+    },
+    {
+      "case": "tot_too_large",
+      "kind": "deviation",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "tot_too_large",
+      "kind": "deviation",
+      "reader": "cytopk_strict",
+      "outcome": "error",
+      "error": "FcsReadError: DATA segment: DATA has 32000 bytes, $TOT x bytes/event = 48000; 1000 complete events read"
+    },
+    {
+      "case": "tot_too_large",
+      "kind": "deviation",
+      "reader": "flowio",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "tot_too_large",
+      "kind": "deviation",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "tot_too_large",
+      "kind": "deviation",
+      "reader": "flowkit",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "tot_too_large",
+      "kind": "deviation",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "tot_too_large",
+      "kind": "deviation",
+      "reader": "fcsparser",
+      "outcome": "error",
+      "error": "ValueError: cannot reshape array of size 32000 into shape (12000,4)"
+    },
+    {
+      "case": "tot_too_large",
+      "kind": "deviation",
+      "reader": "fcsparser_numpy1",
+      "outcome": "error",
+      "error": "ValueError: cannot reshape array of size 32000 into shape (12000,4)"
+    },
+    {
+      "case": "tot_too_small",
+      "kind": "deviation",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "tot_too_small",
+      "kind": "deviation",
+      "reader": "cytopk_strict",
+      "outcome": "error",
+      "error": "FcsReadError: DATA segment: DATA has 32000 bytes, $TOT x bytes/event = 25600; first 800 events read (6400 extra bytes)"
+    },
+    {
+      "case": "tot_too_small",
+      "kind": "deviation",
+      "reader": "flowio",
+      "outcome": "wrong_data",
+      "error": null
+    },
+    {
+      "case": "tot_too_small",
+      "kind": "deviation",
+      "reader": "flowio_lenient",
+      "outcome": "wrong_data",
+      "error": null
+    },
+    {
+      "case": "tot_too_small",
+      "kind": "deviation",
+      "reader": "flowkit",
+      "outcome": "wrong_data",
+      "error": null
+    },
+    {
+      "case": "tot_too_small",
+      "kind": "deviation",
+      "reader": "flowkit_lenient",
+      "outcome": "wrong_data",
+      "error": null
+    },
+    {
+      "case": "tot_too_small",
+      "kind": "deviation",
+      "reader": "fcsparser",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "tot_too_small",
+      "kind": "deviation",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "truncated_data",
+      "kind": "deviation",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "truncated_data",
+      "kind": "deviation",
+      "reader": "cytopk_strict",
+      "outcome": "error",
+      "error": "FcsReadError: DATA segment: DATA end 40191 is beyond the file end (39192 bytes); clipped"
+    },
+    {
+      "case": "truncated_data",
+      "kind": "deviation",
+      "reader": "flowio",
+      "outcome": "error",
+      "error": "FCSParsingError: FCS file indicates data section greater than file size"
+    },
+    {
+      "case": "truncated_data",
+      "kind": "deviation",
+      "reader": "flowio_lenient",
+      "outcome": "error",
+      "error": "FCSParsingError: FCS file indicates data section greater than file size"
+    },
+    {
+      "case": "truncated_data",
+      "kind": "deviation",
+      "reader": "flowkit",
+      "outcome": "error",
+      "error": "FCSParsingError: FCS file indicates data section greater than file size"
+    },
+    {
+      "case": "truncated_data",
+      "kind": "deviation",
+      "reader": "flowkit_lenient",
+      "outcome": "error",
+      "error": "FCSParsingError: FCS file indicates data section greater than file size"
+    },
+    {
+      "case": "truncated_data",
+      "kind": "deviation",
+      "reader": "fcsparser",
+      "outcome": "error",
+      "error": "ValueError: cannot reshape array of size 31000 into shape (8000,4)"
+    },
+    {
+      "case": "truncated_data",
+      "kind": "deviation",
+      "reader": "fcsparser_numpy1",
+      "outcome": "error",
+      "error": "ValueError: cannot reshape array of size 31000 into shape (8000,4)"
+    },
+    {
+      "case": "header_offsets_only",
+      "kind": "deviation",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "header_offsets_only",
+      "kind": "deviation",
+      "reader": "cytopk_strict",
+      "outcome": "error",
+      "error": "FcsReadError: DATA segment: $BEGINDATA/$ENDDATA missing or malformed; HEADER offsets used"
+    },
+    {
+      "case": "header_offsets_only",
+      "kind": "deviation",
+      "reader": "flowio",
+      "outcome": "error",
+      "error": "KeyError: 'begindata'"
+    },
+    {
+      "case": "header_offsets_only",
+      "kind": "deviation",
+      "reader": "flowio_lenient",
+      "outcome": "error",
+      "error": "KeyError: 'begindata'"
+    },
+    {
+      "case": "header_offsets_only",
+      "kind": "deviation",
+      "reader": "flowkit",
+      "outcome": "error",
+      "error": "KeyError: 'begindata'"
+    },
+    {
+      "case": "header_offsets_only",
+      "kind": "deviation",
+      "reader": "flowkit_lenient",
+      "outcome": "error",
+      "error": "KeyError: 'begindata'"
+    },
+    {
+      "case": "header_offsets_only",
+      "kind": "deviation",
+      "reader": "fcsparser",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "header_offsets_only",
+      "kind": "deviation",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_wrong_count",
+      "kind": "deviation",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_wrong_count",
+      "kind": "deviation",
+      "reader": "cytopk_strict",
+      "outcome": "error",
+      "error": "FcsReadError: keyword $SPILLOVER: malformed spillover matrix ignored: 7 fields, expected 1 + n + n^2 = 13 for n = 3"
+    },
+    {
+      "case": "spillover_wrong_count",
+      "kind": "deviation",
+      "reader": "flowio",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_wrong_count",
+      "kind": "deviation",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_wrong_count",
+      "kind": "deviation",
+      "reader": "flowkit",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_wrong_count",
+      "kind": "deviation",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_wrong_count",
+      "kind": "deviation",
+      "reader": "fcsparser",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_wrong_count",
+      "kind": "deviation",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_unknown_channel",
+      "kind": "deviation",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_unknown_channel",
+      "kind": "deviation",
+      "reader": "cytopk_strict",
+      "outcome": "error",
+      "error": "FcsReadError: keyword $SPILLOVER: malformed spillover matrix ignored: channel \"NOPE\" is not a $PnN of this file"
+    },
+    {
+      "case": "spillover_unknown_channel",
+      "kind": "deviation",
+      "reader": "flowio",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_unknown_channel",
+      "kind": "deviation",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_unknown_channel",
+      "kind": "deviation",
+      "reader": "flowkit",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_unknown_channel",
+      "kind": "deviation",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_unknown_channel",
+      "kind": "deviation",
+      "reader": "fcsparser",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_unknown_channel",
+      "kind": "deviation",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_non_numeric",
+      "kind": "deviation",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_non_numeric",
+      "kind": "deviation",
+      "reader": "cytopk_strict",
+      "outcome": "error",
+      "error": "FcsReadError: keyword $SPILLOVER: malformed spillover matrix ignored: value \"x\" is not a number"
+    },
+    {
+      "case": "spillover_non_numeric",
+      "kind": "deviation",
+      "reader": "flowio",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_non_numeric",
+      "kind": "deviation",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_non_numeric",
+      "kind": "deviation",
+      "reader": "flowkit",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_non_numeric",
+      "kind": "deviation",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_non_numeric",
+      "kind": "deviation",
+      "reader": "fcsparser",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_non_numeric",
+      "kind": "deviation",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_truncated",
+      "kind": "deviation",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_truncated",
+      "kind": "deviation",
+      "reader": "cytopk_strict",
+      "outcome": "error",
+      "error": "FcsReadError: keyword $SPILLOVER: malformed spillover matrix ignored: 5 fields, expected 1 + n + n^2 = 7 for n = 2"
+    },
+    {
+      "case": "spillover_truncated",
+      "kind": "deviation",
+      "reader": "flowio",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_truncated",
+      "kind": "deviation",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_truncated",
+      "kind": "deviation",
+      "reader": "flowkit",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_truncated",
+      "kind": "deviation",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_truncated",
+      "kind": "deviation",
+      "reader": "fcsparser",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_truncated",
+      "kind": "deviation",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_empty",
+      "kind": "deviation",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_empty",
+      "kind": "deviation",
+      "reader": "cytopk_strict",
+      "outcome": "error",
+      "error": "FcsReadError: TEXT segment (byte 545): 11 trailing bytes after the last delimiter ignored"
+    },
+    {
+      "case": "spillover_empty",
+      "kind": "deviation",
+      "reader": "flowio",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_empty",
+      "kind": "deviation",
+      "reader": "flowio_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_empty",
+      "kind": "deviation",
+      "reader": "flowkit",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_empty",
+      "kind": "deviation",
+      "reader": "flowkit_lenient",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_empty",
+      "kind": "deviation",
+      "reader": "fcsparser",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_empty",
+      "kind": "deviation",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "nextdata_beyond_eof",
+      "kind": "deviation",
+      "reader": "cytopk",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "nextdata_beyond_eof",
+      "kind": "deviation",
+      "reader": "cytopk_strict",
+      "outcome": "error",
+      "error": "FcsReadError: keyword $NEXTDATA: $NEXTDATA 999999999 points beyond the file end; ignored"
+    },
+    {
+      "case": "nextdata_beyond_eof",
+      "kind": "deviation",
+      "reader": "flowio",
+      "outcome": "error",
+      "error": "MultipleDataSetsError: nextdata_beyond_eof.fcs contains multiple data sets, use read_multiple_data_sets function"
+    },
+    {
+      "case": "nextdata_beyond_eof",
+      "kind": "deviation",
+      "reader": "flowio_lenient",
+      "outcome": "error",
+      "error": "MultipleDataSetsError: nextdata_beyond_eof.fcs contains multiple data sets, use read_multiple_data_sets function"
+    },
+    {
+      "case": "nextdata_beyond_eof",
+      "kind": "deviation",
+      "reader": "flowkit",
+      "outcome": "error",
+      "error": "MultipleDataSetsError: nextdata_beyond_eof.fcs contains multiple data sets, use read_multiple_data_sets function"
+    },
+    {
+      "case": "nextdata_beyond_eof",
+      "kind": "deviation",
+      "reader": "flowkit_lenient",
+      "outcome": "error",
+      "error": "MultipleDataSetsError: nextdata_beyond_eof.fcs contains multiple data sets, use read_multiple_data_sets function"
+    },
+    {
+      "case": "nextdata_beyond_eof",
+      "kind": "deviation",
+      "reader": "fcsparser",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "nextdata_beyond_eof",
+      "kind": "deviation",
+      "reader": "fcsparser_numpy1",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_f32_le",
+      "kind": "conformant",
+      "reader": "flowcore",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_f64_be",
+      "kind": "conformant",
+      "reader": "flowcore",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "clean_int_mixed_widths_be",
+      "kind": "conformant",
+      "reader": "flowcore",
+      "outcome": "error",
+      "error": "object 'dat' not found"
+    },
+    {
+      "case": "header_data_offsets_zero",
+      "kind": "conformant",
+      "reader": "flowcore",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "delimiter_pipe_escaped_values",
+      "kind": "conformant",
+      "reader": "flowcore",
+      "outcome": "error",
+      "error": "Empty keyword name detected!If it is due to the double delimiters in keyword value, please set emptyValue to FALSE and try again!"
+    },
+    {
+      "case": "lowercase_keywords",
+      "kind": "conformant",
+      "reader": "flowcore",
+      "outcome": "error",
+      "error": "Parameter(s) $BYTEORD not contained in 'x' "
+    },
+    {
+      "case": "int16_bits_above_PnR",
+      "kind": "conformant",
+      "reader": "flowcore",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "empty_value",
+      "kind": "deviation",
+      "reader": "flowcore",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "consecutive_empty_values",
+      "kind": "deviation",
+      "reader": "flowcore",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "missing_final_delimiter",
+      "kind": "deviation",
+      "reader": "flowcore",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "doubled_final_delimiter",
+      "kind": "deviation",
+      "reader": "flowcore",
+      "outcome": "error",
+      "error": "Empty keyword name detected!If it is due to the double delimiters in keyword value, please set emptyValue to FALSE and try again!"
+    },
+    {
+      "case": "trailing_bytes_in_text",
+      "kind": "deviation",
+      "reader": "flowcore",
+      "outcome": "error",
+      "error": "embedded nul in string: '/$BEGINANALYSIS/0/$BEGINDATA/8192/$BEGINSTEXT/0/$ENDANALYSIS/0/$ENDDATA/40191/$ENDSTEXT/0/$NEXTDATA/0/$BYTEORD/1,2,3,4/$DATATYPE/F/$MODE/L/$PAR/8/$TOT/1000/$P1B/32/$P1E/0,0/$P1N/FSC-A/$P1R/262144/$P2B/32/$P2E/0,0/$P2N/SSC-A/$P2R/262144/$P3B/32/$P3E/0,0/$P3N/FL1-A/$P3R/262144"
+    },
+    {
+      "case": "keyword_with_spaces",
+      "kind": "deviation",
+      "reader": "flowcore",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "duplicate_keyword",
+      "kind": "deviation",
+      "reader": "flowcore",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "latin1_text",
+      "kind": "deviation",
+      "reader": "flowcore",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "missing_PnE",
+      "kind": "deviation",
+      "reader": "flowcore",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "missing_NEXTDATA",
+      "kind": "deviation",
+      "reader": "flowcore",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "version_fcs2_0",
+      "kind": "deviation",
+      "reader": "flowcore",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "enddata_off_by_one",
+      "kind": "deviation",
+      "reader": "flowcore",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "header_keyword_data_mismatch",
+      "kind": "deviation",
+      "reader": "flowcore",
+      "outcome": "error",
+      "error": "The HEADER and the TEXT segment define different starting point (8196:8192) to read the data."
+    },
+    {
+      "case": "tot_too_large",
+      "kind": "deviation",
+      "reader": "flowcore",
+      "outcome": "error",
+      "error": "file/home/emil/cytopk/data/fcs_corpus/tot_too_large.fcsseems to be corrupted.   The actual number of cells in data section (1000) is not consistent with keyword '$TOT' (1500)"
+    },
+    {
+      "case": "tot_too_small",
+      "kind": "deviation",
+      "reader": "flowcore",
+      "outcome": "error",
+      "error": "file/home/emil/cytopk/data/fcs_corpus/tot_too_small.fcsseems to be corrupted.   The actual number of cells in data section (1000) is not consistent with keyword '$TOT' (800)"
+    },
+    {
+      "case": "truncated_data",
+      "kind": "deviation",
+      "reader": "flowcore",
+      "outcome": "error",
+      "error": "file/home/emil/cytopk/data/fcs_corpus/truncated_data.fcsseems to be corrupted.   The actual number of cells in data section (968) is not consistent with keyword '$TOT' (1000)"
+    },
+    {
+      "case": "header_offsets_only",
+      "kind": "deviation",
+      "reader": "flowcore",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_wrong_count",
+      "kind": "deviation",
+      "reader": "flowcore",
+      "outcome": "error",
+      "error": "$SPILLOVER size discrepancy could not be resolved! "
+    },
+    {
+      "case": "spillover_unknown_channel",
+      "kind": "deviation",
+      "reader": "flowcore",
+      "outcome": "correct",
+      "error": null
+    },
+    {
+      "case": "spillover_non_numeric",
+      "kind": "deviation",
+      "reader": "flowcore",
+      "outcome": "error",
+      "error": "bad lexical cast: source type value could not be interpreted as target"
+    },
+    {
+      "case": "spillover_truncated",
+      "kind": "deviation",
+      "reader": "flowcore",
+      "outcome": "error",
+      "error": "$SPILLOVER size discrepancy could not be resolved! "
+    },
+    {
+      "case": "spillover_empty",
+      "kind": "deviation",
+      "reader": "flowcore",
+      "outcome": "error",
+      "error": "bad lexical cast: source type value could not be interpreted as target"
+    },
+    {
+      "case": "nextdata_beyond_eof",
+      "kind": "deviation",
+      "reader": "flowcore",
+      "outcome": "error",
+      "error": "argument is of length zero"
+    }
+  ],
+  "real_files": [
+    {
+      "file": "100715.fcs",
+      "source": "FlowIO",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        65016,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "100715.fcs",
+      "source": "FlowIO",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: not a supported FCS version: \"FCS2.0\" at offset 0 (supported: FCS3.0, FCS3.1; lenient also FCS2.0, FCS3.2)"
+    },
+    {
+      "file": "100715.fcs",
+      "source": "FlowIO",
+      "reader": "flowio",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        65016,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "100715.fcs",
+      "source": "FlowIO",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        65016,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "100715.fcs",
+      "source": "FlowIO",
+      "reader": "flowkit",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        65016,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "100715.fcs",
+      "source": "FlowIO",
+      "reader": "flowkit_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        65016,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "100715.fcs",
+      "source": "FlowIO",
+      "reader": "fcsparser",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "file": "100715.fcs",
+      "source": "FlowIO",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        65016,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "100715.fcs",
+      "source": "FlowIO",
+      "reader": "flowcore",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        65016,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "3FITC_4PE_004.fcs",
+      "source": "FlowIO",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        94569,
+        4
+      ],
+      "error": null
+    },
+    {
+      "file": "3FITC_4PE_004.fcs",
+      "source": "FlowIO",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: not a supported FCS version: \"FCS2.0\" at offset 0 (supported: FCS3.0, FCS3.1; lenient also FCS2.0, FCS3.2)"
+    },
+    {
+      "file": "3FITC_4PE_004.fcs",
+      "source": "FlowIO",
+      "reader": "flowio",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        94569,
+        4
+      ],
+      "error": null
+    },
+    {
+      "file": "3FITC_4PE_004.fcs",
+      "source": "FlowIO",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        94569,
+        4
+      ],
+      "error": null
+    },
+    {
+      "file": "3FITC_4PE_004.fcs",
+      "source": "FlowIO",
+      "reader": "flowkit",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        94569,
+        4
+      ],
+      "error": null
+    },
+    {
+      "file": "3FITC_4PE_004.fcs",
+      "source": "FlowIO",
+      "reader": "flowkit_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        94569,
+        4
+      ],
+      "error": null
+    },
+    {
+      "file": "3FITC_4PE_004.fcs",
+      "source": "FlowIO",
+      "reader": "fcsparser",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        94569,
+        4
+      ],
+      "error": null
+    },
+    {
+      "file": "3FITC_4PE_004.fcs",
+      "source": "FlowIO",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        94569,
+        4
+      ],
+      "error": null
+    },
+    {
+      "file": "3FITC_4PE_004.fcs",
+      "source": "FlowIO",
+      "reader": "flowcore",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        94569,
+        4
+      ],
+      "error": null
+    },
+    {
+      "file": "B01 KC-A-W---91-US.fcs",
+      "source": "FlowIO",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        1589,
+        14
+      ],
+      "error": null
+    },
+    {
+      "file": "B01 KC-A-W---91-US.fcs",
+      "source": "FlowIO",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: keyword $FIL: keyword in both TEXT and supplemental TEXT; primary kept"
+    },
+    {
+      "file": "B01 KC-A-W---91-US.fcs",
+      "source": "FlowIO",
+      "reader": "flowio",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        1589,
+        14
+      ],
+      "error": null
+    },
+    {
+      "file": "B01 KC-A-W---91-US.fcs",
+      "source": "FlowIO",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        1589,
+        14
+      ],
+      "error": null
+    },
+    {
+      "file": "B01 KC-A-W---91-US.fcs",
+      "source": "FlowIO",
+      "reader": "flowkit",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        1589,
+        14
+      ],
+      "error": null
+    },
+    {
+      "file": "B01 KC-A-W---91-US.fcs",
+      "source": "FlowIO",
+      "reader": "flowkit_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        1589,
+        14
+      ],
+      "error": null
+    },
+    {
+      "file": "B01 KC-A-W---91-US.fcs",
+      "source": "FlowIO",
+      "reader": "fcsparser",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "file": "B01 KC-A-W---91-US.fcs",
+      "source": "FlowIO",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        1589,
+        14
+      ],
+      "error": null
+    },
+    {
+      "file": "B01 KC-A-W---91-US.fcs",
+      "source": "FlowIO",
+      "reader": "flowcore",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        1589,
+        14
+      ],
+      "error": null
+    },
+    {
+      "file": "G11.fcs",
+      "source": "FlowIO",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        5785,
+        12
+      ],
+      "error": null
+    },
+    {
+      "file": "G11.fcs",
+      "source": "FlowIO",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: TEXT segment (byte 8192): 5714 trailing bytes after the last delimiter ignored"
+    },
+    {
+      "file": "G11.fcs",
+      "source": "FlowIO",
+      "reader": "flowio",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        5785,
+        12
+      ],
+      "error": null
+    },
+    {
+      "file": "G11.fcs",
+      "source": "FlowIO",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        5785,
+        12
+      ],
+      "error": null
+    },
+    {
+      "file": "G11.fcs",
+      "source": "FlowIO",
+      "reader": "flowkit",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        5785,
+        12
+      ],
+      "error": null
+    },
+    {
+      "file": "G11.fcs",
+      "source": "FlowIO",
+      "reader": "flowkit_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        5785,
+        12
+      ],
+      "error": null
+    },
+    {
+      "file": "G11.fcs",
+      "source": "FlowIO",
+      "reader": "fcsparser",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        5785,
+        12
+      ],
+      "error": null
+    },
+    {
+      "file": "G11.fcs",
+      "source": "FlowIO",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        5785,
+        12
+      ],
+      "error": null
+    },
+    {
+      "file": "G11.fcs",
+      "source": "FlowIO",
+      "reader": "flowcore",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "Empty keyword name detected!If it is due to the double delimiters in keyword value, please set emptyValue to FALSE and try again!"
+    },
+    {
+      "file": "coulter.lmd",
+      "source": "FlowIO",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        18110,
+        8
+      ],
+      "error": null
+    },
+    {
+      "file": "coulter.lmd",
+      "source": "FlowIO",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: not a supported FCS version: \"FCS2.0\" at offset 0 (supported: FCS3.0, FCS3.1; lenient also FCS2.0, FCS3.2)"
+    },
+    {
+      "file": "coulter.lmd",
+      "source": "FlowIO",
+      "reader": "flowio",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "MultipleDataSetsError: coulter.lmd contains multiple data sets, use read_multiple_data_sets function"
+    },
+    {
+      "file": "coulter.lmd",
+      "source": "FlowIO",
+      "reader": "flowio_lenient",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "MultipleDataSetsError: coulter.lmd contains multiple data sets, use read_multiple_data_sets function"
+    },
+    {
+      "file": "coulter.lmd",
+      "source": "FlowIO",
+      "reader": "flowkit",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "MultipleDataSetsError: coulter.lmd contains multiple data sets, use read_multiple_data_sets function"
+    },
+    {
+      "file": "coulter.lmd",
+      "source": "FlowIO",
+      "reader": "flowkit_lenient",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "MultipleDataSetsError: coulter.lmd contains multiple data sets, use read_multiple_data_sets function"
+    },
+    {
+      "file": "coulter.lmd",
+      "source": "FlowIO",
+      "reader": "fcsparser",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        18110,
+        8
+      ],
+      "error": null
+    },
+    {
+      "file": "coulter.lmd",
+      "source": "FlowIO",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        18110,
+        8
+      ],
+      "error": null
+    },
+    {
+      "file": "coulter.lmd",
+      "source": "FlowIO",
+      "reader": "flowcore",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        18110,
+        8
+      ],
+      "error": null
+    },
+    {
+      "file": "data1.fcs",
+      "source": "FlowIO",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        13367,
+        8
+      ],
+      "error": null
+    },
+    {
+      "file": "data1.fcs",
+      "source": "FlowIO",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: not a supported FCS version: \"FCS2.0\" at offset 0 (supported: FCS3.0, FCS3.1; lenient also FCS2.0, FCS3.2)"
+    },
+    {
+      "file": "data1.fcs",
+      "source": "FlowIO",
+      "reader": "flowio",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        13367,
+        8
+      ],
+      "error": null
+    },
+    {
+      "file": "data1.fcs",
+      "source": "FlowIO",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        13367,
+        8
+      ],
+      "error": null
+    },
+    {
+      "file": "data1.fcs",
+      "source": "FlowIO",
+      "reader": "flowkit",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        13367,
+        8
+      ],
+      "error": null
+    },
+    {
+      "file": "data1.fcs",
+      "source": "FlowIO",
+      "reader": "flowkit_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        13367,
+        8
+      ],
+      "error": null
+    },
+    {
+      "file": "data1.fcs",
+      "source": "FlowIO",
+      "reader": "fcsparser",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "file": "data1.fcs",
+      "source": "FlowIO",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        13367,
+        8
+      ],
+      "error": null
+    },
+    {
+      "file": "data1.fcs",
+      "source": "FlowIO",
+      "reader": "flowcore",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        13367,
+        8
+      ],
+      "error": null
+    },
+    {
+      "file": "data_start_offset_discrepancy_example.fcs",
+      "source": "FlowIO",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        2,
+        26
+      ],
+      "error": null
+    },
+    {
+      "file": "data_start_offset_discrepancy_example.fcs",
+      "source": "FlowIO",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: DATA segment: HEADER DATA [5555, 6188] and $BEGINDATA/$ENDDATA [6081, 6188] disagree; using [6081, 6188]"
+    },
+    {
+      "file": "data_start_offset_discrepancy_example.fcs",
+      "source": "FlowIO",
+      "reader": "flowio",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "DataOffsetDiscrepancyError: data_start_offset_discrepancy_example.fcs has a discrepancy in the DATA start byte location: 5555 (HEADER) vs 6081 (TEXT)"
+    },
+    {
+      "file": "data_start_offset_discrepancy_example.fcs",
+      "source": "FlowIO",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        2,
+        26
+      ],
+      "error": null
+    },
+    {
+      "file": "data_start_offset_discrepancy_example.fcs",
+      "source": "FlowIO",
+      "reader": "flowkit",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "DataOffsetDiscrepancyError: data_start_offset_discrepancy_example.fcs has a discrepancy in the DATA start byte location: 5555 (HEADER) vs 6081 (TEXT)"
+    },
+    {
+      "file": "data_start_offset_discrepancy_example.fcs",
+      "source": "FlowIO",
+      "reader": "flowkit_lenient",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "ValueError: Timestep value should be a float value but found the value 'xxxxxxxxx'"
+    },
+    {
+      "file": "data_start_offset_discrepancy_example.fcs",
+      "source": "FlowIO",
+      "reader": "fcsparser",
+      "status": "ok",
+      "agrees_with_cytopk": false,
+      "shape": [
+        2,
+        26
+      ],
+      "error": null
+    },
+    {
+      "file": "data_start_offset_discrepancy_example.fcs",
+      "source": "FlowIO",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": false,
+      "shape": [
+        2,
+        26
+      ],
+      "error": null
+    },
+    {
+      "file": "data_start_offset_discrepancy_example.fcs",
+      "source": "FlowIO",
+      "reader": "flowcore",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "The HEADER and the TEXT segment define different starting point (5555:6081) to read the data."
+    },
+    {
+      "file": "data_stop_offset_discrepancy_example.fcs",
+      "source": "FlowIO",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        2,
+        26
+      ],
+      "error": null
+    },
+    {
+      "file": "data_stop_offset_discrepancy_example.fcs",
+      "source": "FlowIO",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: DATA segment: HEADER DATA [6081, 6944] and $BEGINDATA/$ENDDATA [6081, 6188] disagree; using [6081, 6188]"
+    },
+    {
+      "file": "data_stop_offset_discrepancy_example.fcs",
+      "source": "FlowIO",
+      "reader": "flowio",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "DataOffsetDiscrepancyError: data_stop_offset_discrepancy_example.fcs has a discrepancy in the DATA end byte location: 6944 (HEADER) vs 6188 (TEXT)"
+    },
+    {
+      "file": "data_stop_offset_discrepancy_example.fcs",
+      "source": "FlowIO",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        2,
+        26
+      ],
+      "error": null
+    },
+    {
+      "file": "data_stop_offset_discrepancy_example.fcs",
+      "source": "FlowIO",
+      "reader": "flowkit",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "DataOffsetDiscrepancyError: data_stop_offset_discrepancy_example.fcs has a discrepancy in the DATA end byte location: 6944 (HEADER) vs 6188 (TEXT)"
+    },
+    {
+      "file": "data_stop_offset_discrepancy_example.fcs",
+      "source": "FlowIO",
+      "reader": "flowkit_lenient",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "ValueError: Timestep value should be a float value but found the value 'xxxxxxxxx'"
+    },
+    {
+      "file": "data_stop_offset_discrepancy_example.fcs",
+      "source": "FlowIO",
+      "reader": "fcsparser",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        2,
+        26
+      ],
+      "error": null
+    },
+    {
+      "file": "data_stop_offset_discrepancy_example.fcs",
+      "source": "FlowIO",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        2,
+        26
+      ],
+      "error": null
+    },
+    {
+      "file": "data_stop_offset_discrepancy_example.fcs",
+      "source": "FlowIO",
+      "reader": "flowcore",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "The HEADER and the TEXT segment define different ending point (6944:6188) to read the data."
+    },
+    {
+      "file": "variable_int_example.fcs",
+      "source": "FlowIO",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        2,
+        26
+      ],
+      "error": null
+    },
+    {
+      "file": "variable_int_example.fcs",
+      "source": "FlowIO",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: keyword SPILL: malformed spillover matrix ignored: channel \"xxxxxxxxxxxxxxxxxxxxxxxxxxxx\" is not a $PnN of this file"
+    },
+    {
+      "file": "variable_int_example.fcs",
+      "source": "FlowIO",
+      "reader": "flowio",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        2,
+        26
+      ],
+      "error": null
+    },
+    {
+      "file": "variable_int_example.fcs",
+      "source": "FlowIO",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        2,
+        26
+      ],
+      "error": null
+    },
+    {
+      "file": "variable_int_example.fcs",
+      "source": "FlowIO",
+      "reader": "flowkit",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "ValueError: Timestep value should be a float value but found the value 'xxxxxxxxx'"
+    },
+    {
+      "file": "variable_int_example.fcs",
+      "source": "FlowIO",
+      "reader": "flowkit_lenient",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "ValueError: Timestep value should be a float value but found the value 'xxxxxxxxx'"
+    },
+    {
+      "file": "variable_int_example.fcs",
+      "source": "FlowIO",
+      "reader": "fcsparser",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        2,
+        26
+      ],
+      "error": null
+    },
+    {
+      "file": "variable_int_example.fcs",
+      "source": "FlowIO",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        2,
+        26
+      ],
+      "error": null
+    },
+    {
+      "file": "variable_int_example.fcs",
+      "source": "FlowIO",
+      "reader": "flowcore",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "object 'dat' not found"
+    },
+    {
+      "file": "M0_WM278_S1.fcs",
+      "source": "FlowIO",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        159190,
+        21
+      ],
+      "error": null
+    },
+    {
+      "file": "M0_WM278_S1.fcs",
+      "source": "FlowIO",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: TEXT segment (byte 13376121): supplemental TEXT unreadable (TEXT segment (byte 13499572): TEXT does not end with the delimiter; last value kept); ignored"
+    },
+    {
+      "file": "M0_WM278_S1.fcs",
+      "source": "FlowIO",
+      "reader": "flowio",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        159190,
+        21
+      ],
+      "error": null
+    },
+    {
+      "file": "M0_WM278_S1.fcs",
+      "source": "FlowIO",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        159190,
+        21
+      ],
+      "error": null
+    },
+    {
+      "file": "M0_WM278_S1.fcs",
+      "source": "FlowIO",
+      "reader": "flowkit",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        159190,
+        21
+      ],
+      "error": null
+    },
+    {
+      "file": "M0_WM278_S1.fcs",
+      "source": "FlowIO",
+      "reader": "flowkit_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        159190,
+        21
+      ],
+      "error": null
+    },
+    {
+      "file": "M0_WM278_S1.fcs",
+      "source": "FlowIO",
+      "reader": "fcsparser",
+      "status": "ok",
+      "agrees_with_cytopk": false,
+      "shape": [
+        159190,
+        21
+      ],
+      "error": null
+    },
+    {
+      "file": "M0_WM278_S1.fcs",
+      "source": "FlowIO",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": false,
+      "shape": [
+        159190,
+        21
+      ],
+      "error": null
+    },
+    {
+      "file": "M0_WM278_S1.fcs",
+      "source": "FlowIO",
+      "reader": "flowcore",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        159190,
+        21
+      ],
+      "error": null
+    },
+    {
+      "file": "109567.fcs",
+      "source": "FlowKit",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        160074,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "109567.fcs",
+      "source": "FlowKit",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: not a supported FCS version: \"FCS2.0\" at offset 0 (supported: FCS3.0, FCS3.1; lenient also FCS2.0, FCS3.2)"
+    },
+    {
+      "file": "109567.fcs",
+      "source": "FlowKit",
+      "reader": "flowio",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        160074,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "109567.fcs",
+      "source": "FlowKit",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        160074,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "109567.fcs",
+      "source": "FlowKit",
+      "reader": "flowkit",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        160074,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "109567.fcs",
+      "source": "FlowKit",
+      "reader": "flowkit_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        160074,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "109567.fcs",
+      "source": "FlowKit",
+      "reader": "fcsparser",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "file": "109567.fcs",
+      "source": "FlowKit",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        160074,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "109567.fcs",
+      "source": "FlowKit",
+      "reader": "flowcore",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        160074,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "101_DEN084Y5_15_E01_008_clean.fcs",
+      "source": "FlowKit",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        290172,
+        15
+      ],
+      "error": null
+    },
+    {
+      "file": "101_DEN084Y5_15_E01_008_clean.fcs",
+      "source": "FlowKit",
+      "reader": "cytopk_strict",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        290172,
+        15
+      ],
+      "error": null
+    },
+    {
+      "file": "101_DEN084Y5_15_E01_008_clean.fcs",
+      "source": "FlowKit",
+      "reader": "flowio",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        290172,
+        15
+      ],
+      "error": null
+    },
+    {
+      "file": "101_DEN084Y5_15_E01_008_clean.fcs",
+      "source": "FlowKit",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        290172,
+        15
+      ],
+      "error": null
+    },
+    {
+      "file": "101_DEN084Y5_15_E01_008_clean.fcs",
+      "source": "FlowKit",
+      "reader": "flowkit",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        290172,
+        15
+      ],
+      "error": null
+    },
+    {
+      "file": "101_DEN084Y5_15_E01_008_clean.fcs",
+      "source": "FlowKit",
+      "reader": "flowkit_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        290172,
+        15
+      ],
+      "error": null
+    },
+    {
+      "file": "101_DEN084Y5_15_E01_008_clean.fcs",
+      "source": "FlowKit",
+      "reader": "fcsparser",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        290172,
+        15
+      ],
+      "error": null
+    },
+    {
+      "file": "101_DEN084Y5_15_E01_008_clean.fcs",
+      "source": "FlowKit",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        290172,
+        15
+      ],
+      "error": null
+    },
+    {
+      "file": "101_DEN084Y5_15_E01_008_clean.fcs",
+      "source": "FlowKit",
+      "reader": "flowcore",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        290172,
+        15
+      ],
+      "error": null
+    },
+    {
+      "file": "index_sorted_example.fcs",
+      "source": "FlowKit",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        384,
+        13
+      ],
+      "error": null
+    },
+    {
+      "file": "index_sorted_example.fcs",
+      "source": "FlowKit",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: keyword $TOT: \"384                \" is not a plain unsigned integer; read as 384"
+    },
+    {
+      "file": "index_sorted_example.fcs",
+      "source": "FlowKit",
+      "reader": "flowio",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        384,
+        13
+      ],
+      "error": null
+    },
+    {
+      "file": "index_sorted_example.fcs",
+      "source": "FlowKit",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        384,
+        13
+      ],
+      "error": null
+    },
+    {
+      "file": "index_sorted_example.fcs",
+      "source": "FlowKit",
+      "reader": "flowkit",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        384,
+        13
+      ],
+      "error": null
+    },
+    {
+      "file": "index_sorted_example.fcs",
+      "source": "FlowKit",
+      "reader": "flowkit_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        384,
+        13
+      ],
+      "error": null
+    },
+    {
+      "file": "index_sorted_example.fcs",
+      "source": "FlowKit",
+      "reader": "fcsparser",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "file": "index_sorted_example.fcs",
+      "source": "FlowKit",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        384,
+        13
+      ],
+      "error": null
+    },
+    {
+      "file": "index_sorted_example.fcs",
+      "source": "FlowKit",
+      "reader": "flowcore",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        384,
+        13
+      ],
+      "error": null
+    },
+    {
+      "file": "data_set_simple_line_100.fcs",
+      "source": "FlowKit",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        100,
+        2
+      ],
+      "error": null
+    },
+    {
+      "file": "data_set_simple_line_100.fcs",
+      "source": "FlowKit",
+      "reader": "cytopk_strict",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        100,
+        2
+      ],
+      "error": null
+    },
+    {
+      "file": "data_set_simple_line_100.fcs",
+      "source": "FlowKit",
+      "reader": "flowio",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        100,
+        2
+      ],
+      "error": null
+    },
+    {
+      "file": "data_set_simple_line_100.fcs",
+      "source": "FlowKit",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        100,
+        2
+      ],
+      "error": null
+    },
+    {
+      "file": "data_set_simple_line_100.fcs",
+      "source": "FlowKit",
+      "reader": "flowkit",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        100,
+        2
+      ],
+      "error": null
+    },
+    {
+      "file": "data_set_simple_line_100.fcs",
+      "source": "FlowKit",
+      "reader": "flowkit_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        100,
+        2
+      ],
+      "error": null
+    },
+    {
+      "file": "data_set_simple_line_100.fcs",
+      "source": "FlowKit",
+      "reader": "fcsparser",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        100,
+        2
+      ],
+      "error": null
+    },
+    {
+      "file": "data_set_simple_line_100.fcs",
+      "source": "FlowKit",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        100,
+        2
+      ],
+      "error": null
+    },
+    {
+      "file": "data_set_simple_line_100.fcs",
+      "source": "FlowKit",
+      "reader": "flowcore",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        100,
+        2
+      ],
+      "error": null
+    },
+    {
+      "file": "test_comp_example.fcs",
+      "source": "FlowKit",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        10703,
+        18
+      ],
+      "error": null
+    },
+    {
+      "file": "test_comp_example.fcs",
+      "source": "FlowKit",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: TEXT segment (byte 3278): 1 trailing bytes after the last delimiter ignored"
+    },
+    {
+      "file": "test_comp_example.fcs",
+      "source": "FlowKit",
+      "reader": "flowio",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FCSParsingError: FCS file test_comp_example.fcs reports a data offset that is off by 1. Set `ignore_offset_error=True` to force reading in this file."
+    },
+    {
+      "file": "test_comp_example.fcs",
+      "source": "FlowKit",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10703,
+        18
+      ],
+      "error": null
+    },
+    {
+      "file": "test_comp_example.fcs",
+      "source": "FlowKit",
+      "reader": "flowkit",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FCSParsingError: FCS file test_comp_example.fcs reports a data offset that is off by 1. Set `ignore_offset_error=True` to force reading in this file."
+    },
+    {
+      "file": "test_comp_example.fcs",
+      "source": "FlowKit",
+      "reader": "flowkit_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10703,
+        18
+      ],
+      "error": null
+    },
+    {
+      "file": "test_comp_example.fcs",
+      "source": "FlowKit",
+      "reader": "fcsparser",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "file": "test_comp_example.fcs",
+      "source": "FlowKit",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10703,
+        18
+      ],
+      "error": null
+    },
+    {
+      "file": "test_comp_example.fcs",
+      "source": "FlowKit",
+      "reader": "flowcore",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10703,
+        18
+      ],
+      "error": null
+    },
+    {
+      "file": "test_data_2d_01.fcs",
+      "source": "FlowKit",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        10000,
+        2
+      ],
+      "error": null
+    },
+    {
+      "file": "test_data_2d_01.fcs",
+      "source": "FlowKit",
+      "reader": "cytopk_strict",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        2
+      ],
+      "error": null
+    },
+    {
+      "file": "test_data_2d_01.fcs",
+      "source": "FlowKit",
+      "reader": "flowio",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        2
+      ],
+      "error": null
+    },
+    {
+      "file": "test_data_2d_01.fcs",
+      "source": "FlowKit",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        2
+      ],
+      "error": null
+    },
+    {
+      "file": "test_data_2d_01.fcs",
+      "source": "FlowKit",
+      "reader": "flowkit",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        2
+      ],
+      "error": null
+    },
+    {
+      "file": "test_data_2d_01.fcs",
+      "source": "FlowKit",
+      "reader": "flowkit_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        2
+      ],
+      "error": null
+    },
+    {
+      "file": "test_data_2d_01.fcs",
+      "source": "FlowKit",
+      "reader": "fcsparser",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        2
+      ],
+      "error": null
+    },
+    {
+      "file": "test_data_2d_01.fcs",
+      "source": "FlowKit",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        2
+      ],
+      "error": null
+    },
+    {
+      "file": "test_data_2d_01.fcs",
+      "source": "FlowKit",
+      "reader": "flowcore",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        2
+      ],
+      "error": null
+    },
+    {
+      "file": "Cytek_xP5.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        23126,
+        8
+      ],
+      "error": null
+    },
+    {
+      "file": "Cytek_xP5.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk_strict",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        23126,
+        8
+      ],
+      "error": null
+    },
+    {
+      "file": "Cytek_xP5.fcs",
+      "source": "fcsparser",
+      "reader": "flowio",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "ValueError: cannot reshape array of size 1 into shape (8)"
+    },
+    {
+      "file": "Cytek_xP5.fcs",
+      "source": "fcsparser",
+      "reader": "flowio_lenient",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "ValueError: cannot reshape array of size 1 into shape (8)"
+    },
+    {
+      "file": "Cytek_xP5.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "ValueError: cannot reshape array of size 1 into shape (8)"
+    },
+    {
+      "file": "Cytek_xP5.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit_lenient",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "ValueError: cannot reshape array of size 1 into shape (8)"
+    },
+    {
+      "file": "Cytek_xP5.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "file": "Cytek_xP5.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        23126,
+        8
+      ],
+      "error": null
+    },
+    {
+      "file": "Cytek_xP5.fcs",
+      "source": "fcsparser",
+      "reader": "flowcore",
+      "status": "ok",
+      "agrees_with_cytopk": false,
+      "shape": [
+        23126,
+        8
+      ],
+      "error": null
+    },
+    {
+      "file": "Sample_Well_A02.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        37395,
+        8
+      ],
+      "error": null
+    },
+    {
+      "file": "Sample_Well_A02.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: not a supported FCS version: \"FCS2.0\" at offset 0 (supported: FCS3.0, FCS3.1; lenient also FCS2.0, FCS3.2)"
+    },
+    {
+      "file": "Sample_Well_A02.fcs",
+      "source": "fcsparser",
+      "reader": "flowio",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        37395,
+        8
+      ],
+      "error": null
+    },
+    {
+      "file": "Sample_Well_A02.fcs",
+      "source": "fcsparser",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        37395,
+        8
+      ],
+      "error": null
+    },
+    {
+      "file": "Sample_Well_A02.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        37395,
+        8
+      ],
+      "error": null
+    },
+    {
+      "file": "Sample_Well_A02.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        37395,
+        8
+      ],
+      "error": null
+    },
+    {
+      "file": "Sample_Well_A02.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "file": "Sample_Well_A02.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        37395,
+        8
+      ],
+      "error": null
+    },
+    {
+      "file": "Sample_Well_A02.fcs",
+      "source": "fcsparser",
+      "reader": "flowcore",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        37395,
+        8
+      ],
+      "error": null
+    },
+    {
+      "file": "facs_diva_test.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        83411,
+        12
+      ],
+      "error": null
+    },
+    {
+      "file": "facs_diva_test.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: keyword $TOT: \"83411              \" is not a plain unsigned integer; read as 83411"
+    },
+    {
+      "file": "facs_diva_test.fcs",
+      "source": "fcsparser",
+      "reader": "flowio",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        83411,
+        12
+      ],
+      "error": null
+    },
+    {
+      "file": "facs_diva_test.fcs",
+      "source": "fcsparser",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        83411,
+        12
+      ],
+      "error": null
+    },
+    {
+      "file": "facs_diva_test.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        83411,
+        12
+      ],
+      "error": null
+    },
+    {
+      "file": "facs_diva_test.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        83411,
+        12
+      ],
+      "error": null
+    },
+    {
+      "file": "facs_diva_test.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "file": "facs_diva_test.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        83411,
+        12
+      ],
+      "error": null
+    },
+    {
+      "file": "facs_diva_test.fcs",
+      "source": "fcsparser",
+      "reader": "flowcore",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        83411,
+        12
+      ],
+      "error": null
+    },
+    {
+      "file": "FCS_3.0_Fortessa_PBS_Specimen_001_A1_A01.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        11585,
+        11
+      ],
+      "error": null
+    },
+    {
+      "file": "FCS_3.0_Fortessa_PBS_Specimen_001_A1_A01.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: keyword $TOT: \"11585              \" is not a plain unsigned integer; read as 11585"
+    },
+    {
+      "file": "FCS_3.0_Fortessa_PBS_Specimen_001_A1_A01.fcs",
+      "source": "fcsparser",
+      "reader": "flowio",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        11585,
+        11
+      ],
+      "error": null
+    },
+    {
+      "file": "FCS_3.0_Fortessa_PBS_Specimen_001_A1_A01.fcs",
+      "source": "fcsparser",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        11585,
+        11
+      ],
+      "error": null
+    },
+    {
+      "file": "FCS_3.0_Fortessa_PBS_Specimen_001_A1_A01.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        11585,
+        11
+      ],
+      "error": null
+    },
+    {
+      "file": "FCS_3.0_Fortessa_PBS_Specimen_001_A1_A01.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        11585,
+        11
+      ],
+      "error": null
+    },
+    {
+      "file": "FCS_3.0_Fortessa_PBS_Specimen_001_A1_A01.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "file": "FCS_3.0_Fortessa_PBS_Specimen_001_A1_A01.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        11585,
+        11
+      ],
+      "error": null
+    },
+    {
+      "file": "FCS_3.0_Fortessa_PBS_Specimen_001_A1_A01.fcs",
+      "source": "fcsparser",
+      "reader": "flowcore",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        11585,
+        11
+      ],
+      "error": null
+    },
+    {
+      "file": "Guava Muse.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        108,
+        10
+      ],
+      "error": null
+    },
+    {
+      "file": "Guava Muse.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk_strict",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        108,
+        10
+      ],
+      "error": null
+    },
+    {
+      "file": "Guava Muse.fcs",
+      "source": "fcsparser",
+      "reader": "flowio",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "MultipleDataSetsError: Guava Muse.fcs contains multiple data sets, use read_multiple_data_sets function"
+    },
+    {
+      "file": "Guava Muse.fcs",
+      "source": "fcsparser",
+      "reader": "flowio_lenient",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "MultipleDataSetsError: Guava Muse.fcs contains multiple data sets, use read_multiple_data_sets function"
+    },
+    {
+      "file": "Guava Muse.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "MultipleDataSetsError: Guava Muse.fcs contains multiple data sets, use read_multiple_data_sets function"
+    },
+    {
+      "file": "Guava Muse.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit_lenient",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "MultipleDataSetsError: Guava Muse.fcs contains multiple data sets, use read_multiple_data_sets function"
+    },
+    {
+      "file": "Guava Muse.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        108,
+        10
+      ],
+      "error": null
+    },
+    {
+      "file": "Guava Muse.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        108,
+        10
+      ],
+      "error": null
+    },
+    {
+      "file": "Guava Muse.fcs",
+      "source": "fcsparser",
+      "reader": "flowcore",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        108,
+        10
+      ],
+      "error": null
+    },
+    {
+      "file": "HTS_BD_LSR_II_Mixed_Specimen_001_D6_D06.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        14945,
+        11
+      ],
+      "error": null
+    },
+    {
+      "file": "HTS_BD_LSR_II_Mixed_Specimen_001_D6_D06.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: keyword $TOT: \"14945              \" is not a plain unsigned integer; read as 14945"
+    },
+    {
+      "file": "HTS_BD_LSR_II_Mixed_Specimen_001_D6_D06.fcs",
+      "source": "fcsparser",
+      "reader": "flowio",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        14945,
+        11
+      ],
+      "error": null
+    },
+    {
+      "file": "HTS_BD_LSR_II_Mixed_Specimen_001_D6_D06.fcs",
+      "source": "fcsparser",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        14945,
+        11
+      ],
+      "error": null
+    },
+    {
+      "file": "HTS_BD_LSR_II_Mixed_Specimen_001_D6_D06.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        14945,
+        11
+      ],
+      "error": null
+    },
+    {
+      "file": "HTS_BD_LSR_II_Mixed_Specimen_001_D6_D06.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        14945,
+        11
+      ],
+      "error": null
+    },
+    {
+      "file": "HTS_BD_LSR_II_Mixed_Specimen_001_D6_D06.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "AttributeError: 'numpy.ndarray' object has no attribute 'newbyteorder'"
+    },
+    {
+      "file": "HTS_BD_LSR_II_Mixed_Specimen_001_D6_D06.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        14945,
+        11
+      ],
+      "error": null
+    },
+    {
+      "file": "HTS_BD_LSR_II_Mixed_Specimen_001_D6_D06.fcs",
+      "source": "fcsparser",
+      "reader": "flowcore",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        14945,
+        11
+      ],
+      "error": null
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_2.0_Custom_Without_Add_Well_A1.001.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        10000,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_2.0_Custom_Without_Add_Well_A1.001.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: not a supported FCS version: \"FCS2.0\" at offset 0 (supported: FCS3.0, FCS3.1; lenient also FCS2.0, FCS3.2)"
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_2.0_Custom_Without_Add_Well_A1.001.fcs",
+      "source": "fcsparser",
+      "reader": "flowio",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_2.0_Custom_Without_Add_Well_A1.001.fcs",
+      "source": "fcsparser",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_2.0_Custom_Without_Add_Well_A1.001.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_2.0_Custom_Without_Add_Well_A1.001.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_2.0_Custom_Without_Add_Well_A1.001.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_2.0_Custom_Without_Add_Well_A1.001.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_2.0_Custom_Without_Add_Well_A1.001.fcs",
+      "source": "fcsparser",
+      "reader": "flowcore",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "FCS3.0_Custom_Compatible.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        10000,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "FCS3.0_Custom_Compatible.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk_strict",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "FCS3.0_Custom_Compatible.fcs",
+      "source": "fcsparser",
+      "reader": "flowio",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "FCS3.0_Custom_Compatible.fcs",
+      "source": "fcsparser",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "FCS3.0_Custom_Compatible.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "FCS3.0_Custom_Compatible.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "FCS3.0_Custom_Compatible.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "FCS3.0_Custom_Compatible.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "FCS3.0_Custom_Compatible.fcs",
+      "source": "fcsparser",
+      "reader": "flowcore",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        16
+      ],
+      "error": null
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_3.1_Well_A1.001.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        10000,
+        19
+      ],
+      "error": null
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_3.1_Well_A1.001.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: TEXT segment (byte 2407): 1 trailing bytes after the last delimiter ignored"
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_3.1_Well_A1.001.fcs",
+      "source": "fcsparser",
+      "reader": "flowio",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FCSParsingError: FCS file EY_2013-07-19_PBS_FCS_3.1_Well_A1.001.fcs reports a data offset that is off by 1. Set `ignore_offset_error=True` to force reading in this file."
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_3.1_Well_A1.001.fcs",
+      "source": "fcsparser",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        19
+      ],
+      "error": null
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_3.1_Well_A1.001.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FCSParsingError: FCS file EY_2013-07-19_PBS_FCS_3.1_Well_A1.001.fcs reports a data offset that is off by 1. Set `ignore_offset_error=True` to force reading in this file."
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_3.1_Well_A1.001.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        19
+      ],
+      "error": null
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_3.1_Well_A1.001.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        19
+      ],
+      "error": null
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_3.1_Well_A1.001.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        10000,
+        19
+      ],
+      "error": null
+    },
+    {
+      "file": "EY_2013-07-19_PBS_FCS_3.1_Well_A1.001.fcs",
+      "source": "fcsparser",
+      "reader": "flowcore",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "$SPILLOVER size discrepancy could not be resolved! "
+    },
+    {
+      "file": "SG_2014-09-26_Duplicate_Names.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        8129,
+        9
+      ],
+      "error": null
+    },
+    {
+      "file": "SG_2014-09-26_Duplicate_Names.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: TEXT segment (byte 1931): 1 trailing bytes after the last delimiter ignored"
+    },
+    {
+      "file": "SG_2014-09-26_Duplicate_Names.fcs",
+      "source": "fcsparser",
+      "reader": "flowio",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FCSParsingError: FCS file SG_2014-09-26_Duplicate_Names.fcs reports a data offset that is off by 1. Set `ignore_offset_error=True` to force reading in this file."
+    },
+    {
+      "file": "SG_2014-09-26_Duplicate_Names.fcs",
+      "source": "fcsparser",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        8129,
+        9
+      ],
+      "error": null
+    },
+    {
+      "file": "SG_2014-09-26_Duplicate_Names.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FCSParsingError: FCS file SG_2014-09-26_Duplicate_Names.fcs reports a data offset that is off by 1. Set `ignore_offset_error=True` to force reading in this file."
+    },
+    {
+      "file": "SG_2014-09-26_Duplicate_Names.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        8129,
+        9
+      ],
+      "error": null
+    },
+    {
+      "file": "SG_2014-09-26_Duplicate_Names.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        8129,
+        9
+      ],
+      "error": null
+    },
+    {
+      "file": "SG_2014-09-26_Duplicate_Names.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        8129,
+        9
+      ],
+      "error": null
+    },
+    {
+      "file": "SG_2014-09-26_Duplicate_Names.fcs",
+      "source": "fcsparser",
+      "reader": "flowcore",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "Empty keyword name detected!If it is due to the double delimiters in keyword value, please set emptyValue to FALSE and try again!"
+    },
+    {
+      "file": "corrupted.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: file too short for an FCS HEADER: 10 bytes at offset 0, need 58"
+    },
+    {
+      "file": "corrupted.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: file too short for an FCS HEADER: 10 bytes at offset 0, need 58"
+    },
+    {
+      "file": "corrupted.fcs",
+      "source": "fcsparser",
+      "reader": "flowio",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "ValueError: invalid literal for int() with base 10: b''"
+    },
+    {
+      "file": "corrupted.fcs",
+      "source": "fcsparser",
+      "reader": "flowio_lenient",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "ValueError: invalid literal for int() with base 10: b''"
+    },
+    {
+      "file": "corrupted.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "ValueError: invalid literal for int() with base 10: b''"
+    },
+    {
+      "file": "corrupted.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit_lenient",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "ValueError: invalid literal for int() with base 10: b''"
+    },
+    {
+      "file": "corrupted.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "ValueError: The FCS file \"/home/emil/cytopk/data/fcs/fcsparser/corrupted.fcs\" seems corrupted. (Parser cannot locate information about the \"text start\" segment.)"
+    },
+    {
+      "file": "corrupted.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser_numpy1",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "ValueError: The FCS file \"/home/emil/cytopk/data/fcs/fcsparser/corrupted.fcs\" seems corrupted. (Parser cannot locate information about the \"text start\" segment.)"
+    },
+    {
+      "file": "corrupted.fcs",
+      "source": "fcsparser",
+      "reader": "flowcore",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "This does not seem to be a valid FCS2.0, FCS3.0 or FCS3.1 file"
+    },
+    {
+      "file": "cyflow_cube_8.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        725,
+        10
+      ],
+      "error": null
+    },
+    {
+      "file": "cyflow_cube_8.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: TEXT segment (byte 1456): 87 trailing bytes after the last delimiter ignored"
+    },
+    {
+      "file": "cyflow_cube_8.fcs",
+      "source": "fcsparser",
+      "reader": "flowio",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        725,
+        10
+      ],
+      "error": null
+    },
+    {
+      "file": "cyflow_cube_8.fcs",
+      "source": "fcsparser",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        725,
+        10
+      ],
+      "error": null
+    },
+    {
+      "file": "cyflow_cube_8.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        725,
+        10
+      ],
+      "error": null
+    },
+    {
+      "file": "cyflow_cube_8.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        725,
+        10
+      ],
+      "error": null
+    },
+    {
+      "file": "cyflow_cube_8.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        725,
+        10
+      ],
+      "error": null
+    },
+    {
+      "file": "cyflow_cube_8.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        725,
+        10
+      ],
+      "error": null
+    },
+    {
+      "file": "cyflow_cube_8.fcs",
+      "source": "fcsparser",
+      "reader": "flowcore",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "object 'dat' not found"
+    },
+    {
+      "file": "sample_header.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: DATA segment: DATA starts at byte 5912, beyond the file end (3931 bytes)"
+    },
+    {
+      "file": "sample_header.fcs",
+      "source": "fcsparser",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: TEXT segment (byte 3929): TEXT does not end with the delimiter; last value kept"
+    },
+    {
+      "file": "sample_header.fcs",
+      "source": "fcsparser",
+      "reader": "flowio",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FCSParsingError: FCS file indicates data section greater than file size"
+    },
+    {
+      "file": "sample_header.fcs",
+      "source": "fcsparser",
+      "reader": "flowio_lenient",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FCSParsingError: FCS file indicates data section greater than file size"
+    },
+    {
+      "file": "sample_header.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FCSParsingError: FCS file indicates data section greater than file size"
+    },
+    {
+      "file": "sample_header.fcs",
+      "source": "fcsparser",
+      "reader": "flowkit_lenient",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FCSParsingError: FCS file indicates data section greater than file size"
+    },
+    {
+      "file": "sample_header.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "ValueError: The FCS file \"/home/emil/cytopk/data/fcs/fcsparser/sample_header.fcs\" is corrupted. Part of the data segment is missing."
+    },
+    {
+      "file": "sample_header.fcs",
+      "source": "fcsparser",
+      "reader": "fcsparser_numpy1",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "ValueError: The FCS file \"/home/emil/cytopk/data/fcs/fcsparser/sample_header.fcs\" is corrupted. Part of the data segment is missing."
+    },
+    {
+      "file": "sample_header.fcs",
+      "source": "fcsparser",
+      "reader": "flowcore",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "file/home/emil/cytopk/data/fcs/fcsparser/sample_header.fcsseems to be corrupted.   The actual number of cells in data section (0) is not consistent with keyword '$TOT' (20000)"
+    },
+    {
+      "file": "fcs1_cleaned.lmd",
+      "source": "fcsparser",
+      "reader": "cytopk",
+      "status": "ok",
+      "agrees_with_cytopk": null,
+      "shape": [
+        50000,
+        7
+      ],
+      "error": null
+    },
+    {
+      "file": "fcs1_cleaned.lmd",
+      "source": "fcsparser",
+      "reader": "cytopk_strict",
+      "status": "error",
+      "agrees_with_cytopk": null,
+      "shape": null,
+      "error": "FcsReadError: not a supported FCS version: \"FCS2.0\" at offset 0 (supported: FCS3.0, FCS3.1; lenient also FCS2.0, FCS3.2)"
+    },
+    {
+      "file": "fcs1_cleaned.lmd",
+      "source": "fcsparser",
+      "reader": "flowio",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        50000,
+        7
+      ],
+      "error": null
+    },
+    {
+      "file": "fcs1_cleaned.lmd",
+      "source": "fcsparser",
+      "reader": "flowio_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        50000,
+        7
+      ],
+      "error": null
+    },
+    {
+      "file": "fcs1_cleaned.lmd",
+      "source": "fcsparser",
+      "reader": "flowkit",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        50000,
+        7
+      ],
+      "error": null
+    },
+    {
+      "file": "fcs1_cleaned.lmd",
+      "source": "fcsparser",
+      "reader": "flowkit_lenient",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        50000,
+        7
+      ],
+      "error": null
+    },
+    {
+      "file": "fcs1_cleaned.lmd",
+      "source": "fcsparser",
+      "reader": "fcsparser",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        50000,
+        7
+      ],
+      "error": null
+    },
+    {
+      "file": "fcs1_cleaned.lmd",
+      "source": "fcsparser",
+      "reader": "fcsparser_numpy1",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        50000,
+        7
+      ],
+      "error": null
+    },
+    {
+      "file": "fcs1_cleaned.lmd",
+      "source": "fcsparser",
+      "reader": "flowcore",
+      "status": "ok",
+      "agrees_with_cytopk": true,
+      "shape": [
+        50000,
+        7
+      ],
+      "error": null
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "date_utc": "2026-11-06T17:14:16Z",
+    "git_sha": "37ea0a17c7bdf190ca6536c99184e28bdfb467df",
+    "git_dirty": false,
+    "cpu": "Intel(R) Core(TM) i5-14400F",
+    "logical_cpus": 16,
+    "gpu": "NVIDIA GeForce RTX 5060 Ti, 580.178.04, 16311 MiB",
+    "os": "Linux-6.17.0-1023-oem-x86_64-with-glibc2.39",
+    "python": "3.13.13",
+    "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+    "versions": {
+      "bayesflow": null,
+      "keras": null,
+      "jax": null,
+      "jaxlib": null,
+      "jax-cuda13-plugin": null,
+      "numba": null,
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "joblib": "1.6.0",
+      "cytopk": "0.1.0.dev0"
+    },
+    "loadavg_at_start": [
+      2.59619140625,
+      5.79345703125,
+      6.93896484375
+    ],
+    "experiment": "cargo-fuzz read_fcs",
+    "rustc_nightly": "rustc 1.95.0-nightly (366a1b93e 2026-02-03)",
+    "command": "cargo +nightly fuzz run read_fcs -- -max_total_time=600 -max_len=400000 -rss_limit_mb=4096"
+  },
+  "runs": 378136,
+  "seconds": 601,
+  "coverage_edges": 1803,
+  "features": 6812,
+  "corpus_entries": 1023,
+  "crash_lines_in_log": 0,
+  "artifacts": []
+}
