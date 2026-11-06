@@ -1,0 +1,502 @@
+{
+  "meta": {
+    "date_utc": "2026-11-06T13:54:58Z",
+    "git_sha": "75fb5e6f057544a6b8d1f248de1ee58ac3f06767",
+    "git_dirty": false,
+    "cpu": "Intel(R) Core(TM) i5-14400F",
+    "logical_cpus": 16,
+    "gpu": "NVIDIA GeForce RTX 5060 Ti, 580.178.04, 16311 MiB",
+    "os": "Linux-6.17.0-1023-oem-x86_64-with-glibc2.39",
+    "python": "3.13.13",
+    "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+    "versions": {
+      "bayesflow": "2.1.0",
+      "keras": "3.15.1",
+      "jax": "0.12.0.1",
+      "jaxlib": "0.12.0.1",
+      "jax-cuda13-plugin": "0.12.0.1",
+      "numba": "0.68.1",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "joblib": "1.6.0",
+      "cytopk": "0.1.0.dev0"
+    },
+    "loadavg_at_start": [
+      3.1513671875,
+      1.59619140625,
+      1.0849609375
+    ],
+    "experiment": "E2",
+    "tag": "before"
+  },
+  "results": [
+    {
+      "impl": "cytopk_1thread",
+      "cold_first_call_s": 0.0026797850005095825,
+      "rows": [
+        {
+          "impl": "cytopk_1thread",
+          "batch": 1,
+          "calls": 5000,
+          "latency_s_median": 2.028900053119287e-05,
+          "latency_s_min": 1.3983997632749379e-05,
+          "sims_per_s": 49287.790123647166,
+          "pinned": true
+        },
+        {
+          "impl": "cytopk_1thread",
+          "batch": 8,
+          "calls": 5000,
+          "latency_s_median": 8.55329999467358e-05,
+          "latency_s_min": 7.441599882440642e-05,
+          "sims_per_s": 93531.15177746439,
+          "pinned": true
+        },
+        {
+          "impl": "cytopk_1thread",
+          "batch": 32,
+          "calls": 1706,
+          "latency_s_median": 0.0002839319986378541,
+          "latency_s_min": 0.00027678000333253294,
+          "sims_per_s": 112703.04211402021,
+          "pinned": true
+        },
+        {
+          "impl": "cytopk_1thread",
+          "batch": 128,
+          "calls": 437,
+          "latency_s_median": 0.001193808999232715,
+          "latency_s_min": 0.0010403200030850712,
+          "sims_per_s": 107219.83171702355,
+          "pinned": true
+        },
+        {
+          "impl": "cytopk_1thread",
+          "batch": 512,
+          "calls": 115,
+          "latency_s_median": 0.004301477001718013,
+          "latency_s_min": 0.004200270999717759,
+          "sims_per_s": 119028.88235727098,
+          "pinned": true
+        },
+        {
+          "impl": "cytopk_1thread",
+          "batch": 2048,
+          "calls": 28,
+          "latency_s_median": 0.017482367000411614,
+          "latency_s_min": 0.01713977599865757,
+          "sims_per_s": 117146.60834838789,
+          "pinned": true
+        },
+        {
+          "impl": "cytopk_1thread",
+          "batch": 16384,
+          "calls": 5,
+          "latency_s_median": 0.14440872200066224,
+          "latency_s_min": 0.137482412999816,
+          "sims_per_s": 113455.75096166882,
+          "pinned": true
+        },
+        {
+          "impl": "cytopk_1thread",
+          "batch": 131072,
+          "calls": 5,
+          "latency_s_median": 1.099467834999814,
+          "latency_s_min": 1.0833444229974702,
+          "sims_per_s": 119214.03776220718,
+          "pinned": true
+        }
+      ]
+    },
+    {
+      "impl": "cytopk_default",
+      "cold_first_call_s": 0.0011002079991158098,
+      "rows": [
+        {
+          "impl": "cytopk_default",
+          "batch": 1,
+          "calls": 5000,
+          "latency_s_median": 2.1785499484394677e-05,
+          "latency_s_min": 9.797000529943034e-06,
+          "sims_per_s": 45902.091926619214,
+          "pinned": false
+        },
+        {
+          "impl": "cytopk_default",
+          "batch": 8,
+          "calls": 5000,
+          "latency_s_median": 3.054149965464603e-05,
+          "latency_s_min": 2.199600203312002e-05,
+          "sims_per_s": 261938.67656996418,
+          "pinned": false
+        },
+        {
+          "impl": "cytopk_default",
+          "batch": 32,
+          "calls": 5000,
+          "latency_s_median": 4.321799860917963e-05,
+          "latency_s_min": 3.835800089291297e-05,
+          "sims_per_s": 740432.2511409194,
+          "pinned": false
+        },
+        {
+          "impl": "cytopk_default",
+          "batch": 128,
+          "calls": 4293,
+          "latency_s_median": 0.00011322899808874354,
+          "latency_s_min": 0.00010475200178916566,
+          "sims_per_s": 1130452.4650097112,
+          "pinned": false
+        },
+        {
+          "impl": "cytopk_default",
+          "batch": 512,
+          "calls": 1232,
+          "latency_s_median": 0.00039604349876753986,
+          "latency_s_min": 0.0003804380030487664,
+          "sims_per_s": 1292787.2862281764,
+          "pinned": false
+        },
+        {
+          "impl": "cytopk_default",
+          "batch": 2048,
+          "calls": 338,
+          "latency_s_median": 0.0014525050009979168,
+          "latency_s_min": 0.001435359001334291,
+          "sims_per_s": 1409977.933702782,
+          "pinned": false
+        },
+        {
+          "impl": "cytopk_default",
+          "batch": 16384,
+          "calls": 44,
+          "latency_s_median": 0.01126853750065493,
+          "latency_s_min": 0.011170418001711369,
+          "sims_per_s": 1453959.7529002996,
+          "pinned": false
+        },
+        {
+          "impl": "cytopk_default",
+          "batch": 131072,
+          "calls": 6,
+          "latency_s_median": 0.08956642049997754,
+          "latency_s_min": 0.08941612700073165,
+          "sims_per_s": 1463405.5851325763,
+          "pinned": false
+        }
+      ]
+    },
+    {
+      "impl": "numba_serial",
+      "cold_first_call_s": 1.050343315997452,
+      "rows": [
+        {
+          "impl": "numba_serial",
+          "batch": 1,
+          "calls": 5000,
+          "latency_s_median": 9.246999979950488e-06,
+          "latency_s_min": 8.062001143116504e-06,
+          "sims_per_s": 108143.18180687986,
+          "pinned": true
+        },
+        {
+          "impl": "numba_serial",
+          "batch": 8,
+          "calls": 5000,
+          "latency_s_median": 6.795750050514471e-05,
+          "latency_s_min": 5.92399992456194e-05,
+          "sims_per_s": 117720.63334487061,
+          "pinned": true
+        },
+        {
+          "impl": "numba_serial",
+          "batch": 32,
+          "calls": 1790,
+          "latency_s_median": 0.0002786209988698829,
+          "latency_s_min": 0.00025064099827432074,
+          "sims_per_s": 114851.35768587251,
+          "pinned": true
+        },
+        {
+          "impl": "numba_serial",
+          "batch": 128,
+          "calls": 444,
+          "latency_s_median": 0.0011160430003656074,
+          "latency_s_min": 0.0009711739985505119,
+          "sims_per_s": 114690.92136957818,
+          "pinned": true
+        },
+        {
+          "impl": "numba_serial",
+          "batch": 512,
+          "calls": 113,
+          "latency_s_median": 0.0044372640004439745,
+          "latency_s_min": 0.003946557000745088,
+          "sims_per_s": 115386.41828585618,
+          "pinned": true
+        },
+        {
+          "impl": "numba_serial",
+          "batch": 2048,
+          "calls": 29,
+          "latency_s_median": 0.017735994999384275,
+          "latency_s_min": 0.015828292001970112,
+          "sims_per_s": 115471.39024740922,
+          "pinned": true
+        },
+        {
+          "impl": "numba_serial",
+          "batch": 16384,
+          "calls": 5,
+          "latency_s_median": 0.13156317500033765,
+          "latency_s_min": 0.12794443700113334,
+          "sims_per_s": 124533.32780968498,
+          "pinned": true
+        },
+        {
+          "impl": "numba_serial",
+          "batch": 131072,
+          "calls": 5,
+          "latency_s_median": 1.0576694410010532,
+          "latency_s_min": 1.0381051229996956,
+          "sims_per_s": 123925.29737452202,
+          "pinned": true
+        }
+      ]
+    },
+    {
+      "impl": "numba_parallel",
+      "cold_first_call_s": 1.5284005569992587,
+      "rows": [
+        {
+          "impl": "numba_parallel",
+          "batch": 1,
+          "calls": 5000,
+          "latency_s_median": 2.9987999369041063e-05,
+          "latency_s_min": 1.9524002709658816e-05,
+          "sims_per_s": 33346.67270376088,
+          "pinned": false
+        },
+        {
+          "impl": "numba_parallel",
+          "batch": 8,
+          "calls": 5000,
+          "latency_s_median": 2.8549500711960718e-05,
+          "latency_s_min": 2.016700091189705e-05,
+          "sims_per_s": 280215.0580744982,
+          "pinned": false
+        },
+        {
+          "impl": "numba_parallel",
+          "batch": 32,
+          "calls": 2335,
+          "latency_s_median": 0.00020994099759263918,
+          "latency_s_min": 7.803399785188958e-05,
+          "sims_per_s": 152423.77795161036,
+          "pinned": false
+        },
+        {
+          "impl": "numba_parallel",
+          "batch": 128,
+          "calls": 1411,
+          "latency_s_median": 0.0002621220010041725,
+          "latency_s_min": 0.00015278699720511213,
+          "sims_per_s": 488322.22976186755,
+          "pinned": false
+        },
+        {
+          "impl": "numba_parallel",
+          "batch": 512,
+          "calls": 1021,
+          "latency_s_median": 0.00047177300075418316,
+          "latency_s_min": 0.0003896189991792198,
+          "sims_per_s": 1085267.701164563,
+          "pinned": false
+        },
+        {
+          "impl": "numba_parallel",
+          "batch": 2048,
+          "calls": 274,
+          "latency_s_median": 0.0015769620022183517,
+          "latency_s_min": 0.0015112159999262076,
+          "sims_per_s": 1298699.6497816863,
+          "pinned": false
+        },
+        {
+          "impl": "numba_parallel",
+          "batch": 16384,
+          "calls": 40,
+          "latency_s_median": 0.01234175050194608,
+          "latency_s_min": 0.012137439000071026,
+          "sims_per_s": 1327526.4313126835,
+          "pinned": false
+        },
+        {
+          "impl": "numba_parallel",
+          "batch": 131072,
+          "calls": 5,
+          "latency_s_median": 0.10448931300197728,
+          "latency_s_min": 0.09660102700217976,
+          "sims_per_s": 1254405.7974380564,
+          "pinned": false
+        }
+      ]
+    },
+    {
+      "impl": "bf_cytopk",
+      "cold_first_call_s": 0.0013068009975540917,
+      "rows": [
+        {
+          "impl": "bf_cytopk",
+          "batch": 1,
+          "calls": 5000,
+          "latency_s_median": 4.7358000301755965e-05,
+          "latency_s_min": 4.395300129544921e-05,
+          "sims_per_s": 21115.75644301268,
+          "pinned": false
+        },
+        {
+          "impl": "bf_cytopk",
+          "batch": 8,
+          "calls": 1052,
+          "latency_s_median": 0.0004906280009890907,
+          "latency_s_min": 8.841299859341234e-05,
+          "sims_per_s": 16305.632747972499,
+          "pinned": false
+        },
+        {
+          "impl": "bf_cytopk",
+          "batch": 32,
+          "calls": 598,
+          "latency_s_median": 0.0007500690007873345,
+          "latency_s_min": 0.0006538400011777412,
+          "sims_per_s": 42662.74164964844,
+          "pinned": false
+        },
+        {
+          "impl": "bf_cytopk",
+          "batch": 128,
+          "calls": 274,
+          "latency_s_median": 0.0017614734988455893,
+          "latency_s_min": 0.0014971849996072706,
+          "sims_per_s": 72666.43527926302,
+          "pinned": false
+        },
+        {
+          "impl": "bf_cytopk",
+          "batch": 512,
+          "calls": 231,
+          "latency_s_median": 0.001190421997307567,
+          "latency_s_min": 0.0009108790000027511,
+          "sims_per_s": 430099.57910557295,
+          "pinned": false
+        },
+        {
+          "impl": "bf_cytopk",
+          "batch": 2048,
+          "calls": 29,
+          "latency_s_median": 0.018307444999663858,
+          "latency_s_min": 0.009030171000631526,
+          "sims_per_s": 111867.0573658751,
+          "pinned": false
+        },
+        {
+          "impl": "bf_cytopk",
+          "batch": 16384,
+          "calls": 12,
+          "latency_s_median": 0.02800317850051215,
+          "latency_s_min": 0.02670894399852841,
+          "sims_per_s": 585076.4405083642,
+          "pinned": false
+        },
+        {
+          "impl": "bf_cytopk",
+          "batch": 131072,
+          "calls": 5,
+          "latency_s_median": 0.2064086270002008,
+          "latency_s_min": 0.20435945200006245,
+          "sims_per_s": 635012.2177784386,
+          "pinned": false
+        }
+      ]
+    },
+    {
+      "impl": "bf_numba",
+      "cold_first_call_s": 1.3974479909993534,
+      "rows": [
+        {
+          "impl": "bf_numba",
+          "batch": 1,
+          "calls": 1325,
+          "latency_s_median": 0.0003733770026883576,
+          "latency_s_min": 6.473699977505021e-05,
+          "sims_per_s": 2678.2581487340794,
+          "pinned": false
+        },
+        {
+          "impl": "bf_numba",
+          "batch": 8,
+          "calls": 773,
+          "latency_s_median": 0.0005489260001922958,
+          "latency_s_min": 0.00040983600047184154,
+          "sims_per_s": 14573.913418561879,
+          "pinned": false
+        },
+        {
+          "impl": "bf_numba",
+          "batch": 32,
+          "calls": 642,
+          "latency_s_median": 0.0006725279999955092,
+          "latency_s_min": 0.0005952989995421376,
+          "sims_per_s": 47581.66202777235,
+          "pinned": false
+        },
+        {
+          "impl": "bf_numba",
+          "batch": 128,
+          "calls": 287,
+          "latency_s_median": 0.001651024998864159,
+          "latency_s_min": 0.0014562659998773597,
+          "sims_per_s": 77527.5965464236,
+          "pinned": false
+        },
+        {
+          "impl": "bf_numba",
+          "batch": 512,
+          "calls": 87,
+          "latency_s_median": 0.0054551409994019195,
+          "latency_s_min": 0.004973843999323435,
+          "sims_per_s": 93856.41912026356,
+          "pinned": false
+        },
+        {
+          "impl": "bf_numba",
+          "batch": 2048,
+          "calls": 53,
+          "latency_s_median": 0.005197012000280665,
+          "latency_s_min": 0.0032937940013653133,
+          "sims_per_s": 394072.59400005185,
+          "pinned": false
+        },
+        {
+          "impl": "bf_numba",
+          "batch": 16384,
+          "calls": 15,
+          "latency_s_median": 0.027995306998491287,
+          "latency_s_min": 0.027569768997636857,
+          "sims_per_s": 585240.9477375248,
+          "pinned": false
+        },
+        {
+          "impl": "bf_numba",
+          "batch": 131072,
+          "calls": 5,
+          "latency_s_median": 0.2506242060007935,
+          "latency_s_min": 0.2232640780021029,
+          "sims_per_s": 522982.2054761343,
+          "pinned": false
+        }
+      ]
+    }
+  ]
+}
