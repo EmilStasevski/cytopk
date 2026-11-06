@@ -67,3 +67,28 @@ def test_invalid_inputs_raise_value_error():
         sim(th, n_threads=0)
     with pytest.raises(ValueError, match="maximum number of steps"):
         sim(th, max_steps=2)
+
+
+def test_models_listing_and_generic_simulate():
+    info = cytopk.models()
+    assert set(info) == {"onecmt_iv", "twocmt_iv", "twocmt_mm_iv", "twocmt_iv_idr"}
+    assert info["twocmt_iv_idr"]["outputs"] == ["C", "p"]
+    th = np.array([[0.2, 3.0, 0.5, 3.0, 0.3, 2.0, 5.0]])
+    y = cytopk.simulate("twocmt_iv_idr", th, TIMES, np.array([0.0]), np.array([200.0]), np.array([1 / 24]))
+    assert y.shape == (1, TIMES.size, 2)
+    assert y[0, 0, 1] == pytest.approx(0.1)  # baseline activated fraction
+    # The shorthand and the generic call agree exactly.
+    th2 = np.array([[0.2, 3.0, 0.5, 3.0]])
+    assert np.array_equal(sim(th2), cytopk.simulate("twocmt_iv", th2, TIMES, np.array([0.0]),
+                                                    np.array([100.0]), np.array([0.0])))
+
+
+def test_generic_simulate_errors():
+    th = np.array([[0.2, 3.0, 0.5, 3.0]])
+    args = (TIMES, np.array([0.0]), np.array([1.0]), np.array([0.0]))
+    with pytest.raises(ValueError, match="unknown model"):
+        cytopk.simulate("threecmt", th, *args)
+    with pytest.raises(ValueError, match="dose_state must be >= 0"):
+        cytopk.simulate("twocmt_iv", th, *args, dose_state=np.array([-1]))
+    with pytest.raises(ValueError, match="has only 2 states"):
+        cytopk.simulate("twocmt_iv", th, *args, dose_state=np.array([5]))
