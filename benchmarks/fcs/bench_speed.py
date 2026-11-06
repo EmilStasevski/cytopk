@@ -85,8 +85,12 @@ def worker_time(reader, path):
     ts, res = [], []
     for _ in range(REPEATS):
         if COLD:
-            pagecache.drop(path)
-            res.append(pagecache.resident(path))
+            for _ in range(3):  # a read-ahead still in flight can repopulate a few pages; retry the eviction
+                pagecache.drop(path)
+                r = pagecache.resident(path)
+                if r == 0.0:
+                    break
+            res.append(r)
         t0 = time.perf_counter()
         a = to_f32(reader, path)
         ts.append(time.perf_counter() - t0)

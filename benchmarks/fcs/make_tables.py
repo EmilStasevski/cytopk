@@ -103,5 +103,52 @@ def speed():
     return "\n".join(out)
 
 
+def cold():
+    """Cold page cache (fcs_speed_cold.json): same layout as the warm time table, plus warm/cold for cytopk."""
+    p = R / "fcs_speed_cold.json"
+    if not p.exists():
+        return "(no cold-cache results)"
+    d = json.loads(p.read_text())
+    w = {(x["file"], x["reader"]): x for x in json.loads((R / "fcs_speed.json").read_text())["single"]}
+    rows = d["single"]
+    readers = [r for r in ORDER if any(x["reader"] == r for x in rows)]
+    get = {(x["file"], x["reader"]): x for x in rows}
+    files = list(dict.fromkeys(x["file"] for x in rows))
+
+    def t(x):
+        if x is None or "seconds_median" not in x:
+            return "err"
+        s = x["seconds_median"]
+        return f"{s * 1e3:.1f} ms" if s < 1 else f"{s:.2f} s"
+    res = max((x.get("resident_before_max") or 0.0) for x in rows)
+    st = d["meta"].get("storage") or {}
+    out = [f"**Time to a float32 NumPy matrix, cold page cache** (median of 5 reads, the file evicted before each; "
+           f"largest resident fraction measured before a timed read: {res:.3f}; storage: {st.get('model')}):", "",
+           "| file | MB | " + " | ".join(readers) + " | fastest other / cytopk | fastest other / cytopk_1thread "
+           "| cytopk cold / warm |", "|---|---:|" + "---:|" * len(readers) + "---:|---:|---:|"]
+    for f in files:
+        others = [get[(f, r)]["seconds_median"] for r in readers
+                  if not r.startswith("cytopk") and "seconds_median" in get.get((f, r), {})]
+
+        def ratio(x):
+            return (f"{min(others) / x['seconds_median']:.2f}×"
+                    if others and x and "seconds_median" in x else "—")
+        x0, xw = get.get((f, "cytopk")), w.get((f, "cytopk"))
+        cw = (f"{x0['seconds_median'] / xw['seconds_median']:.1f}×" if x0 and xw and "seconds_median" in x0
+              and "seconds_median" in xw else "—")
+        out.append(f"| {f[:44]} | {next(x['bytes'] for x in rows if x['file'] == f) / 1e6:,.1f} | "
+                   + " | ".join(t(get.get((f, r))) for r in readers)
+                   + f" | {ratio(x0)} | {ratio(get.get((f, 'cytopk_1thread')))} | {cw} |")
+    many = d["many"]
+    wm = {x["mode"]: x for x in json.loads((R / "fcs_speed.json").read_text())["many"]}
+    out += ["", f"**{many[0]['files']} small files, cold page cache** (all files evicted before each run), seconds "
+            "(median of 3):", "", "| mode | cold | warm |", "|---|---:|---:|"]
+    for x in many:
+        c = f"{x['seconds_median']:.2f}" if x["seconds_median"] is not None else "err"
+        ww = wm.get(x["mode"], {}).get("seconds_median")
+        out.append(f"| {x['mode']} | {c} | {f'{ww:.2f}' if ww is not None else '—'} |")
+    return "\n".join(out)
+
+
 if __name__ == "__main__":
-    print("## Robustness\n" + robustness() + "\n\n## Speed\n" + speed())
+    print("## Robustness\n" + robustness() + "\n\n## Speed\n" + speed() + "\n\n## Cold cache\n" + cold())
