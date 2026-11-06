@@ -1,0 +1,9 @@
+# fcsparser under NumPy 1.x (Python 3.12), used by bench_robustness.py as fcsparser_numpy1
+fcsparser==0.2.4
+numpy==1.26.4
+pandas==2.2.3
+python-dateutil==4.0.0
+pytz==2026.6
+setuptools==84.2.1
+six==1.17.0
+tzdata==2026.6
