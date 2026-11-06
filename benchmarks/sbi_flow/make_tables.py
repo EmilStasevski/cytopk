@@ -156,6 +156,37 @@ def e3():
     return "\n".join(out)
 
 
+def slowdown():
+    d = load("jax_slowdown.json")
+    pin = load("jax_slowdown_pin.json")
+    med = {}
+    for r in d["ode_rows"] + pin["ode_rows"]:
+        med.setdefault((r["impl"], r["label"]), []).append(r["ode_ms_median"])
+    labels = list(dict.fromkeys(r["label"] for r in d["ode_rows"] + pin["ode_rows"]))
+    cell = lambda k: " / ".join(f"{x:.2f}" for x in med.get(k, [])) or "—"  # noqa: E731
+    out = ["ODE call at B = 2048, 16 threads, ms (median of 200 calls; repeat 0 / repeat 1):", "",
+           "| configuration | cytopk | Numba |", "|---|---:|---:|"]
+    for lab in labels:
+        out.append(f"| {lab} | {cell(('cytopk', lab))} | {cell(('numba', lab))} |")
+    out += ["", "Single thread pinned to CPU 0, no pool, cytopk n_threads=1 (ms per call; CPU 0 scaling_cur_freq "
+            "median, MHz; repeat 0 / repeat 1):", "", "| batch | back to back | sleep 3 ms between calls | "
+            "spin 3 ms between calls |", "|---:|---:|---:|---:|"]
+    fr = {}
+    for r in d["freq_rows"]:
+        fr.setdefault((r["batch"], r["pattern"]), []).append(r)
+    for b in sorted({k[0] for k in fr}):
+        cells = []
+        for pat in ("b2b", "sleep_3", "spin_3"):
+            cells.append(" / ".join(f"{x['call_ms_median']:.2f} ms @ {x['cpu0_freq_mhz_median']:.0f}"
+                                    for x in fr[(b, pat)]))
+        out.append(f"| {b} | " + " | ".join(cells) + " |")
+    c = d["meta"]["cpufreq"]
+    out += ["", f"cpufreq: driver {c['driver']}, governor {c['governor']}, EPP {c['epp']}, range "
+            f"{int(c['cpuinfo_min_khz']) // 1000}–{int(c['cpuinfo_max_khz']) // 1000} MHz; idle states "
+            + ", ".join(f"{s['name']} ({s['exit_latency_us']} µs)" for s in c["cpu0_idle_states"]) + "."]
+    return "\n".join(out)
+
+
 def meta_line():
     m = load("e1_sim.json")["meta"]
     v = m["versions"]
@@ -166,4 +197,4 @@ def meta_line():
 
 
 if __name__ == "__main__":
-    print("## META\n" + meta_line() + "\n\n## E1\n" + e1() + "\n\n## E2\n" + e2() + "\n\n## E3\n" + e3())
+    print("## META\n" + meta_line() + "\n\n## E1\n" + e1() + "\n\n## E2\n" + e2() + "\n\n## E3\n" + e3() + "\n\n## SLOWDOWN\n" + slowdown())

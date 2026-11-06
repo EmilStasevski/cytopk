@@ -1,0 +1,5401 @@
+{
+  "meta": {
+    "date_utc": "2026-11-06T16:46:59Z",
+    "git_sha": "f36da17d07e34942dd62762a46d161514f878656",
+    "git_dirty": false,
+    "cpu": "Intel(R) Core(TM) i5-14400F",
+    "logical_cpus": 16,
+    "gpu": "NVIDIA GeForce RTX 5060 Ti, 580.178.04, 16311 MiB",
+    "os": "Linux-6.17.0-1023-oem-x86_64-with-glibc2.39",
+    "python": "3.13.13",
+    "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+    "versions": {
+      "bayesflow": "2.1.0",
+      "keras": "3.15.1",
+      "jax": "0.12.0.1",
+      "jaxlib": "0.12.0.1",
+      "jax-cuda13-plugin": "0.12.0.1",
+      "numba": "0.68.1",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "joblib": "1.6.0",
+      "cytopk": "0.1.0.dev0"
+    },
+    "loadavg_at_start": [
+      9.22412109375,
+      8.041015625,
+      6.89404296875
+    ],
+    "experiment": "JAX slowdown bisection",
+    "B": 2048,
+    "rounds": 200,
+    "warm": 20,
+    "cpufreq": {
+      "governor": "powersave",
+      "epp": "power",
+      "driver": "intel_pstate",
+      "no_turbo": "0",
+      "cpuinfo_min_khz": "800000",
+      "cpuinfo_max_khz": "4700000",
+      "cpuidle_driver": "intel_idle",
+      "cpu0_idle_states": [
+        {
+          "name": "POLL",
+          "exit_latency_us": "0",
+          "disabled": "0"
+        },
+        {
+          "name": "C1_ACPI",
+          "exit_latency_us": "1",
+          "disabled": "0"
+        },
+        {
+          "name": "C2_ACPI",
+          "exit_latency_us": "127",
+          "disabled": "0"
+        },
+        {
+          "name": "C3_ACPI",
+          "exit_latency_us": "1048",
+          "disabled": "0"
+        }
+      ]
+    }
+  },
+  "ode_rows": [
+    {
+      "ode_ms_median": 1.5230570006679045,
+      "ode_ms_p10": 1.4468387020315276,
+      "ode_ms_p90": 1.9300823001685783,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "A",
+      "label": "b2b, jax=none",
+      "repeat": 0,
+      "impl": "cytopk",
+      "jax": "none",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2868.356341880342,
+      "mean_freq_mhz_e_cores": 2703.193935897436
+    },
+    {
+      "ode_ms_median": 1.4831339994998416,
+      "ode_ms_p10": 1.4477880995400483,
+      "ode_ms_p90": 1.6255056976660853,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "A",
+      "label": "b2b, jax=import",
+      "repeat": 0,
+      "impl": "cytopk",
+      "jax": "import",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2721.0849399224803,
+      "mean_freq_mhz_e_cores": 2527.369825581395
+    },
+    {
+      "ode_ms_median": 1.4585259996238165,
+      "ode_ms_p10": 1.4430484974582214,
+      "ode_ms_p90": 1.595683698906214,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 150,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "A",
+      "label": "b2b, jax=init",
+      "repeat": 0,
+      "impl": "cytopk",
+      "jax": "init",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2618.60851,
+      "mean_freq_mhz_e_cores": 2250.277405
+    },
+    {
+      "ode_ms_median": 1.473430500482209,
+      "ode_ms_p10": 1.4443000003666384,
+      "ode_ms_p90": 1.6491693026182475,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "A",
+      "label": "b2b, jax=jit",
+      "repeat": 0,
+      "impl": "cytopk",
+      "jax": "jit",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2614.2512395833332,
+      "mean_freq_mhz_e_cores": 2781.5116822916666
+    },
+    {
+      "ode_ms_median": 1.4730799994140398,
+      "ode_ms_p10": 1.4438346992392326,
+      "ode_ms_p90": 1.6493554001499433,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "A",
+      "label": "b2b, jax=bf",
+      "repeat": 0,
+      "impl": "cytopk",
+      "jax": "bf",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2491.1656278538817,
+      "mean_freq_mhz_e_cores": 2519.5379965753423
+    },
+    {
+      "ode_ms_median": 1.4677310009574285,
+      "ode_ms_p10": 1.4449258018430555,
+      "ode_ms_p90": 1.6664780010614777,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 174,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "A",
+      "label": "b2b, jax=init, JAX_PLATFORMS=cuda,cpu",
+      "repeat": 0,
+      "impl": "cytopk",
+      "jax": "init",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {
+        "JAX_PLATFORMS": "cuda,cpu"
+      },
+      "mean_freq_mhz_p_cores": 2238.6940994623656,
+      "mean_freq_mhz_e_cores": 2186.6652701612907
+    },
+    {
+      "ode_ms_median": 7.838337000066531,
+      "ode_ms_p10": 4.678265700204066,
+      "ode_ms_p90": 8.847996497934218,
+      "calls": 200,
+      "gap_ms_median": 9.365995001644478,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "noise, jax=none",
+      "repeat": 0,
+      "impl": "cytopk",
+      "jax": "none",
+      "pattern": "noise",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 1492.900736111111,
+      "mean_freq_mhz_e_cores": 1386.151139705882
+    },
+    {
+      "ode_ms_median": 7.801729998391238,
+      "ode_ms_p10": 5.56795049997163,
+      "ode_ms_p90": 8.961104401168996,
+      "calls": 200,
+      "gap_ms_median": 9.363152499645366,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "noise, jax=bf",
+      "repeat": 0,
+      "impl": "cytopk",
+      "jax": "bf",
+      "pattern": "noise",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 1613.9350555555557,
+      "mean_freq_mhz_e_cores": 1464.551846590909
+    },
+    {
+      "ode_ms_median": 2.396937499725027,
+      "ode_ms_p10": 1.5978944993548794,
+      "ode_ms_p90": 4.363239799567964,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "interleave, jax=none",
+      "repeat": 0,
+      "impl": "cytopk",
+      "jax": "none",
+      "pattern": "interleave",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2339.814732051282,
+      "mean_freq_mhz_e_cores": 2285.778596153846
+    },
+    {
+      "ode_ms_median": 1.7266504983126651,
+      "ode_ms_p10": 1.4728917016327614,
+      "ode_ms_p90": 2.351845402881736,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "interleave, jax=bf",
+      "repeat": 0,
+      "impl": "cytopk",
+      "jax": "bf",
+      "pattern": "interleave",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2585.825548192771,
+      "mean_freq_mhz_e_cores": 2569.108861445783
+    },
+    {
+      "ode_ms_median": 1.448017499569687,
+      "ode_ms_p10": 1.4393801982805599,
+      "ode_ms_p90": 1.5456919005373493,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "sleep_0.05, jax=none",
+      "repeat": 0,
+      "impl": "cytopk",
+      "jax": "none",
+      "pattern": "sleep_0.05",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2754.0355341880345,
+      "mean_freq_mhz_e_cores": 2546.895455128205
+    },
+    {
+      "ode_ms_median": 2.052066000032937,
+      "ode_ms_p10": 1.7344896001304735,
+      "ode_ms_p90": 2.547346400388051,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "sleep_0.2, jax=none",
+      "repeat": 0,
+      "impl": "cytopk",
+      "jax": "none",
+      "pattern": "sleep_0.2",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2594.3787479674793,
+      "mean_freq_mhz_e_cores": 2697.779926829269
+    },
+    {
+      "ode_ms_median": 7.565319998320774,
+      "ode_ms_p10": 4.016031300852775,
+      "ode_ms_p90": 8.4386791990255,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "sleep_1, jax=none",
+      "repeat": 0,
+      "impl": "cytopk",
+      "jax": "none",
+      "pattern": "sleep_1",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 1732.6469307692307,
+      "mean_freq_mhz_e_cores": 1685.1676346153845
+    },
+    {
+      "ode_ms_median": 7.896718499978306,
+      "ode_ms_p10": 7.521719401120208,
+      "ode_ms_p90": 8.846123500188696,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "sleep_3, jax=none",
+      "repeat": 0,
+      "impl": "cytopk",
+      "jax": "none",
+      "pattern": "sleep_3",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 1500.1868814102563,
+      "mean_freq_mhz_e_cores": 1413.5026025641025
+    },
+    {
+      "ode_ms_median": 7.508313499783981,
+      "ode_ms_p10": 1.5368894979474137,
+      "ode_ms_p90": 8.504693799841334,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "spin_3, jax=none",
+      "repeat": 0,
+      "impl": "cytopk",
+      "jax": "none",
+      "pattern": "spin_3",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 1887.0867904761908,
+      "mean_freq_mhz_e_cores": 1666.1022285714284
+    },
+    {
+      "ode_ms_median": 7.898369500253466,
+      "ode_ms_p10": 1.854434599954402,
+      "ode_ms_p90": 9.33862150159257,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf (E1 replica)",
+      "repeat": 0,
+      "impl": "cytopk",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 1339.2194209115282,
+      "mean_freq_mhz_e_cores": 1321.3973150134048
+    },
+    {
+      "ode_ms_median": 1.6598600013821851,
+      "ode_ms_p10": 1.5351709029346239,
+      "ode_ms_p90": 1.957495797978481,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, main thread pinned to CPU 0",
+      "repeat": 0,
+      "impl": "cytopk",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "main",
+      "env": {},
+      "mean_freq_mhz_p_cores": 3607.671270491803,
+      "mean_freq_mhz_e_cores": 3208.048743169399
+    },
+    {
+      "ode_ms_median": 7.865211500757141,
+      "ode_ms_p10": 1.81327130048885,
+      "ode_ms_p90": 10.130176598249818,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 137,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 1,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 1,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, OMP_NUM_THREADS=1",
+      "repeat": 0,
+      "impl": "cytopk",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {
+        "OMP_NUM_THREADS": "1"
+      },
+      "mean_freq_mhz_p_cores": 1610.087059056956,
+      "mean_freq_mhz_e_cores": 1554.1971820728293
+    },
+    {
+      "ode_ms_median": 8.721055499336217,
+      "ode_ms_p10": 3.428218399858452,
+      "ode_ms_p90": 10.079731302903383,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, XLA_FLAGS single-threaded Eigen",
+      "repeat": 0,
+      "impl": "cytopk",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {
+        "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false intra_op_parallelism_threads=1"
+      },
+      "mean_freq_mhz_p_cores": 1230.3547687872024,
+      "mean_freq_mhz_e_cores": 1228.9499536830356
+    },
+    {
+      "ode_ms_median": 1.784549000149127,
+      "ode_ms_p10": 1.6418572973634582,
+      "ode_ms_p90": 8.098390099985409,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, OMP_WAIT_POLICY=passive",
+      "repeat": 0,
+      "impl": "cytopk",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {
+        "OMP_WAIT_POLICY": "passive"
+      },
+      "mean_freq_mhz_p_cores": 2633.8200773524723,
+      "mean_freq_mhz_e_cores": 2536.202259569378
+    },
+    {
+      "ode_ms_median": 2.944059999208548,
+      "ode_ms_p10": 2.630356000736356,
+      "ode_ms_p90": 26.46919320177403,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, OMP_WAIT_POLICY=active",
+      "repeat": 0,
+      "impl": "cytopk",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {
+        "OMP_WAIT_POLICY": "active"
+      },
+      "mean_freq_mhz_p_cores": 3686.3845956549935,
+      "mean_freq_mhz_e_cores": 3290.8776819066147
+    },
+    {
+      "ode_ms_median": 8.822991498163901,
+      "ode_ms_p10": 4.610980101642781,
+      "ode_ms_p90": 10.088086501491489,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 168,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "workqueue",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, NUMBA_THREADING_LAYER=workqueue",
+      "repeat": 0,
+      "impl": "cytopk",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {
+        "NUMBA_THREADING_LAYER": "workqueue"
+      },
+      "mean_freq_mhz_p_cores": 1128.013878540305,
+      "mean_freq_mhz_e_cores": 1175.7037870370373
+    },
+    {
+      "ode_ms_median": 8.561067499613273,
+      "ode_ms_p10": 5.44356499958667,
+      "ode_ms_p90": 11.874328100748244,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "A",
+      "label": "b2b, jax=none",
+      "repeat": 0,
+      "impl": "numba",
+      "jax": "none",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 1990.6588063725485,
+      "mean_freq_mhz_e_cores": 2105.948411764706
+    },
+    {
+      "ode_ms_median": 7.1385379997082055,
+      "ode_ms_p10": 2.5399150006705895,
+      "ode_ms_p90": 11.132148000979214,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "A",
+      "label": "b2b, jax=import",
+      "repeat": 0,
+      "impl": "numba",
+      "jax": "import",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2099.677776190476,
+      "mean_freq_mhz_e_cores": 2340.274225
+    },
+    {
+      "ode_ms_median": 3.3407899991289014,
+      "ode_ms_p10": 2.5834920001216233,
+      "ode_ms_p90": 8.8027792997309,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 150,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "A",
+      "label": "b2b, jax=init",
+      "repeat": 0,
+      "impl": "numba",
+      "jax": "init",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2663.9607745901635,
+      "mean_freq_mhz_e_cores": 2776.7111434426233
+    },
+    {
+      "ode_ms_median": 3.4943099999509286,
+      "ode_ms_p10": 2.776444600749528,
+      "ode_ms_p90": 6.49512290074199,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "A",
+      "label": "b2b, jax=jit",
+      "repeat": 0,
+      "impl": "numba",
+      "jax": "jit",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 3277.2362551282054,
+      "mean_freq_mhz_e_cores": 2981.385938461539
+    },
+    {
+      "ode_ms_median": 2.9567540004791226,
+      "ode_ms_p10": 2.719448899733834,
+      "ode_ms_p90": 3.601761598474695,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "A",
+      "label": "b2b, jax=bf",
+      "repeat": 0,
+      "impl": "numba",
+      "jax": "bf",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 3657.499075203252,
+      "mean_freq_mhz_e_cores": 3268.7030304878053
+    },
+    {
+      "ode_ms_median": 11.443353001595824,
+      "ode_ms_p10": 4.113204501118163,
+      "ode_ms_p90": 17.989036801736802,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 174,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "A",
+      "label": "b2b, jax=init, JAX_PLATFORMS=cuda,cpu",
+      "repeat": 0,
+      "impl": "numba",
+      "jax": "init",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {
+        "JAX_PLATFORMS": "cuda,cpu"
+      },
+      "mean_freq_mhz_p_cores": 4087.6455157342657,
+      "mean_freq_mhz_e_cores": 3499.957973776224
+    },
+    {
+      "ode_ms_median": 3.042554501007544,
+      "ode_ms_p10": 2.6581331014313037,
+      "ode_ms_p90": 6.592920399998547,
+      "calls": 200,
+      "gap_ms_median": 2.3249955011124257,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "noise, jax=none",
+      "repeat": 0,
+      "impl": "numba",
+      "jax": "none",
+      "pattern": "noise",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 3948.646024261603,
+      "mean_freq_mhz_e_cores": 3421.0676898734173
+    },
+    {
+      "ode_ms_median": 6.82081250124611,
+      "ode_ms_p10": 1.836980099324137,
+      "ode_ms_p90": 12.66779280231276,
+      "calls": 200,
+      "gap_ms_median": 6.3974820004659705,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "noise, jax=bf",
+      "repeat": 0,
+      "impl": "numba",
+      "jax": "bf",
+      "pattern": "noise",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2493.5379885752686,
+      "mean_freq_mhz_e_cores": 2302.8319092741935
+    },
+    {
+      "ode_ms_median": 5.293997501212289,
+      "ode_ms_p10": 2.5734815004398115,
+      "ode_ms_p90": 7.474374798403005,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "interleave, jax=none",
+      "repeat": 0,
+      "impl": "numba",
+      "jax": "none",
+      "pattern": "interleave",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2280.6753468468473,
+      "mean_freq_mhz_e_cores": 2356.282412162162
+    },
+    {
+      "ode_ms_median": 4.466322498046793,
+      "ode_ms_p10": 2.687876498384867,
+      "ode_ms_p90": 7.077128899254603,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "interleave, jax=bf",
+      "repeat": 0,
+      "impl": "numba",
+      "jax": "bf",
+      "pattern": "interleave",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2519.838136138614,
+      "mean_freq_mhz_e_cores": 2672.2858094059407
+    },
+    {
+      "ode_ms_median": 6.173451998620294,
+      "ode_ms_p10": 3.3920961006515427,
+      "ode_ms_p90": 8.46433269798581,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "sleep_0.05, jax=none",
+      "repeat": 0,
+      "impl": "numba",
+      "jax": "none",
+      "pattern": "sleep_0.05",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2252.444149193548,
+      "mean_freq_mhz_e_cores": 2428.953625
+    },
+    {
+      "ode_ms_median": 9.18387499950768,
+      "ode_ms_p10": 4.962492201229907,
+      "ode_ms_p90": 11.85246959903452,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "sleep_0.2, jax=none",
+      "repeat": 0,
+      "impl": "numba",
+      "jax": "none",
+      "pattern": "sleep_0.2",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 1919.8225422535213,
+      "mean_freq_mhz_e_cores": 2026.4140528169014
+    },
+    {
+      "ode_ms_median": 11.247938999076723,
+      "ode_ms_p10": 9.331532500436879,
+      "ode_ms_p90": 12.616054501631877,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "sleep_1, jax=none",
+      "repeat": 0,
+      "impl": "numba",
+      "jax": "none",
+      "pattern": "sleep_1",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 1610.1865705882349,
+      "mean_freq_mhz_e_cores": 1777.0738941176471
+    },
+    {
+      "ode_ms_median": 11.520481000843574,
+      "ode_ms_p10": 9.748540002692607,
+      "ode_ms_p90": 13.406956300968886,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "sleep_3, jax=none",
+      "repeat": 0,
+      "impl": "numba",
+      "jax": "none",
+      "pattern": "sleep_3",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 1531.6628659793814,
+      "mean_freq_mhz_e_cores": 1651.0674742268043
+    },
+    {
+      "ode_ms_median": 11.106194497187971,
+      "ode_ms_p10": 8.448040800431045,
+      "ode_ms_p90": 13.082958798986509,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "spin_3, jax=none",
+      "repeat": 0,
+      "impl": "numba",
+      "jax": "none",
+      "pattern": "spin_3",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 1593.8358996598643,
+      "mean_freq_mhz_e_cores": 1654.8692091836733
+    },
+    {
+      "ode_ms_median": 10.93184399906022,
+      "ode_ms_p10": 3.1830981020902986,
+      "ode_ms_p90": 13.981756200882955,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf (E1 replica)",
+      "repeat": 0,
+      "impl": "numba",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 1443.1207358374386,
+      "mean_freq_mhz_e_cores": 1395.966312192118
+    },
+    {
+      "ode_ms_median": 10.195491500780918,
+      "ode_ms_p10": 9.833914600676508,
+      "ode_ms_p90": 10.939488600706682,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, main thread pinned to CPU 0",
+      "repeat": 0,
+      "impl": "numba",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "main",
+      "env": {},
+      "mean_freq_mhz_p_cores": 3745.704954099821,
+      "mean_freq_mhz_e_cores": 3398.118699197861
+    },
+    {
+      "ode_ms_median": 6.803824999224162,
+      "ode_ms_p10": 2.9524733017751714,
+      "ode_ms_p90": 13.640824998583412,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 137,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 1,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 1,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, OMP_NUM_THREADS=1",
+      "repeat": 0,
+      "impl": "numba",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {
+        "OMP_NUM_THREADS": "1"
+      },
+      "mean_freq_mhz_p_cores": 1895.9749827235773,
+      "mean_freq_mhz_e_cores": 1774.3228910060975
+    },
+    {
+      "ode_ms_median": 11.78980900112947,
+      "ode_ms_p10": 3.675611099242815,
+      "ode_ms_p90": 14.092753699878813,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, XLA_FLAGS single-threaded Eigen",
+      "repeat": 0,
+      "impl": "numba",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {
+        "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false intra_op_parallelism_threads=1"
+      },
+      "mean_freq_mhz_p_cores": 1345.9794094117647,
+      "mean_freq_mhz_e_cores": 1340.7985664705882
+    },
+    {
+      "ode_ms_median": 10.919549498794368,
+      "ode_ms_p10": 3.4399715979816397,
+      "ode_ms_p90": 14.141076201121905,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, OMP_WAIT_POLICY=passive",
+      "repeat": 0,
+      "impl": "numba",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {
+        "OMP_WAIT_POLICY": "passive"
+      },
+      "mean_freq_mhz_p_cores": 1466.110098410758,
+      "mean_freq_mhz_e_cores": 1421.1191632029343
+    },
+    {
+      "ode_ms_median": 7.117634500900749,
+      "ode_ms_p10": 4.300931200123159,
+      "ode_ms_p90": 12.513066001338299,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, OMP_WAIT_POLICY=active",
+      "repeat": 0,
+      "impl": "numba",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {
+        "OMP_WAIT_POLICY": "active"
+      },
+      "mean_freq_mhz_p_cores": 3845.231533589744,
+      "mean_freq_mhz_e_cores": 3338.588967692308
+    },
+    {
+      "ode_ms_median": 4.145439001149498,
+      "ode_ms_p10": 2.8427575023670215,
+      "ode_ms_p90": 12.79760890029138,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 168,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "workqueue",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, NUMBA_THREADING_LAYER=workqueue",
+      "repeat": 0,
+      "impl": "numba",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {
+        "NUMBA_THREADING_LAYER": "workqueue"
+      },
+      "mean_freq_mhz_p_cores": 2261.02701590106,
+      "mean_freq_mhz_e_cores": 2104.40175
+    },
+    {
+      "ode_ms_median": 1.5684455011069076,
+      "ode_ms_p10": 1.4586251993023325,
+      "ode_ms_p90": 1.8008367987931706,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "A",
+      "label": "b2b, jax=none",
+      "repeat": 1,
+      "impl": "cytopk",
+      "jax": "none",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 3176.5780256410258,
+      "mean_freq_mhz_e_cores": 3449.8294487179487
+    },
+    {
+      "ode_ms_median": 1.6023844982555602,
+      "ode_ms_p10": 1.4661371991678607,
+      "ode_ms_p90": 1.8147058006434236,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "A",
+      "label": "b2b, jax=import",
+      "repeat": 1,
+      "impl": "cytopk",
+      "jax": "import",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 3112.5625235507246,
+      "mean_freq_mhz_e_cores": 3311.7936195652173
+    },
+    {
+      "ode_ms_median": 1.5600984988850541,
+      "ode_ms_p10": 1.457873801336973,
+      "ode_ms_p90": 1.7504498009657254,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 150,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "A",
+      "label": "b2b, jax=init",
+      "repeat": 1,
+      "impl": "cytopk",
+      "jax": "init",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2401.1337272727274,
+      "mean_freq_mhz_e_cores": 2433.577625
+    },
+    {
+      "ode_ms_median": 1.5274950001185061,
+      "ode_ms_p10": 1.4573213007679442,
+      "ode_ms_p90": 1.709624400609755,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "A",
+      "label": "b2b, jax=jit",
+      "repeat": 1,
+      "impl": "cytopk",
+      "jax": "jit",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2935.834570261437,
+      "mean_freq_mhz_e_cores": 3050.4892352941174
+    },
+    {
+      "ode_ms_median": 1.5247279989125673,
+      "ode_ms_p10": 1.4509568980429322,
+      "ode_ms_p90": 1.660713199453312,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "A",
+      "label": "b2b, jax=bf",
+      "repeat": 1,
+      "impl": "cytopk",
+      "jax": "bf",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2724.1304499999997,
+      "mean_freq_mhz_e_cores": 3096.816863333333
+    },
+    {
+      "ode_ms_median": 1.4939544998924248,
+      "ode_ms_p10": 1.4516792016365798,
+      "ode_ms_p90": 1.5873178006586386,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 174,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "A",
+      "label": "b2b, jax=init, JAX_PLATFORMS=cuda,cpu",
+      "repeat": 1,
+      "impl": "cytopk",
+      "jax": "init",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {
+        "JAX_PLATFORMS": "cuda,cpu"
+      },
+      "mean_freq_mhz_p_cores": 2355.991658974359,
+      "mean_freq_mhz_e_cores": 2564.960457692308
+    },
+    {
+      "ode_ms_median": 8.14271700073732,
+      "ode_ms_p10": 3.4499488006986216,
+      "ode_ms_p90": 9.1271282031812,
+      "calls": 200,
+      "gap_ms_median": 9.255517499695998,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "noise, jax=none",
+      "repeat": 1,
+      "impl": "cytopk",
+      "jax": "none",
+      "pattern": "noise",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 1576.876308159722,
+      "mean_freq_mhz_e_cores": 1678.4585624999997
+    },
+    {
+      "ode_ms_median": 8.257381001385511,
+      "ode_ms_p10": 3.423137498975848,
+      "ode_ms_p90": 9.541777898630244,
+      "calls": 200,
+      "gap_ms_median": 9.190526501697605,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "noise, jax=bf",
+      "repeat": 1,
+      "impl": "cytopk",
+      "jax": "bf",
+      "pattern": "noise",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 1863.4193417312663,
+      "mean_freq_mhz_e_cores": 2008.9963488372093
+    },
+    {
+      "ode_ms_median": 1.6972070006886497,
+      "ode_ms_p10": 1.488673098720028,
+      "ode_ms_p90": 2.228391302924137,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "interleave, jax=none",
+      "repeat": 1,
+      "impl": "cytopk",
+      "jax": "none",
+      "pattern": "interleave",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 3295.8642,
+      "mean_freq_mhz_e_cores": 3257.9128454545453
+    },
+    {
+      "ode_ms_median": 1.841613498982042,
+      "ode_ms_p10": 1.6706636968592647,
+      "ode_ms_p90": 2.2939694979868364,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "interleave, jax=bf",
+      "repeat": 1,
+      "impl": "cytopk",
+      "jax": "bf",
+      "pattern": "interleave",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 3806.216506944444,
+      "mean_freq_mhz_e_cores": 3479.751258928572
+    },
+    {
+      "ode_ms_median": 1.811799498682376,
+      "ode_ms_p10": 1.6450128998258151,
+      "ode_ms_p90": 2.2145404986076755,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "sleep_0.05, jax=none",
+      "repeat": 1,
+      "impl": "cytopk",
+      "jax": "none",
+      "pattern": "sleep_0.05",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 3805.1048958333336,
+      "mean_freq_mhz_e_cores": 3499.8421136363636
+    },
+    {
+      "ode_ms_median": 1.7371309986629058,
+      "ode_ms_p10": 1.632605099803186,
+      "ode_ms_p90": 2.0440220992895775,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "sleep_0.2, jax=none",
+      "repeat": 1,
+      "impl": "cytopk",
+      "jax": "none",
+      "pattern": "sleep_0.2",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 3615.5976521739126,
+      "mean_freq_mhz_e_cores": 3303.359706521739
+    },
+    {
+      "ode_ms_median": 2.6222859996778425,
+      "ode_ms_p10": 1.7455736018746393,
+      "ode_ms_p90": 4.494390702166129,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "sleep_1, jax=none",
+      "repeat": 1,
+      "impl": "cytopk",
+      "jax": "none",
+      "pattern": "sleep_1",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 3371.8758637820515,
+      "mean_freq_mhz_e_cores": 3121.1764663461536
+    },
+    {
+      "ode_ms_median": 5.7391904992982745,
+      "ode_ms_p10": 2.2804068990808446,
+      "ode_ms_p90": 9.37218069921073,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "sleep_3, jax=none",
+      "repeat": 1,
+      "impl": "cytopk",
+      "jax": "none",
+      "pattern": "sleep_3",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2524.895543918919,
+      "mean_freq_mhz_e_cores": 2390.6904662162165
+    },
+    {
+      "ode_ms_median": 4.638730499209487,
+      "ode_ms_p10": 1.8145514997740975,
+      "ode_ms_p90": 6.922664301237091,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "spin_3, jax=none",
+      "repeat": 1,
+      "impl": "cytopk",
+      "jax": "none",
+      "pattern": "spin_3",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2769.927369047619,
+      "mean_freq_mhz_e_cores": 2509.7725928571426
+    },
+    {
+      "ode_ms_median": 8.76453749879147,
+      "ode_ms_p10": 2.6807131991517967,
+      "ode_ms_p90": 10.744609099492664,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf (E1 replica)",
+      "repeat": 1,
+      "impl": "cytopk",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 1467.8845776422766,
+      "mean_freq_mhz_e_cores": 1406.7337018292683
+    },
+    {
+      "ode_ms_median": 1.6598095007793745,
+      "ode_ms_p10": 1.539154999773018,
+      "ode_ms_p90": 1.8696645016461844,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, main thread pinned to CPU 0",
+      "repeat": 1,
+      "impl": "cytopk",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "main",
+      "env": {},
+      "mean_freq_mhz_p_cores": 3642.674017636684,
+      "mean_freq_mhz_e_cores": 3299.903976190476
+    },
+    {
+      "ode_ms_median": 8.953282500442583,
+      "ode_ms_p10": 2.5632810004026396,
+      "ode_ms_p90": 10.737195200636052,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 137,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 1,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 1,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, OMP_NUM_THREADS=1",
+      "repeat": 1,
+      "impl": "cytopk",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {
+        "OMP_NUM_THREADS": "1"
+      },
+      "mean_freq_mhz_p_cores": 1354.3048254426483,
+      "mean_freq_mhz_e_cores": 1321.9622257505773
+    },
+    {
+      "ode_ms_median": 8.476220500597265,
+      "ode_ms_p10": 1.7653061997407349,
+      "ode_ms_p90": 10.49508190008055,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, XLA_FLAGS single-threaded Eigen",
+      "repeat": 1,
+      "impl": "cytopk",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {
+        "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false intra_op_parallelism_threads=1"
+      },
+      "mean_freq_mhz_p_cores": 1402.025048134012,
+      "mean_freq_mhz_e_cores": 1391.7154122137404
+    },
+    {
+      "ode_ms_median": 3.5408394996920833,
+      "ode_ms_p10": 1.7698642019240651,
+      "ode_ms_p90": 9.85746879960061,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, OMP_WAIT_POLICY=passive",
+      "repeat": 1,
+      "impl": "cytopk",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {
+        "OMP_WAIT_POLICY": "passive"
+      },
+      "mean_freq_mhz_p_cores": 1869.6232021901708,
+      "mean_freq_mhz_e_cores": 1790.6018950320513
+    },
+    {
+      "ode_ms_median": 3.0139975006022723,
+      "ode_ms_p10": 2.669063298162655,
+      "ode_ms_p90": 24.635359000239973,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, OMP_WAIT_POLICY=active",
+      "repeat": 1,
+      "impl": "cytopk",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {
+        "OMP_WAIT_POLICY": "active"
+      },
+      "mean_freq_mhz_p_cores": 3863.5605869422566,
+      "mean_freq_mhz_e_cores": 3467.6259025590552
+    },
+    {
+      "ode_ms_median": 8.901020000848803,
+      "ode_ms_p10": 3.24968300301407,
+      "ode_ms_p90": 10.388434700143987,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 168,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "workqueue",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, NUMBA_THREADING_LAYER=workqueue",
+      "repeat": 1,
+      "impl": "cytopk",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {
+        "NUMBA_THREADING_LAYER": "workqueue"
+      },
+      "mean_freq_mhz_p_cores": 1241.4377227929983,
+      "mean_freq_mhz_e_cores": 1276.9067471461185
+    },
+    {
+      "ode_ms_median": 7.525409502704861,
+      "ode_ms_p10": 3.317914102080977,
+      "ode_ms_p90": 12.007405399344862,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "A",
+      "label": "b2b, jax=none",
+      "repeat": 1,
+      "impl": "numba",
+      "jax": "none",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2007.5638522727274,
+      "mean_freq_mhz_e_cores": 2148.3528106060608
+    },
+    {
+      "ode_ms_median": 6.914994000908337,
+      "ode_ms_p10": 3.682384899730096,
+      "ode_ms_p90": 10.819732398158521,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "A",
+      "label": "b2b, jax=import",
+      "repeat": 1,
+      "impl": "numba",
+      "jax": "import",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2121.4783378995435,
+      "mean_freq_mhz_e_cores": 2292.787315068493
+    },
+    {
+      "ode_ms_median": 7.158272501328611,
+      "ode_ms_p10": 2.4323582005308713,
+      "ode_ms_p90": 9.860248401673744,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 150,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "A",
+      "label": "b2b, jax=init",
+      "repeat": 1,
+      "impl": "numba",
+      "jax": "init",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2028.2565200803213,
+      "mean_freq_mhz_e_cores": 2075.0094518072287
+    },
+    {
+      "ode_ms_median": 5.800000999443,
+      "ode_ms_p10": 3.020124100294197,
+      "ode_ms_p90": 8.416673898682347,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "A",
+      "label": "b2b, jax=jit",
+      "repeat": 1,
+      "impl": "numba",
+      "jax": "jit",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2553.750408675799,
+      "mean_freq_mhz_e_cores": 2537.7824452054792
+    },
+    {
+      "ode_ms_median": 6.840208498033462,
+      "ode_ms_p10": 2.48954810158466,
+      "ode_ms_p90": 9.516949899989413,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "A",
+      "label": "b2b, jax=bf",
+      "repeat": 1,
+      "impl": "numba",
+      "jax": "bf",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2434.9234912280704,
+      "mean_freq_mhz_e_cores": 2586.128471052632
+    },
+    {
+      "ode_ms_median": 6.922474001839873,
+      "ode_ms_p10": 2.615342899298412,
+      "ode_ms_p90": 10.26525610104727,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 174,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "A",
+      "label": "b2b, jax=init, JAX_PLATFORMS=cuda,cpu",
+      "repeat": 1,
+      "impl": "numba",
+      "jax": "init",
+      "pattern": "b2b",
+      "pin": "none",
+      "env": {
+        "JAX_PLATFORMS": "cuda,cpu"
+      },
+      "mean_freq_mhz_p_cores": 2041.0688790322583,
+      "mean_freq_mhz_e_cores": 2113.4112473118275
+    },
+    {
+      "ode_ms_median": 11.879662501087296,
+      "ode_ms_p10": 8.511022200036678,
+      "ode_ms_p90": 13.795570697038782,
+      "calls": 200,
+      "gap_ms_median": 9.403310001289356,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "noise, jax=none",
+      "repeat": 1,
+      "impl": "numba",
+      "jax": "none",
+      "pattern": "noise",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 1419.630631048387,
+      "mean_freq_mhz_e_cores": 1460.2826854838709
+    },
+    {
+      "ode_ms_median": 9.67583899910096,
+      "ode_ms_p10": 2.713204900283017,
+      "ode_ms_p90": 13.695296700825565,
+      "calls": 200,
+      "gap_ms_median": 8.261308499641018,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "noise, jax=bf",
+      "repeat": 1,
+      "impl": "numba",
+      "jax": "bf",
+      "pattern": "noise",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 1931.4650750591018,
+      "mean_freq_mhz_e_cores": 1972.3315212765956
+    },
+    {
+      "ode_ms_median": 4.975515001206077,
+      "ode_ms_p10": 3.2383111014496535,
+      "ode_ms_p90": 7.0454613989568315,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "interleave, jax=none",
+      "repeat": 1,
+      "impl": "numba",
+      "jax": "none",
+      "pattern": "interleave",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2377.816346064815,
+      "mean_freq_mhz_e_cores": 2495.956701388889
+    },
+    {
+      "ode_ms_median": 5.801706500278669,
+      "ode_ms_p10": 3.3289032995526213,
+      "ode_ms_p90": 7.493327497286373,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "interleave, jax=bf",
+      "repeat": 1,
+      "impl": "numba",
+      "jax": "bf",
+      "pattern": "interleave",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2408.8694505899703,
+      "mean_freq_mhz_e_cores": 2430.371090707965
+    },
+    {
+      "ode_ms_median": 8.70598199981032,
+      "ode_ms_p10": 5.806609200953972,
+      "ode_ms_p90": 11.77720489904459,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "sleep_0.05, jax=none",
+      "repeat": 1,
+      "impl": "numba",
+      "jax": "none",
+      "pattern": "sleep_0.05",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 1782.2893441558444,
+      "mean_freq_mhz_e_cores": 1876.2468733766239
+    },
+    {
+      "ode_ms_median": 8.571549500629772,
+      "ode_ms_p10": 5.541602699668148,
+      "ode_ms_p90": 11.544228599814232,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "sleep_0.2, jax=none",
+      "repeat": 1,
+      "impl": "numba",
+      "jax": "none",
+      "pattern": "sleep_0.2",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 1789.586677536232,
+      "mean_freq_mhz_e_cores": 1993.649170289855
+    },
+    {
+      "ode_ms_median": 8.417876499152044,
+      "ode_ms_p10": 5.548117699800059,
+      "ode_ms_p90": 12.359033302709577,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "sleep_1, jax=none",
+      "repeat": 1,
+      "impl": "numba",
+      "jax": "none",
+      "pattern": "sleep_1",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2293.2913245614036,
+      "mean_freq_mhz_e_cores": 2194.438934210526
+    },
+    {
+      "ode_ms_median": 11.051905999920564,
+      "ode_ms_p10": 4.995955499180127,
+      "ode_ms_p90": 13.598213600926101,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "sleep_3, jax=none",
+      "repeat": 1,
+      "impl": "numba",
+      "jax": "none",
+      "pattern": "sleep_3",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 1957.1547798245613,
+      "mean_freq_mhz_e_cores": 1864.2357894736842
+    },
+    {
+      "ode_ms_median": 7.364769500782131,
+      "ode_ms_p10": 4.222568702243734,
+      "ode_ms_p90": 11.46730590153311,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 86,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": false,
+      "part": "B",
+      "label": "spin_3, jax=none",
+      "repeat": 1,
+      "impl": "numba",
+      "jax": "none",
+      "pattern": "spin_3",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 2423.06270473251,
+      "mean_freq_mhz_e_cores": 2273.1023580246915
+    },
+    {
+      "ode_ms_median": 12.049033501170925,
+      "ode_ms_p10": 8.160148001115886,
+      "ode_ms_p90": 14.204664898716146,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf (E1 replica)",
+      "repeat": 1,
+      "impl": "numba",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {},
+      "mean_freq_mhz_p_cores": 1245.2327549019608,
+      "mean_freq_mhz_e_cores": 1224.0374281045752
+    },
+    {
+      "ode_ms_median": 9.978941499866778,
+      "ode_ms_p10": 9.169608298543608,
+      "ode_ms_p90": 10.64790259952133,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, main thread pinned to CPU 0",
+      "repeat": 1,
+      "impl": "numba",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "main",
+      "env": {},
+      "mean_freq_mhz_p_cores": 3514.5749243659425,
+      "mean_freq_mhz_e_cores": 3323.932396739131
+    },
+    {
+      "ode_ms_median": 11.77740299863217,
+      "ode_ms_p10": 5.1632822989631695,
+      "ode_ms_p90": 13.868673800243414,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 137,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 1,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 1,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, OMP_NUM_THREADS=1",
+      "repeat": 1,
+      "impl": "numba",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {
+        "OMP_NUM_THREADS": "1"
+      },
+      "mean_freq_mhz_p_cores": 1239.1862118544602,
+      "mean_freq_mhz_e_cores": 1266.7209964788733
+    },
+    {
+      "ode_ms_median": 11.548346001291065,
+      "ode_ms_p10": 3.7556641997070983,
+      "ode_ms_p90": 13.787775798118673,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, XLA_FLAGS single-threaded Eigen",
+      "repeat": 1,
+      "impl": "numba",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {
+        "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false intra_op_parallelism_threads=1"
+      },
+      "mean_freq_mhz_p_cores": 1450.2753615196077,
+      "mean_freq_mhz_e_cores": 1406.7133664215687
+    },
+    {
+      "ode_ms_median": 5.749162501160754,
+      "ode_ms_p10": 2.848321697456413,
+      "ode_ms_p90": 13.182315002995892,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, OMP_WAIT_POLICY=passive",
+      "repeat": 1,
+      "impl": "numba",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {
+        "OMP_WAIT_POLICY": "passive"
+      },
+      "mean_freq_mhz_p_cores": 2048.922491331096,
+      "mean_freq_mhz_e_cores": 1925.7822852348995
+    },
+    {
+      "ode_ms_median": 6.199668499903055,
+      "ode_ms_p10": 3.7759472012112383,
+      "ode_ms_p90": 9.530431700113695,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 167,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "openmp",
+          "internal_api": "openmp",
+          "num_threads": 16,
+          "prefix": "libgomp"
+        }
+      ],
+      "numba_threading_layer": "omp",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, OMP_WAIT_POLICY=active",
+      "repeat": 1,
+      "impl": "numba",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {
+        "OMP_WAIT_POLICY": "active"
+      },
+      "mean_freq_mhz_p_cores": 3993.7929080555555,
+      "mean_freq_mhz_e_cores": 3463.324065
+    },
+    {
+      "ode_ms_median": 11.089773499406874,
+      "ode_ms_p10": 2.8424088999599917,
+      "ode_ms_p90": 13.215987497096648,
+      "calls": 200,
+      "gap_ms_median": null,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threads_in_process": 168,
+      "threadpools": [
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        },
+        {
+          "user_api": "blas",
+          "internal_api": "openblas",
+          "num_threads": 16,
+          "prefix": "libscipy_openblas"
+        }
+      ],
+      "numba_threading_layer": "workqueue",
+      "jax_loaded": true,
+      "part": "B",
+      "label": "e1, jax=bf, NUMBA_THREADING_LAYER=workqueue",
+      "repeat": 1,
+      "impl": "numba",
+      "jax": "bf",
+      "pattern": "e1",
+      "pin": "none",
+      "env": {
+        "NUMBA_THREADING_LAYER": "workqueue"
+      },
+      "mean_freq_mhz_p_cores": 1603.627962243074,
+      "mean_freq_mhz_e_cores": 1535.9069738605897
+    }
+  ],
+  "freq_rows": [
+    {
+      "call_ms_median": 0.15335599891841412,
+      "call_ms_p10": 0.15315530072257388,
+      "call_ms_p90": 0.15597519704897422,
+      "cpu0_freq_mhz_median": 4100.0,
+      "cpu0_freq_mhz_p10": 4099.958,
+      "cpu0_freq_mhz_p90": 4100.041,
+      "batch": 16,
+      "pattern": "b2b",
+      "repeat": 0
+    },
+    {
+      "call_ms_median": 0.8181395005522063,
+      "call_ms_p10": 0.5446047987788918,
+      "call_ms_p90": 0.8759527998336125,
+      "cpu0_freq_mhz_median": 800.0,
+      "cpu0_freq_mhz_p10": 799.9237999999999,
+      "cpu0_freq_mhz_p90": 1109.7922999999994,
+      "batch": 16,
+      "pattern": "sleep_3",
+      "repeat": 0
+    },
+    {
+      "call_ms_median": 0.15396900016639847,
+      "call_ms_p10": 0.13732549850828946,
+      "call_ms_p90": 0.15819410109543242,
+      "cpu0_freq_mhz_median": 4100.0,
+      "cpu0_freq_mhz_p10": 4099.958,
+      "cpu0_freq_mhz_p90": 4600.0,
+      "batch": 16,
+      "pattern": "spin_3",
+      "repeat": 0
+    },
+    {
+      "call_ms_median": 1.2016359996778192,
+      "call_ms_p10": 1.1970701973041287,
+      "call_ms_p90": 1.2534090983535862,
+      "cpu0_freq_mhz_median": 4100.0,
+      "cpu0_freq_mhz_p10": 4099.958,
+      "cpu0_freq_mhz_p90": 4100.041,
+      "batch": 128,
+      "pattern": "b2b",
+      "repeat": 0
+    },
+    {
+      "call_ms_median": 2.8059489977749763,
+      "call_ms_p10": 1.1997264980891487,
+      "call_ms_p90": 6.359644300755463,
+      "cpu0_freq_mhz_median": 1781.795,
+      "cpu0_freq_mhz_p10": 799.991,
+      "cpu0_freq_mhz_p90": 4100.041,
+      "batch": 128,
+      "pattern": "sleep_3",
+      "repeat": 0
+    },
+    {
+      "call_ms_median": 1.1984070006292313,
+      "call_ms_p10": 1.1084926987678048,
+      "call_ms_p90": 1.2030190002406016,
+      "cpu0_freq_mhz_median": 4100.0,
+      "cpu0_freq_mhz_p10": 4099.958,
+      "cpu0_freq_mhz_p90": 4549.685799999999,
+      "batch": 128,
+      "pattern": "spin_3",
+      "repeat": 0
+    },
+    {
+      "call_ms_median": 4.803064999578055,
+      "call_ms_p10": 4.45832219957083,
+      "call_ms_p90": 4.811548400903121,
+      "cpu0_freq_mhz_median": 4100.0,
+      "cpu0_freq_mhz_p10": 4099.958,
+      "cpu0_freq_mhz_p90": 4551.1528,
+      "batch": 512,
+      "pattern": "b2b",
+      "repeat": 0
+    },
+    {
+      "call_ms_median": 18.864980500438833,
+      "call_ms_p10": 15.834464000727168,
+      "call_ms_p90": 20.760585899915895,
+      "cpu0_freq_mhz_median": 1234.654,
+      "cpu0_freq_mhz_p10": 1173.4264,
+      "cpu0_freq_mhz_p90": 1456.0563,
+      "batch": 512,
+      "pattern": "sleep_3",
+      "repeat": 0
+    },
+    {
+      "call_ms_median": 4.533082499619923,
+      "call_ms_p10": 4.272263297025347,
+      "call_ms_p90": 4.806579800060717,
+      "cpu0_freq_mhz_median": 4381.8515,
+      "cpu0_freq_mhz_p10": 4099.958,
+      "cpu0_freq_mhz_p90": 4600.046,
+      "batch": 512,
+      "pattern": "spin_3",
+      "repeat": 0
+    },
+    {
+      "call_ms_median": 19.23103599983733,
+      "call_ms_p10": 17.333771501944284,
+      "call_ms_p90": 19.28784969713888,
+      "cpu0_freq_mhz_median": 4100.0,
+      "cpu0_freq_mhz_p10": 4099.958,
+      "cpu0_freq_mhz_p90": 4576.7206,
+      "batch": 2048,
+      "pattern": "b2b",
+      "repeat": 0
+    },
+    {
+      "call_ms_median": 22.235714499402093,
+      "call_ms_p10": 21.374857200862607,
+      "call_ms_p90": 22.669808899081545,
+      "cpu0_freq_mhz_median": 4100.0,
+      "cpu0_freq_mhz_p10": 4099.958,
+      "cpu0_freq_mhz_p90": 4368.2414,
+      "batch": 2048,
+      "pattern": "sleep_3",
+      "repeat": 0
+    },
+    {
+      "call_ms_median": 19.24987450001936,
+      "call_ms_p10": 17.20888449890481,
+      "call_ms_p90": 19.32476829897496,
+      "cpu0_freq_mhz_median": 4100.0,
+      "cpu0_freq_mhz_p10": 4099.958,
+      "cpu0_freq_mhz_p90": 4600.0,
+      "batch": 2048,
+      "pattern": "spin_3",
+      "repeat": 0
+    },
+    {
+      "call_ms_median": 0.15340450227085967,
+      "call_ms_p10": 0.15321739956561942,
+      "call_ms_p90": 0.15617780009051785,
+      "cpu0_freq_mhz_median": 4100.0,
+      "cpu0_freq_mhz_p10": 4099.958,
+      "cpu0_freq_mhz_p90": 4100.041,
+      "batch": 16,
+      "pattern": "b2b",
+      "repeat": 1
+    },
+    {
+      "call_ms_median": 0.45390550076263025,
+      "call_ms_p10": 0.16487369939568453,
+      "call_ms_p90": 0.8202702010748908,
+      "cpu0_freq_mhz_median": 1495.2759999999998,
+      "cpu0_freq_mhz_p10": 799.9703000000001,
+      "cpu0_freq_mhz_p90": 4100.0,
+      "batch": 16,
+      "pattern": "sleep_3",
+      "repeat": 1
+    },
+    {
+      "call_ms_median": 0.1542095014883671,
+      "call_ms_p10": 0.15367480227723718,
+      "call_ms_p90": 0.16546339975320734,
+      "cpu0_freq_mhz_median": 4100.0,
+      "cpu0_freq_mhz_p10": 4099.9088,
+      "cpu0_freq_mhz_p90": 4100.041,
+      "batch": 16,
+      "pattern": "spin_3",
+      "repeat": 1
+    },
+    {
+      "call_ms_median": 1.1435759988671634,
+      "call_ms_p10": 1.066646597973886,
+      "call_ms_p90": 1.1990268027147977,
+      "cpu0_freq_mhz_median": 4219.5105,
+      "cpu0_freq_mhz_p10": 4100.0,
+      "cpu0_freq_mhz_p90": 4600.0,
+      "batch": 128,
+      "pattern": "b2b",
+      "repeat": 1
+    },
+    {
+      "call_ms_median": 4.670826998335542,
+      "call_ms_p10": 1.4505979015666526,
+      "call_ms_p90": 6.454990900238045,
+      "cpu0_freq_mhz_median": 1100.0055,
+      "cpu0_freq_mhz_p10": 799.983,
+      "cpu0_freq_mhz_p90": 3420.7097,
+      "batch": 128,
+      "pattern": "sleep_3",
+      "repeat": 1
+    },
+    {
+      "call_ms_median": 1.206953502332908,
+      "call_ms_p10": 1.1974673994700424,
+      "call_ms_p90": 1.2323076010943623,
+      "cpu0_freq_mhz_median": 4100.0,
+      "cpu0_freq_mhz_p10": 4099.958,
+      "cpu0_freq_mhz_p90": 4100.041,
+      "batch": 128,
+      "pattern": "spin_3",
+      "repeat": 1
+    },
+    {
+      "call_ms_median": 4.8963485005515395,
+      "call_ms_p10": 4.799240699503571,
+      "call_ms_p90": 4.933280601471779,
+      "cpu0_freq_mhz_median": 4100.0,
+      "cpu0_freq_mhz_p10": 4099.958,
+      "cpu0_freq_mhz_p90": 4100.041,
+      "batch": 512,
+      "pattern": "b2b",
+      "repeat": 1
+    },
+    {
+      "call_ms_median": 4.963487499480834,
+      "call_ms_p10": 4.910002399265068,
+      "call_ms_p90": 13.056238296849187,
+      "cpu0_freq_mhz_median": 4073.3025,
+      "cpu0_freq_mhz_p10": 1692.4419000000003,
+      "cpu0_freq_mhz_p90": 4100.041,
+      "batch": 512,
+      "pattern": "sleep_3",
+      "repeat": 1
+    },
+    {
+      "call_ms_median": 4.809769498024252,
+      "call_ms_p10": 4.800079500637366,
+      "call_ms_p90": 4.9073779009631835,
+      "cpu0_freq_mhz_median": 4100.0,
+      "cpu0_freq_mhz_p10": 4099.958,
+      "cpu0_freq_mhz_p90": 4100.041,
+      "batch": 512,
+      "pattern": "spin_3",
+      "repeat": 1
+    },
+    {
+      "call_ms_median": 19.48336099849257,
+      "call_ms_p10": 19.249477398989256,
+      "call_ms_p90": 19.99482999817701,
+      "cpu0_freq_mhz_median": 4100.0,
+      "cpu0_freq_mhz_p10": 4099.958,
+      "cpu0_freq_mhz_p90": 4100.041,
+      "batch": 2048,
+      "pattern": "b2b",
+      "repeat": 1
+    },
+    {
+      "call_ms_median": 19.64469449922035,
+      "call_ms_p10": 19.301100300071994,
+      "call_ms_p90": 20.61746090039378,
+      "cpu0_freq_mhz_median": 4100.0,
+      "cpu0_freq_mhz_p10": 4099.958,
+      "cpu0_freq_mhz_p90": 4100.041,
+      "batch": 2048,
+      "pattern": "sleep_3",
+      "repeat": 1
+    },
+    {
+      "call_ms_median": 19.442958500803798,
+      "call_ms_p10": 19.300637302876567,
+      "call_ms_p90": 19.787234201066894,
+      "cpu0_freq_mhz_median": 4100.0,
+      "cpu0_freq_mhz_p10": 4099.958,
+      "cpu0_freq_mhz_p90": 4100.041,
+      "batch": 2048,
+      "pattern": "spin_3",
+      "repeat": 1
+    }
+  ]
+}
