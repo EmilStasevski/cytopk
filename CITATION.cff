@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "cytopk: FCS flow-cytometry I/O and fast IV PK/PD simulators for simulation-based inference"
+type: software
+authors:
+  - family-names: Stasevski
+    given-names: Emil
+version: 0.1.0-dev
+license: "MIT OR Apache-2.0"
+repository-code: "https://github.com/EmilStasevski/cytopk"
