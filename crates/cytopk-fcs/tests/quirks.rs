@@ -456,3 +456,14 @@ fn integer_24_bit_channels() {
     assert_eq!(a.row(0).to_vec(), [f64::from(0x00AB_CDEF), 7.0]);
     assert_eq!(a.row(1).to_vec(), [16_777_215.0, 65_535.0]);
 }
+
+#[test]
+fn missing_nextdata_is_strict_error_lenient_warning() {
+    let mut r = f32_file(2, &["A"]);
+    r.remove("$NEXTDATA");
+    let b = r.build();
+    assert!(read(&b, &strict()).is_err());
+    let f = read(&b, &lenient()).unwrap();
+    assert!(kinds(&f).contains(&WarningKind::MissingKeyword));
+    assert_eq!(f32_data(&f), expected(2, 1));
+}

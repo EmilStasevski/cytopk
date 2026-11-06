@@ -118,7 +118,7 @@ pub(crate) fn parse_dataset(
     let spillover = find_spillover(|k| kw.get(k), &names, &mut d)?;
 
     // ---- $NEXTDATA
-    let next = next_dataset(&kw, base, len, &mut d)?;
+    let next = next_dataset(&kw, header.version, base, len, &mut d)?;
 
     Ok(Parsed {
         file: FcsFile {
@@ -759,10 +759,28 @@ fn supplemental_text(
     Ok(())
 }
 
-fn next_dataset(kw: &Keywords, base: u64, len: u64, d: &mut Diag) -> Result<Option<u64>, FcsError> {
+fn next_dataset(
+    kw: &Keywords,
+    version: Version,
+    base: u64,
+    len: u64,
+    d: &mut Diag,
+) -> Result<Option<u64>, FcsError> {
     let raw = kw.get_ref("$NEXTDATA").map(trim_str);
     let off = match raw {
-        None => return Ok(None), // FCS 2.0 often lacks it; nothing to follow
+        None => {
+            // Required from FCS 3.0 on; FCS 2.0 files often lack it. Either way there is nothing to follow.
+            if version != Version::Fcs2_0 {
+                d.problem(
+                    WarningKind::MissingKeyword,
+                    "$NEXTDATA missing; no further datasets read",
+                    None,
+                    Some("$NEXTDATA"),
+                    |m| key_err("$NEXTDATA", m),
+                )?;
+            }
+            return Ok(None);
+        }
         Some(v) => match v.parse::<u64>() {
             Ok(x) => x,
             Err(_) => {

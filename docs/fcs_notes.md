@@ -33,6 +33,7 @@ must read the right data and report the warning kind shown.
 | DATA end beyond the file (truncated file) | clipped; complete events read | DataOffsets |
 | DATA length ≠ `$TOT` × bytes/event (off-by-one `$ENDDATA`, wrong `$TOT`) | min(`$TOT`, complete events present) | DataSize |
 | `$TOT` missing | events = DATA bytes / bytes per event | MissingKeyword |
+| `$NEXTDATA` missing (required from 3.0) | no further datasets | MissingKeyword |
 | `$PnN` missing/empty | name `P<n>` | MissingKeyword |
 | `$PnE` missing (common in FCS 2.0) | `0,0` (linear) | MissingKeyword |
 | `$PnR` missing/non-numeric | range 0 (no masking) | MissingKeyword / BadValue |
