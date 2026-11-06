@@ -45,7 +45,7 @@ N_SMALL = 500
 SPEED_READERS = ["cytopk", "cytopk_1thread", "flowio", "flowkit", "fcsparser"]
 # cytopk decodes large DATA segments on the Rayon pool; cytopk_1thread (RAYON_NUM_THREADS=1) separates that
 # parallelism from per-byte efficiency. The other readers are single-threaded.
-ENV = {"cytopk_1thread": {"RAYON_NUM_THREADS": "1"}}
+ENV = {"cytopk_1thread": {"RAYON_NUM_THREADS": "1"}, "cytopk_many_1thread": {"RAYON_NUM_THREADS": "1"}}
 ALIAS = {"cytopk_1thread": "cytopk"}
 COLD = os.environ.get("FCS_COLD") == "1"  # set by --cold, inherited by the worker processes
 
@@ -107,7 +107,7 @@ def worker_many(mode, listfile):
         for p in paths:
             pagecache.drop(p)
     t0 = time.perf_counter()
-    if mode == "cytopk_many":
+    if mode in ("cytopk_many", "cytopk_many_1thread"):
         import cytopk
         out = [np.asarray(f.data, np.float32) for f in cytopk.read_fcs_many(paths)]
     elif mode.endswith("_joblib"):
@@ -219,7 +219,7 @@ def main():
     listfile = GEN / "small_list.txt"
     listfile.write_text("\n".join(str(p) for p in smalls))
     many = []
-    modes = ["cytopk_many"] + have + [f"{r}_joblib" for r in have if r not in ALIAS]
+    modes = ["cytopk_many", "cytopk_many_1thread"] + have + [f"{r}_joblib" for r in have if r not in ALIAS]
     for m in modes:
         ts = []
         for _ in range(3):
