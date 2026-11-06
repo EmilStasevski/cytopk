@@ -19,7 +19,7 @@ jobs:
       - name: fmt
         run: cargo fmt --all --check
       - name: clippy
-        run: cargo clippy --workspace --all-targets -- -D warnings
+        run: cargo clippy --workspace --all-targets --all-features -- -D warnings
       - name: test
         run: cargo test --workspace --locked
 
@@ -35,7 +35,9 @@ jobs:
       - name: build extension
         run: |
           python -m venv .venv
-          .venv/bin/pip install maturin==1.16.0 numpy scipy pytest
+          .venv/bin/pip install maturin==1.16.0 numpy scipy pytest pyarrow==26.0.1 flowio==1.4.0 flowkit==1.3.0 fcsparser==0.2.4
           cd python && VIRTUAL_ENV="$GITHUB_WORKSPACE/.venv" ../.venv/bin/maturin develop --release
+      - name: fetch public FCS test files (pinned by commit and SHA-256)
+        run: .venv/bin/python scripts/fetch_test_data.py
       - name: pytest
         run: .venv/bin/python -m pytest -q python/tests
