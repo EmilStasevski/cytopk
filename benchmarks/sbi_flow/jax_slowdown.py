@@ -16,6 +16,7 @@ threads), median of ROUNDS calls after WARM calls. Factors:
              e1           the full E1 loop (4 batched simulators, prior + ODE + noise + adapter, round-robin)
   --pin main pins the main thread to CPU 0 after every pool exists. Environment variants (JAX_PLATFORMS,
   OMP_NUM_THREADS, XLA_FLAGS, OMP_WAIT_POLICY, NUMBA_THREADING_LAYER) are set by the parent and recorded.
+Part D: noise / sleep / spin gaps with the main thread pinned to CPU 0 or not.
 Part C (`--worker freq`): one thread pinned to CPU 0, no pool, cytopk n_threads=1. Back-to-back calls are
 compared with sleep and spin gaps of the same length, at several batch sizes. scaling_cur_freq of CPU 0 is read
 after every call.
@@ -23,7 +24,8 @@ after every call.
 Recorded: os.sched_getaffinity, threads in the process, threadpoolctl.threadpool_info(), the Numba threading
 layer, cpufreq governor / EPP / driver, and mean scaling_cur_freq per CPU (sampled by a separate process).
 
-    python jax_slowdown.py            # -> results/jax_slowdown.json
+    python jax_slowdown.py --parts ABC                                   # -> results/jax_slowdown.json
+    python jax_slowdown.py --parts D --out results/jax_slowdown_pin.json
 """
 
 from __future__ import annotations
@@ -204,6 +206,11 @@ for impl in ("cytopk", "numba"):
                           ("OMP_WAIT_POLICY=active", "none", {"OMP_WAIT_POLICY": "active"}),
                           ("NUMBA_THREADING_LAYER=workqueue", "none", {"NUMBA_THREADING_LAYER": "workqueue"})]:
         ODE_CONFIGS.append(("B", f"e1, jax=bf, {lab}", impl, "bf", "e1", pin, env))
+# Part D: does a pinned, busy main thread keep the pool fast? (same patterns, main thread pinned or not)
+for impl in ("cytopk", "numba"):
+    for pat in ("noise", "sleep_3", "spin_3"):
+        for pin in ("none", "main"):
+            ODE_CONFIGS.append(("D", f"{pat}, jax=none, pin={pin}", impl, "none", pat, pin, {}))
 FREQ_CONFIGS = [(b, pat) for b in (16, 128, 512, 2048) for pat in ("b2b", "sleep_3", "spin_3")]
 
 
@@ -223,6 +230,7 @@ def main():
     ap.add_argument("--pin", default="none")
     ap.add_argument("--batch", type=int, default=B)
     ap.add_argument("--repeats", type=int, default=2)
+    ap.add_argument("--parts", default="ABCD", help="subset of parts to run, e.g. D")
     ap.add_argument("--sampler", nargs=2)
     ap.add_argument("--out", default=str(HERE / "results" / "jax_slowdown.json"))
     a = ap.parse_args()
@@ -236,6 +244,8 @@ def main():
     ode_rows, freq_rows = [], []
     for rep in range(a.repeats):  # whole passes, so drift over time shows up as a difference between repeats
         for part, label, impl, jx, pat, pin, extra in ODE_CONFIGS:
+            if part not in a.parts:
+                continue
             stop, fout = scratch / "freq.stop", scratch / "freq.json"
             stop.unlink(missing_ok=True)
             sp = subprocess.Popen([sys.executable, __file__, "--sampler", str(stop), str(fout)])
@@ -250,7 +260,7 @@ def main():
             ode_rows.append(r)
             print(f"{impl:6s} {label:52s} rep{rep}  ode {r['ode_ms_median']:6.2f} ms (p10 {r['ode_ms_p10']:.2f} "
                   f"p90 {r['ode_ms_p90']:.2f})  thr {r['threads_in_process']:3d}", flush=True)
-        for b, pat in FREQ_CONFIGS:
+        for b, pat in FREQ_CONFIGS if "C" in a.parts else []:
             r = run_sub(["--worker", "freq", "--batch", str(b), "--pattern", pat], {**os.environ, **BASE_ENV})
             r.update(batch=b, pattern=pat, repeat=rep)
             freq_rows.append(r)
