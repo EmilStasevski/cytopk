@@ -1,0 +1,16 @@
+[build-system]
+requires = ["maturin>=1.16,<2"]
+build-backend = "maturin"
+
+[project]
+name = "cytopk"
+version = "0.1.0.dev0"
+requires-python = ">=3.10"
+dependencies = ["numpy>=2"]
+license = "MIT OR Apache-2.0"
+
+[tool.maturin]
+manifest-path = "../crates/cytopk-py/Cargo.toml"
+module-name = "cytopk._cytopk"
+python-source = "."
+features = ["pyo3/extension-module"]
