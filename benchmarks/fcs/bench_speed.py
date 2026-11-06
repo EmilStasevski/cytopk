@@ -34,7 +34,11 @@ GEN = ROOT / "data" / "fcs_bench"
 SIZES = [(10**5, 20), (10**5, 40), (10**6, 20), (10**6, 40), (10**7, 20), (10**7, 40)]
 REPEATS = 5
 N_SMALL = 500
-SPEED_READERS = ["cytopk", "flowio", "flowkit", "fcsparser"]
+SPEED_READERS = ["cytopk", "cytopk_1thread", "flowio", "flowkit", "fcsparser"]
+# cytopk decodes large DATA segments on the Rayon pool; cytopk_1thread (RAYON_NUM_THREADS=1) separates that
+# parallelism from per-byte efficiency. The other readers are single-threaded.
+ENV = {"cytopk_1thread": {"RAYON_NUM_THREADS": "1"}}
+ALIAS = {"cytopk_1thread": "cytopk"}
 
 
 def generate():
@@ -62,7 +66,7 @@ def generate():
 
 
 def to_f32(reader, path):
-    names, data = readers.READERS[reader](path)
+    names, data = readers.READERS[ALIAS.get(reader, reader)](path)
     a = np.asarray(data, dtype=np.float32)
     return a if a.flags.c_contiguous else np.ascontiguousarray(a)
 
@@ -80,7 +84,7 @@ def worker_time(reader, path):
 
 def worker_mem(reader, path):
     import importlib
-    importlib.import_module(readers.IMPORT[reader])
+    importlib.import_module(readers.IMPORT[ALIAS.get(reader, reader)])
     if path != "-":
         to_f32(reader, path)
 
@@ -102,8 +106,9 @@ def worker_many(mode, listfile):
     print(json.dumps({"seconds": dt}))
 
 
-def peak_rss_kb(argv):
-    p = subprocess.run(["/usr/bin/time", "-v", *argv], capture_output=True, text=True)
+def peak_rss_kb(argv, env=None):
+    p = subprocess.run(["/usr/bin/time", "-v", *argv], capture_output=True, text=True,
+                       env={**os.environ, **(env or {})})
     if p.returncode != 0:
         return None, p.stderr[-300:]
     for line in p.stderr.splitlines():
@@ -136,7 +141,8 @@ def main():
     files, smalls = generate()
     manifest = ROOT / "data" / "fcs" / "manifest.json"
     real = [ROOT / f["path"] for f in json.loads(manifest.read_text())["files"]] if manifest.exists() else []
-    have = [r for r in SPEED_READERS if r in available_readers()]
+    avail = available_readers()
+    have = [r for r in SPEED_READERS if ALIAS.get(r, r) in avail]
     fc = flowcore_available()
     rows = []
     for path in files + real:
@@ -153,15 +159,16 @@ def main():
                 else:
                     row["error"] = p.stderr[-300:]
             else:
-                p = subprocess.run(py("--time", r, str(path)), capture_output=True, text=True)
+                p = subprocess.run(py("--time", r, str(path)), capture_output=True, text=True,
+                                   env={**os.environ, **ENV.get(r, {})})
                 if p.returncode == 0:
                     row["seconds_median"] = float(np.median(json.loads(p.stdout.strip().splitlines()[-1])["times"]))
                 else:
                     row["error"] = p.stderr.strip().splitlines()[-1][:300] if p.stderr.strip() else "failed"
                 mcmd, base = py("--mem", r, str(path)), py("--mem", r, "-")
             if "seconds_median" in row:
-                peak, err = peak_rss_kb(mcmd)
-                b, _ = peak_rss_kb(base)
+                peak, err = peak_rss_kb(mcmd, ENV.get(r))
+                b, _ = peak_rss_kb(base, ENV.get(r))
                 if peak is not None and b is not None:
                     row["peak_rss_extra_mb"] = (peak - b) / 1024
                     row["peak_rss_mb"] = peak / 1024
@@ -171,11 +178,12 @@ def main():
     listfile = GEN / "small_list.txt"
     listfile.write_text("\n".join(str(p) for p in smalls))
     many = []
-    modes = ["cytopk_many"] + have + [f"{r}_joblib" for r in have]
+    modes = ["cytopk_many"] + have + [f"{r}_joblib" for r in have if r not in ALIAS]
     for m in modes:
         ts = []
         for _ in range(3):
-            p = subprocess.run(py("--many", m, str(listfile)), capture_output=True, text=True)
+            p = subprocess.run(py("--many", m, str(listfile)), capture_output=True, text=True,
+                               env={**os.environ, **ENV.get(m, {})})
             if p.returncode != 0:
                 ts = None
                 err = p.stderr.strip().splitlines()[-1][:300] if p.stderr.strip() else "failed"

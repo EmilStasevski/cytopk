@@ -8,7 +8,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 R = Path(__file__).resolve().parents[1] / "results"
-ORDER = ["cytopk", "cytopk_strict", "flowio", "flowio_lenient", "flowkit", "flowkit_lenient", "fcsparser",
+ORDER = ["cytopk", "cytopk_1thread", "cytopk_strict", "flowio", "flowio_lenient", "flowkit", "flowkit_lenient", "fcsparser",
          "fcsparser_numpy1", "flowcore"]
 
 
@@ -82,7 +82,7 @@ def speed():
     for f in files:
         x0 = get.get((f, "cytopk"))
         others = [get[(f, r)]["seconds_median"] for r in readers
-                  if r != "cytopk" and "seconds_median" in get.get((f, r), {})]
+                  if not r.startswith("cytopk") and "seconds_median" in get.get((f, r), {})]
         ratio = (f"{min(others) / x0['seconds_median']:.2f}×"
                  if others and x0 and "seconds_median" in x0 else "—")
         out.append(f"| {f[:44]} | {next(x['bytes'] for x in rows if x['file'] == f) / 1e6:,.1f} | "
