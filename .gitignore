@@ -23,3 +23,10 @@ perf.data*
 
 # Notebooks
 .ipynb_checkpoints/
+
+# cargo-fuzz
+/fuzz/target/
+/fuzz/corpus/
+/fuzz/artifacts/
+/fuzz/coverage/
+/fuzz/Cargo.lock

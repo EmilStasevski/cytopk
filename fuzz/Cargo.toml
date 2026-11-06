@@ -1,0 +1,24 @@
+# cargo-fuzz harness for cytopk-fcs (needs nightly): `cargo +nightly fuzz run read_fcs -- -max_total_time=600`
+# Not part of the workspace; CI runs the proptest mutation tests in crates/cytopk-fcs/tests/no_panic.rs instead.
+[package]
+name = "cytopk-fcs-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2024"
+license = "Apache-2.0"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4.13"
+cytopk-fcs = { path = "../crates/cytopk-fcs" }
+
+[workspace]
+
+[[bin]]
+name = "read_fcs"
+path = "fuzz_targets/read_fcs.rs"
+test = false
+doc = false
+bench = false
