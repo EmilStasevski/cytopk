@@ -8,7 +8,7 @@
 suppressPackageStartupMessages(library(flowCore))
 args <- commandArgs(trailingOnly = TRUE)
 rd <- function(f) read.FCS(f, transformation = FALSE, truncate_max_range = FALSE)
-esc <- function(s) gsub('"', '\\\\"', gsub("\\\\", "\\\\\\\\", s))
+esc <- function(s) gsub("[[:cntrl:]]", " ", gsub("\"", "\\\\\"", gsub("\\\\", "\\\\\\\\", s)))
 if (args[1] == "read") {
   out <- args[2]
   files <- args[-(1:2)]
