@@ -1,9 +1,25 @@
-/target
-/data/
-**/__pycache__/
-*.pyc
+# Rust
+/target/
+
+# Python
 .venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+/python/build/
+/python/dist/
 *.so
 *.pyd
+
+# Data (fetched by scripts, never committed)
+/data/
+
+# Benchmark scratch output (committed results go in benchmarks/results/)
+/benchmarks/scratch/
+/benchmarks/results/*.tmp
+*.prof
+perf.data*
+
+# Notebooks
 .ipynb_checkpoints/
-.pytest_cache/
