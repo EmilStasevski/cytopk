@@ -26,6 +26,6 @@ mod solver;
 pub use dosing::{Dose, Schedule};
 pub use error::SimError;
 pub use model::{Constraint, Model};
-pub use models::{OneCmtIv, TwoCmtIv};
+pub use models::{IDR_R_REF, OneCmtIv, TwoCmtIv, TwoCmtIvIdr, TwoCmtMmIv};
 pub use simulate::{Solution, simulate_batch, simulate_one};
 pub use solver::{MAX_STATES, Method, SolverOpts, SolverStats};
