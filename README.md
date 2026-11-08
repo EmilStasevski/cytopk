@@ -6,6 +6,36 @@ reader and writer. Written in Rust, with Python bindings.
 > **Research prototype.** The models are toy models with illustrative parameter values. They are **not validated for
 > clinical or regulatory use.** The repository contains no real patient data.
 
+## Headline results
+
+All numbers are from committed results JSON files on one machine (Intel Core i5-14400F, 16 threads, NVMe SSD).
+The sections below and the linked benchmark READMEs have the full tables, including where cytopk loses.
+
+| what | cytopk | best alternative measured | speed-up |
+|---|---:|---:|---:|
+| Read a 1.6 GB FCS file (10^7 events × 40) into NumPy, warm cache | **64.3 ms** (16 threads) | 1.66 s (flowio) | **25.8×** |
+| same, cytopk on 1 thread | 656 ms | 1.66 s (flowio) | 2.53× |
+| Read FCS files of 10^6+ events, warm cache | 16 threads | fastest of flowio / FlowKit / fcsparser / flowCore | **15.8–25.8×** (1 thread: 1.93–4.01×) |
+| Read 500 small FCS files | **0.06 s** (`read_fcs_many`) | 0.23 s (flowio loop); 1.30 s (FlowKit) | **4.1×** vs flowio, **23×** vs FlowKit |
+| Peak extra memory, 1.6 GB file | **3,052 MB** | 4,578 MB (flowio), 6,113 MB (flowCore) | **1.5–2× less** |
+| Nonlinear PK ODE (`twocmt_mm_iv`), 10^5 subjects | **1.11 M sims/s** (16 threads) | 5,177 sims/s (JAX + diffrax, CPU, 16 threads) | **215×** |
+| same, 1 thread | 89,931 sims/s | 19,458 sims/s (JAX + diffrax, CPU) | **4.6×** |
+| same vs a SciPy `solve_ivp` loop, 1 thread | 89,931 sims/s | 472 sims/s | **190×** |
+| First batched call (no JIT) | **0.0016 s** | 1.69 s (Numba, JIT compile) | **~1,050×** |
+| Real public FCS files returning data | **28 / 30** | 28 (fcsparser on NumPy 1), 25 (flowio lenient), 21 (flowCore) | most robust, tied |
+| End-to-end M8: read and gate 2,700 FCS files (325 MB) | **0.22 s** | not compared | — |
+
+**Where cytopk does not win:**
+- **Against Numba running the same algorithm,** ODE speed is about equal: 1.01× on 1 thread for
+  Michaelis–Menten, and Numba is 1.12× *faster* for the indirect-response model.
+- **Most of the FCS speed-up is parallelism:** with one thread, the advantage is 1.93–4.01×.
+- **The SciPy loop and CPU JAX are weak baselines:** Python overhead per call, and an untuned `vmap` on CPU.
+  GPU JAX was not tested.
+- **Linear PK:** a NumPy closed form beats single-threaded cytopk by 2.5–2.6×.
+- **32-bit integer files:** in the committed run, fcsparser beat cytopk (11.3 vs 19.6 ms). The integer decoder
+  has since been rewritten (`73f22f6`). A committed rerun of that benchmark is still pending, so no new number
+  is claimed here.
+
 ## Status
 
 | milestone | status |
@@ -16,7 +46,10 @@ reader and writer. Written in Rust, with Python bindings.
 | M2 nonlinear PK (`twocmt_mm_iv`) and indirect-response PD (`twocmt_iv_idr`), exposed in Python, nonlinear benchmark | done |
 | Drift-diffusion simulator (`cytopk.simulate_ddm`) and an SBI-flow study with BayesFlow ([`benchmarks/sbi_flow/`](benchmarks/sbi_flow/README.md)) | done |
 | M5 FCS reader (`cytopk-fcs`): strict/lenient modes, F/D/I data, `$NEXTDATA`, mmap, Parquet, Python binding, robustness and speed benchmarks ([`benchmarks/fcs/`](benchmarks/fcs/README.md)) | done |
-| M3 full Python API; M6 FCS transforms, compensation and gating; end-to-end amortized inference example | planned |
+| Thin M6 (`cytopk-gate`): arcsinh with configurable cofactors, rectangular TOML gates with parents, per-gate counts and medians, Python binding ([`docs/gating.md`](docs/gating.md)) | done |
+| M8 first version: synthetic cohort → FCS → gate → BayesFlow → SBC ([`examples/cohort/`](examples/cohort/README.md)) | done |
+| Upstream issue drafts for silent wrong data in other readers ([`docs/upstream_issues/`](docs/upstream_issues/README.md)); not posted | drafted |
+| M3 full Python API; rest of M6 (compensation, `$PnE`, polygon gates, logicle) | planned |
 
 See [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
@@ -26,6 +59,7 @@ See [`docs/ROADMAP.md`](docs/ROADMAP.md).
 |---|---|---|
 | `cytopk-sim` | Rust crate | models, dosing schedules, solvers, batch simulation |
 | `cytopk-fcs` | Rust crate | FCS reader/writer; feature `arrow` adds Arrow/Parquet output |
+| `cytopk-gate` | Rust crate | arcsinh transform, rectangular gates from TOML, counts and medians |
 | `cytopk-py` | Rust crate (cdylib) | PyO3 bindings, built into the Python package `cytopk` |
 | `cytopk` | Python package (`python/`) | `import cytopk` |
 
@@ -81,6 +115,10 @@ f.warnings                                 # what lenient mode repaired, e.g. [{
 f.to_parquet("sample.parquet")
 files = cytopk.read_fcs_many(paths)        # parallel; failed files come back as FcsReadError objects
 cytopk.write_fcs("out.fcs", data, ["FSC-A", "SSC-A"])
+
+s = cytopk.GatingStrategy.from_file("strategy.toml")      # arcsinh + rectangular gates (docs/gating.md)
+s.apply(f)                                 # {"n_events", "gates": [{"name", "count", "fraction_of_parent", "medians", ...}]}
+cytopk.gate_fcs_many(paths, s)             # read + gate in Rust, in parallel
 ```
 
 Units are days, mg, L and mg/L. The output at time `t` includes any bolus given at `t`. Results are bit-identical for any
@@ -189,8 +227,34 @@ Measured in [`benchmarks/fcs/`](benchmarks/fcs/README.md) against flowio, FlowKi
 - **Agreement:** where readers disagree on values, the three cases traced so far are errors in the other readers.
 - **Speed:** on large float32 files cytopk is 15.8–25.8× faster than the fastest other reader, but mostly through a
   16-thread decode. With one thread the advantage is 1.93–4.01×.
-- **Where others win:** fcsparser is faster on a 32-bit integer file (11.3 vs 19.6 ms).
+- **Where others win:** fcsparser was faster on a 32-bit integer file (11.3 vs 19.6 ms) in the committed run. The
+  integer decoder has since been rewritten (`73f22f6`: bulk kernels, bit-identical by proptest), and the rerun is
+  pending.
+- **Cold page cache:** a cold-cache mode (`bench_speed.py --cold`, `posix_fadvise` eviction checked with
+  `mincore`) is committed, but its results are not yet. No root was available, so `drop_caches` was not used.
+- **Silent wrong data in other readers:** four cases, with minimal reproducers and draft issue text (not
+  posted), are in [`docs/upstream_issues/`](docs/upstream_issues/README.md):
+  - fcsparser's HEADER offset handling;
+  - fcsparser's float32 rounding of 32-bit integers;
+  - fcsparser's little-endian 24-bit integers;
+  - flowCore's big-endian 24-bit integers.
 - **Memory:** peak memory is about the same as fcsparser's and lower than flowio, FlowKit and flowCore.
+
+## End-to-end example (M8, first version)
+
+[`examples/cohort/`](examples/cohort/README.md) runs a toy pipeline end to end:
+
+1. **Simulate.** PK/PD from `twocmt_iv_idr` drives an activated-cell fraction.
+2. **Write.** Each sample is 10^4 events from a Gaussian mixture on the arcsinh scale, written with the cytopk
+   writer.
+3. **Read and gate.** The files are read back and gated with a TOML strategy.
+4. **Infer.** BayesFlow 2.1 is trained on the gate-count summaries.
+5. **Check.** SBC runs on 300 subjects whose 2,700 FCS files went through the real pipeline.
+
+Results:
+- **Calibration:** every rank ECDF stays inside the 95% band, and every calibration error is ≤ 0.025.
+- **Information:** the gate counts identify Emax (posterior contraction 0.71) and partly kout (0.22). The PK
+  parameters and EC50 stay close to the prior. That is a property of this single-dose, PD-only design.
 
 ## Licence
 
