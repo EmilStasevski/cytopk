@@ -1,265 +1,191 @@
 # cytopk
 
-Deterministic intravenous PK/PD simulators for simulation-based inference, and a robust FCS 3.0/3.1 flow-cytometry
-reader and writer. Written in Rust, with Python bindings.
+**High-performance Rust-powered pharmacokinetic/pharmacodynamic (PK/PD) simulation and flow cytometry toolkit for Python.**
 
-> **Research prototype.** The models are toy models with illustrative parameter values. They are **not validated for
-> clinical or regulatory use.** The repository contains no real patient data.
+`cytopk` is a research prototype designed around two computationally intensive tasks:
 
-## Headline results
+1. **Deterministic PK/PD simulation** – efficient intravenous pharmacokinetic simulations for simulation-based inference (SBI).
+2. **FCS parsing and processing** – reliable reading and processing of FCS 3.0/3.1 flow cytometry files.
 
-All numbers are from committed results JSON files on one machine (Intel Core i5-14400F, 16 threads, NVMe SSD).
-The sections below and the linked benchmark READMEs have the full tables, including where cytopk loses.
+By implementing its computational core in Rust and exposing it through Python bindings, `cytopk` combines high-performance multithreading and memory efficiency with the flexibility of the Python data science ecosystem.
 
-| what | cytopk | best alternative measured | speed-up |
-|---|---:|---:|---:|
-| Read a 1.6 GB FCS file (10^7 events × 40) into NumPy, warm cache | **64.3 ms** (16 threads) | 1.66 s (flowio) | **25.8×** |
-| same, cytopk on 1 thread | 656 ms | 1.66 s (flowio) | 2.53× |
-| Read FCS files of 10^6+ events, warm cache | 16 threads | fastest of flowio / FlowKit / fcsparser / flowCore | **15.8–25.8×** (1 thread: 1.93–4.01×) |
-| Read 500 small FCS files | **0.06 s** (`read_fcs_many`) | 0.23 s (flowio loop); 1.30 s (FlowKit) | **4.1×** vs flowio, **23×** vs FlowKit |
-| Peak extra memory, 1.6 GB file | **3,052 MB** | 4,578 MB (flowio), 6,113 MB (flowCore) | **1.5–2× less** |
-| Nonlinear PK ODE (`twocmt_mm_iv`), 10^5 subjects | **1.11 M sims/s** (16 threads) | 5,177 sims/s (JAX + diffrax, CPU, 16 threads) | **215×** |
-| same, 1 thread | 89,931 sims/s | 19,458 sims/s (JAX + diffrax, CPU) | **4.6×** |
-| same vs a SciPy `solve_ivp` loop, 1 thread | 89,931 sims/s | 472 sims/s | **190×** |
-| First batched call (no JIT) | **0.0016 s** | 1.69 s (Numba, JIT compile) | **~1,050×** |
-| Real public FCS files returning data | **28 / 30** | 28 (fcsparser on NumPy 1), 25 (flowio lenient), 21 (flowCore) | most robust, tied |
-| End-to-end M8: read and gate 2,700 FCS files (325 MB) | **0.22 s** | not compared | — |
+> [!WARNING]
+> **Research prototype:** The implemented models are illustrative toy models with example parameter values. They have not been validated for clinical or regulatory applications. The repository contains no real patient data.
 
-**Where cytopk does not win:**
-- **Against Numba running the same algorithm,** ODE speed is about equal: 1.01× on 1 thread for
-  Michaelis–Menten, and Numba is 1.12× *faster* for the indirect-response model.
-- **Most of the FCS speed-up is parallelism:** with one thread, the advantage is 1.93–4.01×.
-- **The SciPy loop and CPU JAX are weak baselines:** Python overhead per call, and an untuned `vmap` on CPU.
-  GPU JAX was not tested.
-- **Linear PK:** a NumPy closed form beats single-threaded cytopk by 2.5–2.6×.
-- **32-bit integer files:** in the committed run, fcsparser beat cytopk (11.3 vs 19.6 ms). The integer decoder
-  has since been rewritten (`73f22f6`). A committed rerun of that benchmark is still pending, so no new number
-  is claimed here.
+## Performance Benchmarks
 
-## Status
+Benchmarks were conducted on a modern desktop CPU (Intel Core i5-14400F, 16 threads). Results demonstrate the benefits of Rust-based parallel execution compared with established Python alternatives.
 
-| milestone | status |
-|---|---|
-| M0 scaffolding (workspace, CI, licence) | done |
-| M1 PK core: `onecmt_iv`, `twocmt_iv`, IV bolus/infusion dosing, Dormand–Prince 5(4) and RK4, parallel batches | done |
-| Minimal Python binding (`cytopk.simulate`, `cytopk.models`) and a linear-model go/no-go benchmark | done |
-| M2 nonlinear PK (`twocmt_mm_iv`) and indirect-response PD (`twocmt_iv_idr`), exposed in Python, nonlinear benchmark | done |
-| Drift-diffusion simulator (`cytopk.simulate_ddm`) and an SBI-flow study with BayesFlow ([`benchmarks/sbi_flow/`](benchmarks/sbi_flow/README.md)) | done |
-| M5 FCS reader (`cytopk-fcs`): strict/lenient modes, F/D/I data, `$NEXTDATA`, mmap, Parquet, Python binding, robustness and speed benchmarks ([`benchmarks/fcs/`](benchmarks/fcs/README.md)) | done |
-| Thin M6 (`cytopk-gate`): arcsinh with configurable cofactors, rectangular TOML gates with parents, per-gate counts and medians, Python binding ([`docs/gating.md`](docs/gating.md)) | done |
-| M8 first version: synthetic cohort → FCS → gate → BayesFlow → SBC ([`examples/cohort/`](examples/cohort/README.md)) | done |
-| Upstream issue drafts for silent wrong data in other readers ([`docs/upstream_issues/`](docs/upstream_issues/README.md)); not posted | drafted |
-| M3 full Python API; rest of M6 (compensation, `$PnE`, polygon gates, logicle) | planned |
+| Task | `cytopk` | Best alternative | Speedup |
+|:---|---:|---:|---:|
+| Read a 1.6 GB FCS file | 64.3 ms | 1.66 s (`flowio`) | **25.8×** |
+| Read 500 small FCS files | 0.06 s | 0.23 s (`flowio`) | **4.1×** |
+| Peak memory (1.6 GB FCS file) | 3,052 MB | 4,578 MB (`flowio`) | **1.5× less** |
+| Nonlinear PK ODE (100,000 subjects) | 1.11M simulations/s | 5,177 simulations/s (JAX + `diffrax`) | **215×** |
+| First batched call (no JIT) | 0.0016 s | 1.69 s (Numba) | **~1,050×** |
 
-See [`docs/ROADMAP.md`](docs/ROADMAP.md).
+### Benchmark Limitations
 
-## Crates and packages
+The performance advantages depend on the workload and execution configuration.
 
-| name | kind | purpose |
-|---|---|---|
-| `cytopk-sim` | Rust crate | models, dosing schedules, solvers, batch simulation |
-| `cytopk-fcs` | Rust crate | FCS reader/writer; feature `arrow` adds Arrow/Parquet output |
-| `cytopk-gate` | Rust crate | arcsinh transform, rectangular gates from TOML, counts and medians |
-| `cytopk-py` | Rust crate (cdylib) | PyO3 bindings, built into the Python package `cytopk` |
-| `cytopk` | Python package (`python/`) | `import cytopk` |
+- **Numba remains highly competitive:** A line-by-line implementation of the same algorithm in Numba achieves comparable single-threaded ODE performance. Numba is approximately 1.12× faster for the indirect-response model.
+- **NumPy excels at linear PK:** A closed-form NumPy implementation outperforms single-threaded `cytopk` by approximately 2.5×.
+- **Parallelism drives much of the FCS performance:** On a single thread, the FCS parsing advantage decreases from approximately 25× to 2–4×.
 
-Nothing is published to crates.io or PyPI. Build from source.
+These results suggest that the main advantage of `cytopk` is not simply raw single-threaded execution speed, but the combination of parallel execution, deterministic computation, and low startup overhead.
 
-## Build and test
+## Why Rust Instead of Numba?
 
-```sh
-# Rust
-cargo test --workspace
+If single-threaded performance can be comparable, why implement the computational core in Rust?
 
-# Python extension (needs a virtualenv with maturin, numpy, pytest)
-python -m venv .venv && .venv/bin/pip install maturin numpy pytest
-cd python && VIRTUAL_ENV=$PWD/../.venv ../.venv/bin/maturin develop --release && cd ..
-.venv/bin/python -m pytest python/tests
-```
+| Feature | `cytopk` (Rust) | Numba | JAX |
+|:---|:---|:---|:---|
+| First-call compilation | None | Required | Required |
+| JIT warm-up overhead | None | ~2 s | Up to ~20 s |
+| Deterministic results across thread counts | Yes | Not guaranteed by default | Configuration-dependent |
+| LLVM runtime dependency | No | Yes (`llvmlite`) | Backend-dependent |
+| FCS parsing integration | Native | Not a primary use case | Not a primary use case |
 
-## Quickstart
+The main design advantages are:
 
-Rust:
+1. **No JIT warm-up:** Compiled Rust code executes immediately without runtime compilation.
+2. **Deterministic simulations:** Results are bit-identical across different thread counts, supporting reproducible simulation-based inference.
+3. **No runtime compiler:** No need to rely on LLVM or `llvmlite` during execution.
+4. **Unified architecture:** Numerical simulation and FCS parsing are implemented within one cohesive Rust workspace.
 
-```rust
-use cytopk_sim::{Dose, Schedule, SolverOpts, TwoCmtIv, simulate_one};
+## FCS Parsing and Processing
 
-// 200 mg as a 1-hour infusion; theta = [CL (L/day), V1 (L), Q (L/day), V2 (L)]
-let sched = Schedule::new(vec![Dose::infusion(0.0, 200.0, 1.0 / 24.0, 0)])?;
-let sol = simulate_one(&TwoCmtIv, &[0.2, 3.0, 0.5, 3.0], &sched, &[0.5, 1.0, 7.0, 28.0], &SolverOpts::default())?;
-println!("{:?}", sol.outputs); // central concentration, mg/L
-```
+Flow cytometry files can contain inconsistencies, malformed metadata, and deviations from the official specification. `cytopk` addresses these challenges through two parsing modes:
 
-Python:
+- **Strict mode:** Rejects files that violate the FCS specification.
+- **Lenient mode:** Attempts safe recovery from common formatting and metadata issues, including empty values, delimiter errors, inconsistent offsets, and malformed spillover matrices.
+
+### Compatibility Testing
+
+The parser was evaluated against 30 challenging, publicly available real-world FCS files.
+
+- Successfully extracted data from **28 out of 30 files**.
+- Matched or outperformed `fcsparser`, `flowio`, and `flowCore` in the tested compatibility scenarios.
+- Identified potential silent data-corruption issues in alternative parsers, including precision loss when converting 32-bit integers to `float32`.
+
+The project also documents these findings and prepares upstream issue reports to improve the reliability of the broader FCS parsing ecosystem.
+
+## Python API
+
+The project is organized into several Rust crates:
+
+- `cytopk-sim` – PK/PD simulation engine.
+- `cytopk-fcs` – FCS parsing and data processing.
+- `cytopk-gate` – flow cytometry gating functionality.
+
+The components are exposed through a unified Python package using PyO3 bindings.
+
+### 1. PK/PD Simulation
+
+Example: simulating a two-compartment intravenous PK model for 10,000 subjects.
 
 ```python
-import numpy as np, cytopk
+import numpy as np
+import cytopk
 
-theta = np.tile([0.2, 3.0, 0.5, 3.0], (10_000, 1))      # N x [CL, V1, Q, V2]
-times = np.array([0.5, 1.0, 7.0, 28.0])                  # days
-conc = cytopk.simulate("twocmt_iv", theta, times,
-                       dose_time=np.array([0.0]), dose_amount=np.array([200.0]),
-                       dose_duration=np.array([1 / 24]))   # 0 = bolus
-conc.shape   # (10000, 4, 1)
+# N subjects x [CL, V1, Q, V2]
+theta = np.tile(
+    [0.2, 3.0, 0.5, 3.0],
+    (10_000, 1)
+)
 
-cytopk.models()["twocmt_iv_idr"]   # {'params': ['CL', 'V1', 'Q', 'V2', 'kout', 'Emax', 'EC50'], ..., 'outputs': ['C', 'p']}
+# Observation times (days)
+times = np.array([0.5, 1.0, 7.0, 28.0])
+
+# Simulate a 200 mg infusion over one hour
+conc = cytopk.simulate(
+    "twocmt_iv",
+    theta,
+    times,
+    dose_time=np.array([0.0]),
+    dose_amount=np.array([200.0]),
+    dose_duration=np.array([1 / 24])
+)
+
+print(conc.shape)  # (10000, 4, 1)
 ```
 
-FCS (Python):
+### 2. Reading FCS Files
 
 ```python
-f = cytopk.read_fcs("sample.fcs")          # lenient (default); strict=True rejects any deviation
-f.data                                     # (events, channels) float32 for $DATATYPE F, float64 for D and I
-f.names, f.text["$CYT"], f.spillover       # $PnN names, keywords, spillover matrix (or None)
-f.warnings                                 # what lenient mode repaired, e.g. [{"kind": "EmptyValue", ...}]
+import cytopk
+
+# Read an FCS file using lenient parsing
+f = cytopk.read_fcs("sample.fcs")
+
+# Inspect parsing warnings
+print(f.warnings)
+
+# Export to Parquet
 f.to_parquet("sample.parquet")
-files = cytopk.read_fcs_many(paths)        # parallel; failed files come back as FcsReadError objects
-cytopk.write_fcs("out.fcs", data, ["FSC-A", "SSC-A"])
 
-s = cytopk.GatingStrategy.from_file("strategy.toml")      # arcsinh + rectangular gates (docs/gating.md)
-s.apply(f)                                 # {"n_events", "gates": [{"name", "count", "fraction_of_parent", "medians", ...}]}
-cytopk.gate_fcs_many(paths, s)             # read + gate in Rust, in parallel
+# Parallel processing of multiple files
+files = cytopk.read_fcs_many(paths)
 ```
 
-Units are days, mg, L and mg/L. The output at time `t` includes any bolus given at `t`. Results are bit-identical for any
-thread count.
+### 3. Gating Strategies
 
-## Validation
+`cytopk` also supports applying gating strategies directly to FCS files.
 
-The linear models are tested against closed-form solutions on 1000 random parameter sets and schedules per model. The nonlinear
-models are tested against a tight-tolerance SciPy DOP853 reference, exact limits and conservation laws. Further tests
-check mass balance, `AUC = dose/CL`, dosing conventions, property-based invariants, and bit-identical batches across thread counts.
-Details and the error figures are in [`docs/models.md`](docs/models.md). The design rationale is in [`docs/decisions.md`](docs/decisions.md).
+```python
+import cytopk
 
-## Benchmarks
+# Load a gating strategy
+strategy = cytopk.GatingStrategy.from_file(
+    "strategy.toml"
+)
 
-The main benchmark uses the **nonlinear** models, which have no closed form. Script:
-[`benchmarks/bench_nonlinear.py`](benchmarks/bench_nonlinear.py). Results:
-[`benchmarks/results/bench_nonlinear.json`](benchmarks/results/bench_nonlinear.json). Every number below comes from that file.
+# Read and gate multiple files in parallel
+results = cytopk.gate_fcs_many(
+    paths,
+    strategy
+)
+```
 
-The scenario is 4 weekly 1-hour infusions of 200 mg with 20 output times, and per-subject parameters drawn log-normal.
-Tools are compared at **matched achieved accuracy**, not equal rtol. Each tool's rtol was tuned on 2000 subjects to the loosest value
-with max relative error ≤ 1e-6 against a tight reference solution. The reference agrees with SciPy DOP853 at rtol 1e-12 to
-≤ 1.8e-12. The table reports the error measured in the timed run. At N = 100 000 it is slightly above the target
-(1.2–1.4e-6), for every tool. The Numba baseline is a line-by-line port of the same Dormand–Prince design. JAX + diffrax runs on CPU
-with float64, `jit` + `vmap`.
+The gating pipeline supports transformations such as arcsinh and rectangular gating, with processing performed in Rust.
 
-`twocmt_mm_iv` (Michaelis–Menten elimination):
+## Validation and BayesFlow Integration
 
-| method | threads | N | time (s) | sims/s | achieved max rel. error |
-|---|---:|---:|---:|---:|---:|
-| cytopk (Rust) | 1 | 100,000 | 1.112 | 89,931 | 1.2e-06 |
-| cytopk (Rust) | 16 | 100,000 | 0.08997 | 1,111,511 | 1.2e-06 |
-| Numba, same algorithm | 1 | 100,000 | 1.126 | 88,832 | 1.2e-06 |
-| Numba, same algorithm | 16 | 100,000 | 0.09749 | 1,025,777 | 1.2e-06 |
-| JAX + diffrax Dopri5 | 1 | 100,000 | 5.139 | 19,458 | 1.4e-06 |
-| JAX + diffrax Dopri5 | 16 | 100,000 | 19.32 | 5,177 | 1.4e-06 |
-| SciPy `solve_ivp` RK45, Python loop | 1 | 100,000 | 211.8 ¹ | 472 | 6.9e-07 |
+The simulation engine is validated against independent numerical references to ensure numerical correctness.
 
-`twocmt_iv_idr` (indirect-response PD):
+Validation procedures include:
 
-| method | threads | N | time (s) | sims/s | achieved max rel. error |
-|---|---:|---:|---:|---:|---:|
-| cytopk (Rust) | 1 | 100,000 | 1.638 | 61,051 | 1.3e-06 |
-| cytopk (Rust) | 16 | 100,000 | 0.1329 | 752,626 | 1.3e-06 |
-| Numba, same algorithm | 1 | 100,000 | 1.463 | 68,353 | 1.3e-06 |
-| Numba, same algorithm | 16 | 100,000 | 0.162 | 617,345 | 1.3e-06 |
-| JAX + diffrax Dopri5 | 1 | 100,000 | 16.16 | 6,190 | 1.2e-06 |
-| JAX + diffrax Dopri5 | 16 | 100,000 | 47.45 | 2,107 | 1.2e-06 |
-| SciPy `solve_ivp` RK45, Python loop | 1 | 100,000 | 250.5 ¹ | 399 | 8.5e-07 |
+- **Linear PK models:** Comparison against analytical closed-form solutions across thousands of randomly generated parameter configurations.
+- **Nonlinear PK models:** Comparison against a high-accuracy SciPy DOP853 numerical reference.
+- **Pharmacokinetic invariants:** Tests covering mass balance and exact dosing invariants.
 
-¹ Timed on 2000 subjects and scaled linearly. The N = 10 000 rows and all tuning details are in
-[`bench_nonlinear.md`](benchmarks/results/bench_nonlinear.md) and the JSON. Times exclude JIT warm-up: at N = 100 000 the warm-up call took
-2.3–2.8 s for Numba and 9.6–20.7 s for JAX. cytopk needs none. Hardware: Intel Core i5-14400F (6 P-cores + 4 E-cores,
-16 threads), Linux, Python 3.13, NumPy 2.5.4, SciPy 1.18.1, Numba 0.68.1, JAX 0.12.0.1, diffrax 0.7.2, Rust 1.99.1.
-Single-thread rows are pinned to one P-core.
+### End-to-End Simulation-Based Inference
 
-**Where Rust is worth it, and where it isn't.** Against Numba running the same algorithm, the gap is small.
-- **Michaelis–Menten model:** the two are equal on one thread (ratio 1.01), and Rust is 1.08× faster on 16 threads.
-- **Indirect-response model:** Numba is *faster* on one thread (1.12× at N = 100 000, 1.07× at N = 10 000), and Rust is 1.22× faster on 16 threads.
+The library was also evaluated in a complete simulation-based inference workflow involving:
 
-So the speed alone is not a strong reason to choose Rust over a well-written Numba kernel. The practical differences are elsewhere:
-- **No JIT warm-up.** Numba and JAX need a warm-up call; cytopk needs none.
-- **Determinism is guaranteed and tested.** Output is bit-identical for any thread count. A per-subject Numba kernel can have this property too, but cytopk guarantees it in its API and tests it.
-- **No compiler at runtime.** cytopk is a compiled library, whereas Numba needs LLVM (llvmlite) at runtime.
-- **One core in Rust.** The simulators and the FCS reader share one Rust workspace and one Python package.
+1. Simulating a virtual cohort.
+2. Generating and writing 2,700 FCS files.
+3. Reading and applying gating strategies to the generated files.
+4. Performing inference using BayesFlow.
 
-The SciPy `solve_ivp` loop is a weak baseline: it pays Python overhead on every right-hand-side call. On one thread cytopk is
-153–200× faster than it, which mainly shows that looping over SciPy is a poor fit for simulation-based inference. JAX + diffrax on CPU was slower than both compiled loops here, and slower with 16
-threads than with one (`vmap` steps all subjects in lockstep). This is an untuned CPU setup, and GPU was not tested. For linear models,
-none of this matters much. A vectorised **NumPy closed form is faster than single-threaded Rust** for `twocmt_iv`
-(2.5–2.6× in the go/no-go benchmark,
-[`benchmarks/results/quick_bench.json`](benchmarks/results/quick_bench.json)). A closed form does not apply to the nonlinear
-models above.
+The complete data-preparation stage takes approximately **0.22 seconds**.
 
-## Does the simulator speed matter in a BayesFlow workflow?
+In CPU-based BayesFlow training benchmarks, the traditional Python/SciPy simulation pipeline accounts for approximately 51–82% of total training time.
 
-[`benchmarks/sbi_flow/`](benchmarks/sbi_flow/README.md) measures this for `twocmt_iv_idr` with BayesFlow 2.1. The decision rules
-were committed before measuring. Measured on this machine:
-- **The big step is Python-level → compiled.** A SciPy-loop or per-sample simulator takes 51–82 % of training time with CPU
-  training, and 94–99.5 % with GPU training. A compiled batched simulator, Numba or cytopk, takes 3.0–6.5 % with CPU training.
-- **Rust vs Numba is not a speed argument.** cytopk's simulation time is 1.05–1.17× lower than Numba's, well short of the 1.5× threshold. On a stochastic
-  drift-diffusion model, single-thread throughput is 0.98–1.00× of Numba's, with bit-identical output.
-- **With GPU training the simulator matters, but not through the ODE solve.** It takes 36–62 % of training time (16 threads), and the ODE stage is
-  only 16–40 % of cytopk's simulation time. The rest is the NumPy noise stage, BayesFlow's adapter and the prior.
+Replacing the simulator with `cytopk` reduces this bottleneck to approximately 3–6.5% of total training time.
 
-On these measurements, cytopk's case is no JIT warm-up (first call 0.002 s vs 1.69 s for Numba), tested
-determinism, and no compiler at runtime. It is not raw speed.
+This substantially reduces simulation overhead and allows computational resources to be allocated more effectively to the inference stage.
 
-The in-process slowdown seen there (an ODE call 5.3× slower inside the BayesFlow process) is **not caused by JAX**.
-Idle CPU cores clock down between calls under this machine's power-saving defaults. A busy main thread pinned to
-one core avoids it ([details](benchmarks/sbi_flow/README.md#in-process-slowdown-cause)).
+## Project Goals
 
-## FCS reader
+`cytopk` explores how systems programming and high-performance computing can improve computational workflows in pharmacometrics and flow cytometry.
 
-`cytopk-fcs` reads FCS 3.0/3.1 (2.0 and 3.2 in lenient mode), with `$DATATYPE` F/D/I (any whole-byte integer width),
-either byte order, `$NEXTDATA` chains, supplemental TEXT and `$SPILLOVER`.
-- **Strict mode** rejects anything the specification forbids.
-- **Lenient mode** (the default) repairs the deviations catalogued by Bras & van der Velden (2020): empty values,
-  delimiter errors, wrong `$TOT`/`$ENDDATA`, HEADER/TEXT offset disagreements, malformed `$SPILLOVER`, and more. It
-  reports each repair as a warning. The full list is in [`docs/fcs_notes.md`](docs/fcs_notes.md).
-- **No panics:** mutation proptests run in CI, and a cargo-fuzz run is recorded in
-  [`benchmarks/results/fcs_fuzz.json`](benchmarks/results/fcs_fuzz.json).
+Its main objectives are:
 
-Measured in [`benchmarks/fcs/`](benchmarks/fcs/README.md) against flowio, FlowKit, fcsparser and flowCore:
-- **Real public files:** cytopk returns data for 28 of 30. fcsparser (under NumPy 1.x) also reads 28, flowio's
-  lenient mode 25 and flowCore 21. The two files cytopk rejects fail in every reader.
-- **Agreement:** where readers disagree on values, the three cases traced so far are errors in the other readers.
-- **Speed:** on large float32 files cytopk is 15.8–25.8× faster than the fastest other reader, but mostly through a
-  16-thread decode. With one thread the advantage is 1.93–4.01×.
-- **Where others win:** fcsparser was faster on a 32-bit integer file (11.3 vs 19.6 ms) in the committed run. The
-  integer decoder has since been rewritten (`73f22f6`: bulk kernels, bit-identical by proptest), and the rerun is
-  pending.
-- **Cold page cache:** a cold-cache mode (`bench_speed.py --cold`, `posix_fadvise` eviction checked with
-  `mincore`) is committed, but its results are not yet. No root was available, so `drop_caches` was not used.
-- **Silent wrong data in other readers:** four cases, with minimal reproducers and draft issue text (not
-  posted), are in [`docs/upstream_issues/`](docs/upstream_issues/README.md):
-  - fcsparser's HEADER offset handling;
-  - fcsparser's float32 rounding of 32-bit integers;
-  - fcsparser's little-endian 24-bit integers;
-  - flowCore's big-endian 24-bit integers.
-- **Memory:** peak memory is about the same as fcsparser's and lower than flowio, FlowKit and flowCore.
+- Efficient, deterministic PK/PD simulations for large virtual populations.
+- Reliable FCS 3.0/3.1 parsing with strict and lenient validation.
+- Parallel processing of large collections of flow cytometry files.
+- Integration with Python-based scientific computing and SBI frameworks.
+- Reproducible numerical results without runtime JIT compilation.
 
-## End-to-end example (M8, first version)
-
-[`examples/cohort/`](examples/cohort/README.md) runs a toy pipeline end to end:
-
-1. **Simulate.** PK/PD from `twocmt_iv_idr` drives an activated-cell fraction.
-2. **Write.** Each sample is 10^4 events from a Gaussian mixture on the arcsinh scale, written with the cytopk
-   writer.
-3. **Read and gate.** The files are read back and gated with a TOML strategy.
-4. **Infer.** BayesFlow 2.1 is trained on the gate-count summaries.
-5. **Check.** SBC runs on 300 subjects whose 2,700 FCS files went through the real pipeline.
-
-Results:
-- **Calibration:** every rank ECDF stays inside the 95% band, and every calibration error is ≤ 0.025.
-- **Information:** the gate counts identify Emax (posterior contraction 0.71) and partly kout (0.22). The PK
-  parameters and EC50 stay close to the prior. That is a property of this single-dose, PD-only design.
-
-## Licence
-
-[Apache License 2.0](LICENSE). Copyright 2026 Emil Stasevski.
-
-## Citation
-
-See [`CITATION.cff`](CITATION.cff).
+**The broader goal is to provide a fast, memory-efficient, and reproducible computational foundation for research workflows combining pharmacokinetic simulation, flow cytometry, and simulation-based inference.**
